@@ -46,7 +46,7 @@ export default class ClassesController {
       console.log(err)
       return response
         .status(400)
-        .send({ error: 'Erro inesperado ao criar aula' })
+        .send({ error: 'Erro inesperado ao listar aulas' })
     }
   }
 
