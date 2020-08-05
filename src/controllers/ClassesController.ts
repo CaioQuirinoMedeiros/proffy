@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 
-import db from "../database/connection"
+import db from '../database/connection'
 import convertHourToMinutes from '../utils/convertHourToMinutes'
 
 interface ScheduleItem {
@@ -9,7 +9,47 @@ interface ScheduleItem {
   to: string
 }
 
+interface Filters {
+  week_day: string
+  subject: string
+  time: string
+}
+
 export default class ClassesController {
+  async index(request: Request<any, any, any, Filters>, response: Response) {
+    const filters = request.query
+
+    try {
+      if (!filters.week_day || !filters.subject || !filters.time) {
+        return response
+          .status(400)
+          .send({ error: 'Falta de parametros do filtro' })
+      }
+
+      const timeInMinutes = convertHourToMinutes(filters.time)
+
+      const classes = await db('classes')
+        .whereExists(function () {
+          this.select('class_schedule.*')
+            .from('class_schedule')
+            .whereRaw('`class_schedule`.`class_id` = `classes`.`id`')
+            .whereRaw('`class_schedule`.`week_day` = ??', [Number(filters.week_day)])
+            .whereRaw('`class_schedule`.`from` <= ??', [timeInMinutes])
+            .whereRaw('`class_schedule`.`to` > ??', [timeInMinutes])
+        })
+        .where('classes.subject', '=', filters.subject)
+        .join('users', 'classes.user_id', '=', 'users.id')
+        .select(['classes.*', 'users.*'])
+
+      return response.status(200).send(classes)
+    } catch (err){
+      console.log(err)
+      return response
+        .status(400)
+        .send({ error: 'Erro inesperado ao criar aula' })
+    }
+  }
+
   async create(request: Request, response: Response) {
     const {
       name,
