@@ -1,14 +1,16 @@
 import express from 'express'
+import 'dotenv/config'
+
+import routes from './routes'
 
 const app = express()
 
 app.use(express.json())
 
-app.get('/users', (request, response) => {
-  console.log(request.body)
-  return response.send({ ola: 'mundo' })
-})
+app.use(routes)
+
+const PORT = process.env.PORT || 3333
 
 app.listen(3333, () => {
-  console.log('server running at 33333')
+  console.log(`server running at port ${PORT}`)
 })
