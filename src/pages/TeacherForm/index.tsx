@@ -1,14 +1,28 @@
-import React from 'react'
+import React, { useState, useCallback } from 'react'
 
 import PageHeader from '../../components/PageHeader'
 import Input from '../../components/Input'
 import Textarea from '../../components/Textarea'
 
 import warningIcon from '../../assets/images/icons/warning.svg'
+import { subjects } from '../../constants/subjects'
 
 import './styles.css'
+import Select from '../../components/Select'
+import { week_days } from '../../constants/week_days'
 
 const TeacherForm: React.FC = () => {
+  const [schedule, setSchedule] = useState([
+    { week_day: '', from: '', to: '' }
+  ])
+
+  const addNewScheduleItem = useCallback(() => {
+    setSchedule((oldSchedule) => [
+      ...oldSchedule,
+      { week_day: '', from: '', to: '' }
+    ])
+  }, [])
+
   return (
     <div id='page-teacher-form' className='container'>
       <PageHeader
@@ -29,17 +43,70 @@ const TeacherForm: React.FC = () => {
         <fieldset>
           <legend>Sobre a aula</legend>
 
-          <Input name='subject' label='Matéria' />
+          <Select
+            name='subject'
+            label='Matéria'
+            options={subjects}
+            placeholder='Selecione uma matéria'
+            onChange={(event) => {
+              console.log({ event: event.target.value })
+            }}
+          />
           <Input name='cost' label='Custo da sua hora/aula' />
+        </fieldset>
+
+        <fieldset>
+          <legend>
+            Horários disponíveis
+            <button type='button' onClick={addNewScheduleItem}>
+              + Novo horário
+            </button>
+          </legend>
+
+          {schedule.map((scheduleItem, i) => (
+            <div
+              key={`${scheduleItem.week_day}-${i}`}
+              className='schedule-item'
+            >
+              <Select
+                name='week_day'
+                label='Dia da semana'
+                options={week_days}
+                value={scheduleItem.week_day}
+                onChange={(e) => {
+                  console.log(e.target.value)
+                  setSchedule((oldSchedule) =>
+                    oldSchedule.map((oldScheduleItem) => ({
+                      ...oldScheduleItem,
+                      week_day: e.target.value
+                    }))
+                  )
+                }}
+              />
+              <Input
+                type='time'
+                name='from'
+                label='Das'
+                value={scheduleItem.to}
+              />
+              <Input
+                type='time'
+                name='to'
+                label='Até'
+                value={scheduleItem.from}
+              />
+            </div>
+          ))}
         </fieldset>
 
         <footer>
           <p>
-            <img src={warningIcon} alt="Aviso importante"/>
-            Importante!<br />
+            <img src={warningIcon} alt='Aviso importante' />
+            Importante!
+            <br />
             Preencha todos os dados
           </p>
-          <button type="button">Salvar cadastro</button>
+          <button type='button'>Salvar cadastro</button>
         </footer>
       </main>
     </div>

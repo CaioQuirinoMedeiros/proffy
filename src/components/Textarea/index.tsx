@@ -12,8 +12,8 @@ const Textarea: React.FC<TextareaProps> = (props) => {
 
   return (
     <div className='textarea-block'>
-      <label htmlFor='name'>{label}</label>
-      <textarea id='name' {...rest} />
+      <label htmlFor={name}>{label}</label>
+      <textarea id={name} {...rest} />
     </div>
   )
 }

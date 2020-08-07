@@ -5,6 +5,9 @@ import Input from '../../components/Input'
 
 import './styles.css'
 import TeacherItem from '../../components/TeacherItem'
+import Select from '../../components/Select'
+import { week_days } from '../../constants/week_days'
+import { subjects } from '../../constants/subjects'
 
 const professores = [
   {
@@ -45,9 +48,19 @@ const TeacherList: React.FC = () => {
       <PageHeader title='Estes são os proffys disponíveis.' />
 
       <form id='search-teachers'>
-        <Input name="subject" label="Matéria" />
-        <Input name="week_day" label="Dia da semana" />
-        <Input name="time" label="Hora" type="time" />
+        <Select
+          name='subject'
+          label='Matéria'
+          options={subjects}
+          placeholder='Selecione uma matéria'
+        />
+        <Select
+          name='week_day'
+          label='Dia da semana'
+          options={week_days}
+          placeholder='Selecione um dia'
+        />
+        <Input name='time' label='Hora' type='time' />
       </form>
 
       <main>
