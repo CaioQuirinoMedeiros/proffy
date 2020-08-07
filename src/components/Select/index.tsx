@@ -6,15 +6,33 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   label: string
   name: string
   options: OptionHTMLAttributes<HTMLOptionElement>[]
+  onChangeValue?(value: any): void
 }
 
 const Select: React.FC<SelectProps> = (props) => {
-  const { label, name, options, placeholder, ...rest } = props
+  const {
+    label,
+    name,
+    options,
+    placeholder,
+    onChangeValue,
+    onChange,
+    ...rest
+  } = props
 
   return (
     <div className='select-block'>
       <label htmlFor={name}>{label}</label>
-      <select id={name} placeholder={placeholder} defaultValue='' {...rest}>
+      <select
+        id={name}
+        placeholder={placeholder}
+        value=''
+        onChange={(e) => {
+          onChange && onChange(e)
+          onChangeValue && onChangeValue(e.target.value)
+        }}
+        {...rest}
+      >
         <option value='' disabled hidden label={placeholder} />
         {options.map((option, i) => (
           <option key={`${option.value}-${i}`} {...option} />

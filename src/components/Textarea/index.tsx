@@ -5,15 +5,23 @@ import './styles.css'
 interface TextareaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label: string
   name: string
+  onChangeText?(text: string): void
 }
 
 const Textarea: React.FC<TextareaProps> = (props) => {
-  const { label, name, ...rest } = props
+  const { label, name, onChangeText, onChange, ...rest } = props
 
   return (
     <div className='textarea-block'>
       <label htmlFor={name}>{label}</label>
-      <textarea id={name} {...rest} />
+      <textarea
+        id={name}
+        onChange={(e) => {
+          onChange && onChange(e)
+          onChangeText && onChangeText(e.target.value)
+        }}
+        {...rest}
+      />
     </div>
   )
 }

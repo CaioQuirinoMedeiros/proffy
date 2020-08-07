@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, FormEvent } from 'react'
+import { useHistory } from 'react-router-dom'
 
 import PageHeader from '../../components/PageHeader'
 import Input from '../../components/Input'
@@ -10,11 +11,20 @@ import { subjects } from '../../constants/subjects'
 import './styles.css'
 import Select from '../../components/Select'
 import { week_days } from '../../constants/week_days'
+import api from '../../services/api'
 
 const TeacherForm: React.FC = () => {
-  const [schedule, setSchedule] = useState([
-    { week_day: '', from: '', to: '' }
-  ])
+  const history = useHistory()
+
+  const [name, setName] = useState('')
+  const [avatar, setAvatar] = useState('')
+  const [whatsapp, setWhatsapp] = useState('')
+  const [bio, setBio] = useState('')
+
+  const [subject, setSubject] = useState('')
+  const [cost, setCost] = useState('')
+
+  const [schedule, setSchedule] = useState([{ week_day: '', from: '', to: '' }])
 
   const addNewScheduleItem = useCallback(() => {
     setSchedule((oldSchedule) => [
@@ -22,6 +32,57 @@ const TeacherForm: React.FC = () => {
       { week_day: '', from: '', to: '' }
     ])
   }, [])
+
+  const setScheduleItemValue = useCallback(
+    (position: number, key: string, value: string) => {
+      const newSchedule = schedule.map((scheduleItem, index) =>
+        position === index
+          ? {
+              ...scheduleItem,
+              [key]: value
+            }
+          : scheduleItem
+      )
+
+      setSchedule(newSchedule)
+    },
+    [schedule]
+  )
+
+  const clearAllFields = useCallback(() => {
+    setName('')
+    setAvatar('')
+    setWhatsapp('')
+    setBio('')
+    setSubject('')
+    setCost('')
+    setSchedule([{ week_day: '', from: '', to: '' }])
+  }, [])
+
+  const handleCreateClass = useCallback(
+    async (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
+
+      try {
+        await api.post('/classes', {
+          name,
+          avatar,
+          whatsapp,
+          bio,
+          subject,
+          cost: Number(cost),
+          schedule
+        })
+
+        alert('Cadastro realizado com sucesso!')
+        clearAllFields()
+        history.push('/')
+      } catch {
+        alert('Erro no cadastro :/')
+      }
+    },
+    [name, avatar, whatsapp, bio, subject, cost, schedule, clearAllFields, history]
+  )
 
   return (
     <div id='page-teacher-form' className='container'>
@@ -31,83 +92,109 @@ const TeacherForm: React.FC = () => {
       />
 
       <main>
-        <fieldset>
-          <legend>Seus dados</legend>
+        <form onSubmit={handleCreateClass}>
+          <fieldset>
+            <legend>Seus dados</legend>
 
-          <Input name='name' label='Nome Completo' />
-          <Input name='avatar' label='Avatar' />
-          <Input name='whatsapp' label='WhatsApp' />
-          <Textarea name='bio' label='Biografia' />
-        </fieldset>
+            <Input
+              name='name'
+              label='Nome Completo'
+              value={name}
+              onChangeText={setName}
+            />
+            <Input
+              name='avatar'
+              label='Avatar'
+              value={avatar}
+              onChangeText={setAvatar}
+            />
+            <Input
+              name='whatsapp'
+              label='WhatsApp'
+              value={whatsapp}
+              onChangeText={setWhatsapp}
+            />
+            <Textarea
+              name='bio'
+              label='Biografia'
+              value={bio}
+              onChangeText={setBio}
+            />
+          </fieldset>
 
-        <fieldset>
-          <legend>Sobre a aula</legend>
+          <fieldset>
+            <legend>Sobre a aula</legend>
 
-          <Select
-            name='subject'
-            label='Matéria'
-            options={subjects}
-            placeholder='Selecione uma matéria'
-            onChange={(event) => {
-              console.log({ event: event.target.value })
-            }}
-          />
-          <Input name='cost' label='Custo da sua hora/aula' />
-        </fieldset>
+            <Select
+              name='subject'
+              label='Matéria'
+              options={subjects}
+              placeholder='Selecione uma matéria'
+              value={subject}
+              onChangeValue={setSubject}
+            />
+            <Input
+              name='cost'
+              label='Custo da sua hora/aula'
+              value={cost}
+              onChangeText={setCost}
+            />
+          </fieldset>
 
-        <fieldset>
-          <legend>
-            Horários disponíveis
-            <button type='button' onClick={addNewScheduleItem}>
-              + Novo horário
-            </button>
-          </legend>
+          <fieldset>
+            <legend>
+              Horários disponíveis
+              <button type='button' onClick={addNewScheduleItem}>
+                + Novo horário
+              </button>
+            </legend>
 
-          {schedule.map((scheduleItem, i) => (
-            <div
-              key={`${scheduleItem.week_day}-${i}`}
-              className='schedule-item'
-            >
-              <Select
-                name='week_day'
-                label='Dia da semana'
-                options={week_days}
-                value={scheduleItem.week_day}
-                onChange={(e) => {
-                  console.log(e.target.value)
-                  setSchedule((oldSchedule) =>
-                    oldSchedule.map((oldScheduleItem) => ({
-                      ...oldScheduleItem,
-                      week_day: e.target.value
-                    }))
-                  )
-                }}
-              />
-              <Input
-                type='time'
-                name='from'
-                label='Das'
-                value={scheduleItem.to}
-              />
-              <Input
-                type='time'
-                name='to'
-                label='Até'
-                value={scheduleItem.from}
-              />
-            </div>
-          ))}
-        </fieldset>
+            {schedule.map((scheduleItem, index) => (
+              <div
+                key={`${scheduleItem.week_day}-${index}`}
+                className='schedule-item'
+              >
+                <Select
+                  name='week_day'
+                  label='Dia da semana'
+                  options={week_days}
+                  value={scheduleItem.week_day}
+                  onChangeValue={(value) => {
+                    setScheduleItemValue(index, 'week_day', value)
+                  }}
+                />
+                <Input
+                  type='time'
+                  name='from'
+                  label='Das'
+                  value={scheduleItem.from}
+                  onChangeText={(value) => {
+                    setScheduleItemValue(index, 'from', value)
+                  }}
+                />
+                <Input
+                  type='time'
+                  name='to'
+                  label='Até'
+                  value={scheduleItem.to}
+                  onChangeText={(value) => {
+                    setScheduleItemValue(index, 'to', value)
+                  }}
+                />
+              </div>
+            ))}
+          </fieldset>
 
-        <footer>
-          <p>
-            <img src={warningIcon} alt='Aviso importante' />
-            Importante!
-            <br />
-            Preencha todos os dados
-          </p>
-          <button type='button'>Salvar cadastro</button>
-        </footer>
+          <footer>
+            <p>
+              <img src={warningIcon} alt='Aviso importante' />
+              Importante!
+              <br />
+              Preencha todos os dados
+            </p>
+            <button type='submit'>Salvar cadastro</button>
+          </footer>
+        </form>
       </main>
     </div>
   )
