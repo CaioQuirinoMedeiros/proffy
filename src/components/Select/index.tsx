@@ -71,9 +71,8 @@ const Select: React.FC<InputProps> = (props) => {
           {options.map((option, index) => {
             const active = option === activeOption
             return (
-              <>
+              <View key={`${option.label}-${index}`}>
                 <TouchableOpacity
-                  key={`${option.label}-${index}`}
                   style={[
                     styles.option,
                     active ? styles.optionActive : undefined
@@ -95,7 +94,7 @@ const Select: React.FC<InputProps> = (props) => {
                 {index + 1 < options.length && (
                   <View style={styles.optionsSeparator} />
                 )}
-              </>
+              </View>
             )
           })}
         </View>

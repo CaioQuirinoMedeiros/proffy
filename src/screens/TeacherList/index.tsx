@@ -16,7 +16,7 @@ import { subjectsMapping, subjects } from '../../constants/subjects'
 import Input from '../../components/Input'
 import Select from '../../components/Select'
 import { week_days } from '../../constants/week_days'
-import { formatar, formatarHorario } from '../../utils/formatting'
+import { formatarHorario } from '../../utils/formatting'
 
 interface Teacher {
   id: number
@@ -46,11 +46,19 @@ const TeacherList: React.FC = () => {
       })
 
       setTeachers(data)
+      if (data.length) {
+        closeFilters()
+      }
     } catch {
     } finally {
       setFetching(false)
     }
   }, [week_day, subject, time])
+
+  const closeFilters = useCallback(() => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+    setFiltersOpen(false)
+  }, [])
 
   const toggleFiltersVisibility = useCallback(() => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
@@ -127,17 +135,13 @@ const TeacherList: React.FC = () => {
         showsVerticalScrollIndicator={false}
         onRefresh={getTeachers}
         refreshing={fetching}
+        ListEmptyComponent={() => (
+          <Text style={styles.emptyList}>
+            Nenhum proffy disponível, tente buscar utilizando o filtro
+          </Text>
+        )}
         renderItem={({ item: teacher }) => <TeacherItem {...teacher} />}
       />
-
-      {/* <TeacherItem
-        name='Diego Fernandes'
-        subject='Matemática'
-        cost={80}
-        bio='Sabedor de matemática'
-        whatsapp='61999667745'
-        avatar='https://avatars0.githubusercontent.com/u/48543208?s=460&u=f056bca652dc7e1619b6e275ac220a4b91a0cf88&v=4'
-      /> */}
     </View>
   )
 }

@@ -6,6 +6,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#f0f0f7'
   },
 
+  emptyList: {
+    borderWidth: 1,
+    textAlign: 'center',
+    paddingHorizontal: 32,
+    paddingVertical: 16,
+    color: "#6a6180",
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    borderColor: '#e6e6f0',
+    alignSelf: 'center'
+  },
+
   filterButton: {
     padding: 8,
     marginRight: -8
@@ -47,7 +59,8 @@ const styles = StyleSheet.create({
 
   teacherListContainer: {
     paddingHorizontal: 16,
-    paddingBottom: 16
+    paddingBottom: 16,
+    flexGrow: 1
   },
 
   title: {
