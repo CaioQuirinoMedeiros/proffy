@@ -14,7 +14,7 @@ const Favorites: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <PageHeader title='Meus Proffys disponíveis' />
+      <PageHeader title='Meus Proffys Favoritos' />
 
       <FlatList
         style={styles.teacherList}

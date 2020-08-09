@@ -3,6 +3,7 @@ import { View, Text, Image, Linking } from 'react-native'
 import { RectButton } from 'react-native-gesture-handler'
 
 import heartOutlineIcon from '../../assets/images/icons/heart-outline.png'
+import unfavoriteIcon from '../../assets/images/icons/unfavorite.png'
 import whatsappIcon from '../../assets/images/icons/whatsapp.png'
 
 import styles from './styles'
@@ -94,7 +95,7 @@ const TeacherItem: React.FC<TeacherItemProps> = (props) => {
             ]}
             onPress={handleFavorite}
           >
-            <Image source={heartOutlineIcon} />
+            <Image source={favorited ? unfavoriteIcon : heartOutlineIcon} />
           </RectButton>
           <RectButton
             style={styles.contactButton}
