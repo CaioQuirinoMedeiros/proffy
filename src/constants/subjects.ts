@@ -8,3 +8,14 @@ export const subjects = [
   { value: 'quimica', label: 'Química' },
   { value: 'portugues', label: 'Portugues' }
 ]
+
+export const subjectsMapping = {
+  artes: 'Artes',
+  biologia: 'Biologia',
+  fisica: 'Física',
+  historia: 'Historia',
+  geografia: 'Geografia',
+  matematica: 'Matemática',
+  quimica: 'Química',
+  portugues: 'Portugues'
+}
