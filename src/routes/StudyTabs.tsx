@@ -43,8 +43,8 @@ const StudyTabs: React.FC = () => {
         component={TeacherList}
         options={{
           title: 'Proffys',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name='ios-easel' color={color} size={size} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons name='ios-easel' color={focused ? '#8257e5' : color} size={size} />
           )
         }}
       />
@@ -53,8 +53,8 @@ const StudyTabs: React.FC = () => {
         component={Favorites}
         options={{
           title: 'Favoritos',
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name='ios-heart' color={color} size={size} />
+          tabBarIcon: ({ color, size, focused }) => (
+            <Ionicons name='ios-heart' color={focused ? '#8257e5' : color} size={size} />
           )
         }}
       />

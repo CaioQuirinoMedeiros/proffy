@@ -12,7 +12,7 @@ const AppStack: React.FC = () => {
   return (
     <NavigationContainer>
       <Navigator screenOptions={{ headerShown: false }}>
-        <Screen name='landging' component={Landing} />
+        <Screen name='landing' component={Landing} />
         <Screen name='give_classes' component={GiveClasses} />
         <Screen name='study' component={StudyTabs} />
       </Navigator>
