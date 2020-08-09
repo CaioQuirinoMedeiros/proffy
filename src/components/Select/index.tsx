@@ -73,7 +73,7 @@ const Select: React.FC<InputProps> = (props) => {
             return (
               <>
                 <TouchableOpacity
-                  key={option.label}
+                  key={`${option.label}-${index}`}
                   style={[
                     styles.option,
                     active ? styles.optionActive : undefined

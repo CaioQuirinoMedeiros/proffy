@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useEffect } from 'react'
 import { View, Text, Image, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { RectButton } from 'react-native-gesture-handler'
@@ -9,11 +9,24 @@ import giveClassesIcon from '../../assets/images/icons/give-classes.png'
 import heartIcon from '../../assets/images/icons/heart.png'
 
 import styles from './styles'
+import api from '../../services/api'
 
 const Landing: React.FC = () => {
   const navigation = useNavigation()
 
   const [totalConnections, setTotalConnections] = useState(10)
+
+  const getConnections = useCallback(async () => {
+    try {
+      const { data } = await api.get('/connections')
+
+      setTotalConnections(data.total)
+    } catch {}
+  }, [])
+
+  useEffect(() => {
+    getConnections()
+  }, [])
 
   const handleNavigateToGiveClasses = useCallback(() => {
     navigation.navigate('give_classes')

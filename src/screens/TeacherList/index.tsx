@@ -25,6 +25,7 @@ interface Teacher {
   bio: string
   whatsapp: string
   cost: number
+  user_id: number
   avatar: string
 }
 
