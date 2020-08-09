@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 
 import db from '../database/connection'
 import convertHourToMinutes from '../utils/convertHourToMinutes'
+import { removeAccents } from '../utils/removeAccents'
 
 interface ScheduleItem {
   week_day: number
@@ -27,22 +28,25 @@ export default class ClassesController {
       }
 
       const timeInMinutes = convertHourToMinutes(filters.time)
+      const subjectNormalized = removeAccents(filters.subject).toLowerCase()
 
       const classes = await db('classes')
         .whereExists(function () {
           this.select('class_schedule.*')
             .from('class_schedule')
             .whereRaw('`class_schedule`.`class_id` = `classes`.`id`')
-            .whereRaw('`class_schedule`.`week_day` = ??', [Number(filters.week_day)])
+            .whereRaw('`class_schedule`.`week_day` = ??', [
+              Number(filters.week_day)
+            ])
             .whereRaw('`class_schedule`.`from` <= ??', [timeInMinutes])
             .whereRaw('`class_schedule`.`to` > ??', [timeInMinutes])
         })
-        .where('classes.subject', '=', filters.subject)
+        .where('classes.subject', 'like', subjectNormalized)
         .join('users', 'classes.user_id', '=', 'users.id')
         .select(['classes.*', 'users.*'])
 
       return response.status(200).send(classes)
-    } catch (err){
+    } catch (err) {
       console.log(err)
       return response
         .status(400)
@@ -72,7 +76,7 @@ export default class ClassesController {
       })
 
       const [class_id] = await trx('classes').insert({
-        subject,
+        subject: removeAccents(subject).toLowerCase(),
         cost,
         user_id
       })
