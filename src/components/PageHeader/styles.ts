@@ -3,12 +3,18 @@ import { StyleSheet } from 'react-native'
 const styles = StyleSheet.create({
   backButton: {
     paddingHorizontal: 40,
-    marginLeft: -40,
+    marginLeft: -40
   },
 
   container: {
     padding: 40,
     backgroundColor: '#8257e5'
+  },
+
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
   },
 
   title: {

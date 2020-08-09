@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar'
 import React from 'react'
 import { AppLoading } from 'expo'
+import { Platform, UIManager } from 'react-native'
 import {
   Archivo_400Regular,
   Archivo_700Bold,
@@ -13,6 +14,12 @@ import {
 
 import Landing from './src/screens/Landing'
 import AppStack from './src/routes/AppStack'
+
+if (Platform.OS === "android") {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true)
+  }
+}
 
 export default function App() {
   let [fontsLoaded] = useFonts({
