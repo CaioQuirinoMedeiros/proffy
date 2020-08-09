@@ -9,17 +9,9 @@ import styles from './styles'
 import { formatarMoeda } from '../../utils/currency'
 import { subjectsMapping } from '../../constants/subjects'
 import api from '../../services/api'
+import { useFavorites } from '../../hooks/favorites'
 
-interface TeacherItemProps {
-  name: string
-  subject: keyof typeof subjectsMapping
-  bio: string
-  whatsapp: string
-  cost: number
-  avatar: string
-  favorited?: boolean
-  user_id: number
-}
+interface TeacherItemProps extends Teacher {}
 
 interface WhatsappMessageProps {
   name: string
@@ -41,6 +33,7 @@ const getWhatsappMessage = ({ name, whatsapp }: WhatsappMessageProps) => {
 
 const TeacherItem: React.FC<TeacherItemProps> = (props) => {
   const {
+    id,
     name,
     subject,
     bio,
@@ -50,6 +43,8 @@ const TeacherItem: React.FC<TeacherItemProps> = (props) => {
     favorited,
     user_id
   } = props
+
+  const { addFavorite, removeFavorite } = useFavorites()
 
   const handleContactWhatsapp = useCallback(async () => {
     const whatsappUrl = getWhatsappMessage({ name, whatsapp })
@@ -63,6 +58,14 @@ const TeacherItem: React.FC<TeacherItemProps> = (props) => {
       } catch {}
     }
   }, [name, whatsapp, user_id])
+
+  const handleFavorite = useCallback(() => {
+    if (favorited) {
+      removeFavorite(id)
+    } else {
+      addFavorite(props)
+    }
+  }, [props])
 
   return (
     <View style={styles.container}>
@@ -89,6 +92,7 @@ const TeacherItem: React.FC<TeacherItemProps> = (props) => {
               styles.favoriteButton,
               favorited ? styles.favorited : undefined
             ]}
+            onPress={handleFavorite}
           >
             <Image source={heartOutlineIcon} />
           </RectButton>

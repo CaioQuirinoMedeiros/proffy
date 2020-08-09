@@ -12,27 +12,19 @@ import PageHeader from '../../components/PageHeader'
 import styles from './styles'
 import TeacherItem from '../../components/TeacherItem'
 import api from '../../services/api'
-import { subjectsMapping, subjects } from '../../constants/subjects'
+import { subjects } from '../../constants/subjects'
 import Input from '../../components/Input'
 import Select from '../../components/Select'
 import { week_days } from '../../constants/week_days'
+import { useFavorites } from '../../hooks/favorites'
 import { formatarHorario } from '../../utils/formatting'
-
-interface Teacher {
-  id: number
-  subject: keyof typeof subjectsMapping
-  name: string
-  bio: string
-  whatsapp: string
-  cost: number
-  user_id: number
-  avatar: string
-}
 
 const TeacherList: React.FC = () => {
   const [teachers, setTeachers] = useState<Teacher[]>([])
   const [filtersOpen, setFiltersOpen] = useState(true)
   const [fetching, setFetching] = useState(false)
+
+  const { favorites } = useFavorites()
 
   const [subject, setSubject] = useState('matematica')
   const [week_day, setWeekDay] = useState(1)
@@ -140,7 +132,14 @@ const TeacherList: React.FC = () => {
             Nenhum proffy disponível, tente buscar utilizando o filtro
           </Text>
         )}
-        renderItem={({ item: teacher }) => <TeacherItem {...teacher} />}
+        renderItem={({ item: teacher }) => (
+          <TeacherItem
+            {...teacher}
+            favorited={favorites
+              .map((favorite) => favorite.id)
+              .includes(teacher.id)}
+          />
+        )}
       />
     </View>
   )

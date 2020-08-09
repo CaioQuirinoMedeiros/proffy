@@ -12,10 +12,10 @@ import {
   Poppins_600SemiBold
 } from '@expo-google-fonts/poppins'
 
-import Landing from './src/screens/Landing'
+import { RootContextProvider } from './src/hooks'
 import AppStack from './src/routes/AppStack'
 
-if (Platform.OS === "android") {
+if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true)
   }
@@ -34,9 +34,9 @@ export default function App() {
   }
 
   return (
-    <>
+    <RootContextProvider>
       <StatusBar style='light' />
       <AppStack />
-    </>
+    </RootContextProvider>
   )
 }
