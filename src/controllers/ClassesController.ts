@@ -3,6 +3,8 @@ import { Request, Response } from 'express'
 import db from '../database/connection'
 import convertHourToMinutes from '../utils/convertHourToMinutes'
 import { removeAccents } from '../utils/removeAccents'
+import { getRepository } from 'typeorm'
+import Class from '../entities/Class'
 
 interface ScheduleItem {
   week_day: number
@@ -55,49 +57,25 @@ export default class ClassesController {
   }
 
   async create(request: Request, response: Response) {
-    const {
-      name,
-      avatar,
-      whatsapp,
-      bio,
-      subject,
-      cost,
-      schedule
-    } = request.body
+    const { whatsapp, bio, subjects, cost, schedule } = request.body
+    const user_id = request.user_id
 
-    const trx = await db.transaction()
+    console.log({ whatsapp, bio, subjects, cost, schedule, user_id })
+
+    const classesRepository = getRepository(Class)
 
     try {
-      const [user_id] = await trx('users').insert({
-        name,
-        avatar,
-        whatsapp,
-        bio
-      })
-
-      const [class_id] = await trx('classes').insert({
-        subject: removeAccents(subject).toLowerCase(),
+      const teacher_class = classesRepository.create({
         cost,
+        subjects,
+        bio,
         user_id
       })
 
-      const class_schedule = schedule.map((scheduleItem: ScheduleItem) => {
-        return {
-          week_day: scheduleItem.week_day,
-          from: convertHourToMinutes(scheduleItem.from),
-          to: convertHourToMinutes(scheduleItem.to),
-          class_id
-        }
-      })
+      await classesRepository.save(teacher_class)
 
-      await trx('class_schedule').insert(class_schedule)
-
-      await trx.commit()
-
-      return response.status(201).send()
+      return response.status(201).send(teacher_class)
     } catch {
-      await trx.rollback()
-
       return response
         .status(400)
         .send({ error: 'Erro inesperado ao criar aula' })
