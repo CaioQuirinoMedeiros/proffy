@@ -8,3 +8,6 @@ src/**/*.sqlite
 
 # build
 dist
+
+# aws config
+awsconfig.json

@@ -6,6 +6,7 @@ import aws from 'aws-sdk'
 import path from 'path'
 import fs from 'fs'
 
+import Storage from '../lib/Storage'
 import User from '../entities/User'
 import uploadConfig from '../config/upload'
 import AppError from '../errors/AppError'
@@ -27,37 +28,12 @@ export default class UsersController {
     }
 
     if (user.avatar) {
-      await s3client
-        .deleteObject({
-          Bucket: uploadConfig.awsBucketName,
-          Key: user.avatar
-        })
-        .promise()
+      await Storage.deleteFile(user.avatar)
     }
 
-    const tmpFilePath = path.resolve(uploadConfig.tmpFolder, file.filename)
+    const filename = await Storage.saveFile(file.filename)
 
-    const fileContent = await fs.promises.readFile(tmpFilePath)
-
-    const ContentType = mime.getType(tmpFilePath)
-
-    if (!ContentType) {
-      throw new AppError('File not found')
-    }
-
-    await s3client
-      .putObject({
-        Bucket: uploadConfig.awsBucketName,
-        Key: file.filename,
-        ACL: 'public-read',
-        Body: fileContent,
-        ContentType
-      })
-      .promise()
-
-    user.avatar = file.filename
-
-    await fs.promises.unlink(tmpFilePath)
+    user.avatar = filename
 
     await UsersRepository.save(user)
 

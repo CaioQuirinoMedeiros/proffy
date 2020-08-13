@@ -36,6 +36,11 @@ class User {
   @UpdateDateColumn()
   updated_at: Date
 
+  @Expose({ name: 'fullName' })
+  getFullname(): string | null {
+    return `${this.firstName} ${this.lastName}`
+  }
+
   @Expose({ name: 'avatar_url' })
   getAvatarUrl(): string | null {
     if (!this.avatar) return this.avatar
