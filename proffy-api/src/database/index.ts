@@ -1,4 +1,8 @@
-import { createConnection } from 'typeorm'
+import { createConnection, getConnectionOptions } from 'typeorm'
+
+getConnectionOptions().then(connectionOptions => {
+  console.log("connectionOptions", connectionOptions)
+})
 
 createConnection()
   .then(() => {
