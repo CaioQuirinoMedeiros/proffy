@@ -1,0 +1,17 @@
+node_modules
+
+# variáveis ambiente
+.env
+
+# banco de dados
+src/**/*.sqlite
+
+# build
+dist
+
+# aws config
+awsconfig.json
+
+# temp folder
+tmp/*
+!tmp/.gitkeep

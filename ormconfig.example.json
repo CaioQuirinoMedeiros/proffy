@@ -1,0 +1,17 @@
+[
+  {
+    "name": "default",
+    "type": "postgres",
+    "host": "172.26.96.1",
+    "port": 5432,
+    "username": "postgres",
+    "password": "",
+    "database": "proffy",
+    "entities": ["./src/entities/*.ts"],
+    "migrations": ["./src/database/migrations/*.ts"],
+    "logging": true,
+    "cli": {
+      "migrationsDir": "./src/database/migrations"
+    }
+  }
+]
