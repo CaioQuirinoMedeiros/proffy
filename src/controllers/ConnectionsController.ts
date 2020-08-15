@@ -1,32 +1,35 @@
 import { Request, Response } from 'express'
+import { getRepository } from 'typeorm'
 
-import db from '../database/connection'
+import Connection from '../entities/Connection'
 
 export default class ConnectionsController {
   async index(request: Request, response: Response) {
-    try {
-      const [connections] = await db('connections').count('* as total')
+    const connectionsRepository = getRepository(Connection)
 
-      return response.status(200).send({ total: connections.total })
-    } catch (err) {
-      console.log(err)
-      return response
-        .status(400)
-        .send({ error: 'Erro inesperado ao criar aula' })
-    }
+    const connections = await connectionsRepository.count()
+
+    return response.status(200).send({ total: connections })
   }
 
   async create(request: Request, response: Response) {
-    const { user_id } = request.body
+    const { user_id: teacher_id } = request.body
+    const { user_id } = request
 
-    try {
-      await db('connections').insert({ user_id })
+    const connectionsRepository = getRepository(Connection)
 
-      return response.status(201).send()
-    } catch {
-      return response
-        .status(400)
-        .send({ error: 'Erro inesperado ao criar conexão' })
+    const connectionExists = await connectionsRepository.findOne({
+      where: { user_id, teacher_id }
+    })
+
+    if (connectionExists) {
+      return response.status(204).send()
     }
+
+    const connection = connectionsRepository.create({ user_id, teacher_id })
+
+    await connectionsRepository.save(connection)
+
+    return response.status(201).send()
   }
 }

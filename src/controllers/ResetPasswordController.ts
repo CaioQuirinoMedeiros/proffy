@@ -30,7 +30,7 @@ export default class ResetPasswordController {
     await Mail.sendMail({
       to: { name: `${user.getFullname()}`, email: user.email },
       subject: '[Proffy] Redefinição de senha',
-      text: `Olá, ${user.getFullname()}, sua nova senha é: ${randomPassword}`
+      text: `Olá, ${user.getFullname()}, sua nova senha é: ${randomPassword}\n\nVocê pode alterar sua senha dentro da plataforma!`
     })
 
     return response.status(200).send()

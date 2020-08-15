@@ -14,8 +14,14 @@ export class CreateClasses1597020992264 implements MigrationInterface {
             default: 'uuid_generate_v4()'
           },
           {
+            name: 'whatsapp',
+            type: 'varchar(13)',
+            isNullable: false
+          },
+          {
             name: 'subjects',
-            type: 'enum',
+            type: 'varchar',
+            isArray: true,
             enum: [
               'matematica',
               'fisica',
@@ -33,21 +39,25 @@ export class CreateClasses1597020992264 implements MigrationInterface {
               'redacao',
               'ingles',
               'espanhol'
-            ]
+            ],
+            isNullable: false
           },
           {
             name: 'cost',
             type: 'decimal',
             precision: 10,
-            scale: 2
+            scale: 2,
+            isNullable: false
           },
           {
             name: 'bio',
-            type: 'text'
+            type: 'text',
+            isNullable: false
           },
           {
             name: 'user_id',
-            type: 'uuid'
+            type: 'uuid',
+            isNullable: false
           },
           {
             name: 'created_at',
@@ -62,7 +72,7 @@ export class CreateClasses1597020992264 implements MigrationInterface {
         ],
         foreignKeys: [
           {
-            name: 'ClassUser',
+            name: 'Class',
             columnNames: ['user_id'],
             referencedColumnNames: ['id'],
             referencedTableName: 'users',

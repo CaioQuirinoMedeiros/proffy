@@ -2,24 +2,16 @@
   {
     "name": "default",
     "type": "postgres",
-    "host": "192.168.32.1",
+    "host": "172.26.96.1",
     "port": 5432,
     "username": "postgres",
     "password": "",
-    "database": "go_barber2",
-    "entities": ["./src/modules/**/infra/typeorm/entities/*.ts"],
-    "migrations": ["./src/shared/infra/typeorm/migrations/*.ts"],
+    "database": "proffy",
+    "entities": ["./src/entities/*.ts"],
+    "migrations": ["./src/database/migrations/*.ts"],
+    "logging": true,
     "cli": {
-      "migrationsDir": "./src/shared/infra/typeorm/migrations"
+      "migrationsDir": "./src/database/migrations"
     }
-  },
-  {
-    "name": "mongo",
-    "type": "mongodb",
-    "host": "localhost",
-    "port": 27017,
-    "database": "go_barber2",
-    "useUnifiedTopology": true,
-    "entities": ["./src/modules/**/infra/typeorm/schemas/*.ts"]
   }
 ]

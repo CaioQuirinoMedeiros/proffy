@@ -11,3 +11,7 @@ dist
 
 # aws config
 awsconfig.json
+
+# temp folder
+tmp/*
+!tmp/.gitkeep

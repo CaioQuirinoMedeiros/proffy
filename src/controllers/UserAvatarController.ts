@@ -1,19 +1,10 @@
 import { Request, Response } from 'express'
 import { getRepository } from 'typeorm'
 import { classToClass } from 'class-transformer'
-import mime from 'mime'
-import aws from 'aws-sdk'
-import path from 'path'
-import fs from 'fs'
 
 import Storage from '../lib/Storage'
 import User from '../entities/User'
-import uploadConfig from '../config/upload'
 import AppError from '../errors/AppError'
-
-const s3client = new aws.S3({
-  region: 'us-east-1'
-})
 
 export default class UsersController {
   async update(request: Request, response: Response) {
@@ -37,6 +28,6 @@ export default class UsersController {
 
     await UsersRepository.save(user)
 
-    return response.status(200).send(user)
+    return response.status(200).send(classToClass(user))
   }
 }

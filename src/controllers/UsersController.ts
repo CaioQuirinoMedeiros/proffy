@@ -20,7 +20,7 @@ export default class UsersController {
 
     const { firstName, lastName, email, password } = request.body
 
-    const userWithEmail = await UsersRepository.find({ email })
+    const userWithEmail = await UsersRepository.findOne({ email })
 
     if (userWithEmail) {
       throw new AppError('E-mail já utilizado')

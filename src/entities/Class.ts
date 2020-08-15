@@ -5,36 +5,23 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToOne,
-  JoinColumn
+  JoinColumn,
+  OneToMany
 } from 'typeorm'
+
 import User from './User'
+import Schedule from './Schedule'
 
 @Entity('classes')
 class Class {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
-  @Column('enum', {
-    enum: [
-      'matematica',
-      'fisica',
-      'quimica',
-      'portugues',
-      'literatura',
-      'historia',
-      'geografia',
-      'filosofia',
-      'sociologia',
-      'musica',
-      'artes_cenicas',
-      'artes_visuaus',
-      'biologia',
-      'redacao',
-      'ingles',
-      'espanhol'
-    ]
-  })
+  @Column('varchar', { array: true })
   subjects: string[]
+
+  @Column('varchar', { length: '13' })
+  whatsapp: string
 
   @Column()
   bio: string
@@ -42,9 +29,13 @@ class Class {
   @Column('decimal', { precision: 10, scale: 2 })
   cost: number
 
+  @OneToMany(() => Schedule, (schedule) => schedule.class)
+  @JoinColumn({ name: 'schedule' })
+  schedules: Schedule[]
+
   @OneToOne(() => User)
   @JoinColumn({ name: 'user_id' })
-  user: string
+  user: User
 
   @Column('uuid')
   user_id: string

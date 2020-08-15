@@ -19,7 +19,6 @@ app.use(errors())
 
 app.use(
   (error: Error, request: Request, response: Response, _: NextFunction) => {
-    console.log('CAPTUROU O ERRO!')
     if (error instanceof AppError) {
       return response
         .status(error.statusCode)

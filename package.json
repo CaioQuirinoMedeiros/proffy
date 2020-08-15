@@ -7,9 +7,7 @@
     "build": "yarn tsc",
     "dev:server": "tsnd --transpile-only --ignore-watch node_modules --respawn src/server.ts",
     "start": "ts-node src/server.ts",
-    "typeorm": "tsnd ./node_modules/typeorm/cli.js",
-    "knex:migrate": "knex --knexfile knexfile.ts migrate:latest",
-    "knex:migrate:rollback": "knex --knexfile knexfile.ts migrate:rollback"
+    "typeorm": "tsnd ./node_modules/typeorm/cli.js"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
@@ -31,12 +29,11 @@
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^8.5.1",
-    "knex": "^0.21.2",
     "mime": "^2.4.6",
     "multer": "^1.4.2",
     "nodemailer": "^6.4.11",
     "pg": "^8.3.0",
-    "sqlite3": "^5.0.0",
+    "ts-node": "^8.10.2",
     "typeorm": "0.2.24"
   }
 }

@@ -3,8 +3,6 @@ import { celebrate, Segments, Joi } from 'celebrate'
 
 import ResetPasswordController from '../controllers/ResetPasswordController'
 
-import authMiddleware from '../middlewares/auth'
-
 const passwordRoutes = Router()
 
 const resetPasswordController = new ResetPasswordController()
