@@ -15,14 +15,12 @@ interface ISendMailDTO {
   text: string
 }
 
-aws.config.loadFromPath(path.resolve(__dirname, '..', '..', 'awsconfig.json'))
-
 class Mail {
   client: Transporter
 
   constructor() {
     this.client = nodemailer.createTransport({
-      SES: new aws.SES({ apiVersion: '2010-12-01' })
+      SES: new aws.SES({ apiVersion: '2010-12-01', region: 'us-east-1' })
     })
   }
 

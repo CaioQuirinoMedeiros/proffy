@@ -1,6 +1,6 @@
-import { createConnections } from 'typeorm'
+import { createConnection } from 'typeorm'
 
-createConnections()
+createConnection()
   .then(() => {
     console.log('Conexões com banco de dados estabelecidas')
   })
