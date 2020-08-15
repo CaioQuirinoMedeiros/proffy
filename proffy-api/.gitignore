@@ -12,6 +12,9 @@ dist
 # aws config
 awsconfig.json
 
+# orm database config
+ormconfig.json
+
 # temp folder
 tmp/*
 !tmp/.gitkeep
