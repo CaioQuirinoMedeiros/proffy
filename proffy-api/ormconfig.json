@@ -7,7 +7,7 @@
     "username": "postgres",
     "password": "123456",
     "database": "proffy",
-    "entities": ["./src/entities/*.ts"],
+    "entities": ["./**/entities/*{.ts,.js}"],
     "migrations": ["./src/database/migrations/*.ts"],
     "logging": true,
     "cli": {
