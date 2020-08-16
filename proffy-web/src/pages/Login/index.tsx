@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, FormEvent } from 'react'
+import React, { useState, useCallback, FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { FiHeart } from 'react-icons/fi'
 import * as yup from 'yup'
@@ -12,6 +12,7 @@ import Checkbox from '../../components/Checkbox'
 import { useToast } from '../../hooks/toast'
 import { useAuth } from '../../hooks/auth'
 import getToastErrors from '../../utils/getToastErrors'
+import PrimaryButton from '../../components/PrimaryButton'
 
 const loginSchema = yup.object().shape({
   email: yup
@@ -28,18 +29,17 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [remember, setRemember] = useState(false)
-
-  useEffect(() => {
-    console.log({ remember })
-  }, [remember])
+  const [fetching, setFetching] = useState(false)
 
   const handleLoginSubmit = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault()
 
       try {
+        setFetching(true)
         await loginSchema.validate({ email, password }, { abortEarly: false })
-        await signIn({ email, password })
+        await signIn({ email, password, remember })
+        setFetching(false)
       } catch (err) {
         const toastErrors = getToastErrors(err)
         toastErrors.forEach((toastError) => {
@@ -49,9 +49,11 @@ const Login: React.FC = () => {
             description: toastError.description
           })
         })
+      } finally {
+        setFetching(false)
       }
     },
-    [email, password, addToast, signIn]
+    [email, password, remember, addToast, signIn]
   )
 
   return (
@@ -102,7 +104,9 @@ const Login: React.FC = () => {
             <Link to='/forgot-password'>Esqueci minha senha</Link>
           </div>
 
-          <button type='submit'>Entrar</button>
+          <PrimaryButton type='submit' disabled={fetching} loading={fetching}>
+            Entrar
+          </PrimaryButton>
         </form>
 
         <div className='login-footer'>

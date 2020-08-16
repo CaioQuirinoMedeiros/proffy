@@ -1,4 +1,5 @@
-import React, { InputHTMLAttributes, HTMLAttributes } from 'react'
+import React, { InputHTMLAttributes, HTMLAttributes, useMemo } from 'react'
+import clsx from 'clsx'
 
 import './styles.css'
 
@@ -12,11 +13,12 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 const Input: React.FC<InputProps> = (props) => {
   const { label, name, onChangeText, onChange, containerProps, ...rest } = props
 
+  const inputContainerClassName = useMemo(() => {
+    return clsx({ 'input-block': true }, containerProps?.className)
+  }, [containerProps])
+
   return (
-    <div
-      {...containerProps}
-      className={'input-block ' + containerProps?.className}
-    >
+    <div {...containerProps} className={inputContainerClassName}>
       {!!label && <label htmlFor={name}>{label}</label>}
       <input
         type='text'

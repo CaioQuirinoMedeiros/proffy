@@ -1,0 +1,14 @@
+.button-primary {
+  position: relative;
+  padding: 0 4.6rem;
+}
+
+.button-primary-disabled {
+  background: var(--color-disabled);
+  color: var(--color-text-complement);
+}
+
+.button-primary-disabled:hover {
+  background: var(--color-disabled);
+  cursor: not-allowed;
+}

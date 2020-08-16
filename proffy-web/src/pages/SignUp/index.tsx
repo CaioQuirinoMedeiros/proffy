@@ -11,6 +11,7 @@ import InputMajor from '../../components/InputMajor'
 import { useToast } from '../../hooks/toast'
 import { useAuth } from '../../hooks/auth'
 import getToastErrors from '../../utils/getToastErrors'
+import PrimaryButton from '../../components/PrimaryButton'
 
 const signupSchema = yup.object().shape({
   firstName: yup.string().required('Preencha o seu nome'),
@@ -30,19 +31,23 @@ const Login: React.FC = () => {
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [fetching, setFetching] = useState(false)
 
   const history = useHistory()
-  const handleLoginSubmit = useCallback(
+
+  const handleSignupSubmit = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault()
 
       try {
+        setFetching(true)
         await signupSchema.validate(
           { firstName, lastName, email, password },
           { abortEarly: false }
         )
 
         await signUp({ firstName, lastName, email, password })
+        setFetching(false)
 
         history.push('/signup/success', {
           title: 'Cadastro concluído',
@@ -63,19 +68,21 @@ const Login: React.FC = () => {
             description: toastError.description
           })
         })
+      } finally {
+        setFetching(false)
       }
     },
     [addToast, email, firstName, history, lastName, password, signUp]
   )
 
   return (
-    <div id='page-login'>
+    <div id='page-signup'>
       <section className='signup'>
         <Link className='back-button' to='/login'>
           <img src={backIcon} alt='Back' />
         </Link>
 
-        <form onSubmit={handleLoginSubmit}>
+        <form onSubmit={handleSignupSubmit}>
           <legend>Cadastro</legend>
           <p>
             Preencha os dados abaixo
@@ -113,7 +120,9 @@ const Login: React.FC = () => {
             containerProps={{ id: 'input-password-container' }}
           />
 
-          <button type='submit'>Concluir cadastro</button>
+          <PrimaryButton type='submit' disabled={fetching} loading={fetching}>
+            Concluir cadastro
+          </PrimaryButton>
         </form>
       </section>
 
