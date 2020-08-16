@@ -33,6 +33,8 @@ classesRoutes.post(
   classesController.create
 )
 
+classesRoutes.get('/me', authMiddleware, classesController.show)
+
 classesRoutes.get(
   '/',
   authMiddleware,

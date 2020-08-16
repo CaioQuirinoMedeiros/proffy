@@ -66,6 +66,16 @@ export default class ClassesController {
       .send({ pages, count, classes: classToClass(classes) })
   }
 
+  async show(request: Request, response: Response) {
+    const { user_id } = request
+
+    const classesRepository = getRepository(Class)
+
+    const my_class = await classesRepository.findOne({ where: { user_id } })
+
+    return response.status(200).send(my_class)
+  }
+
   async create(
     request: Request<any, any, CreateClassRequestBody>,
     response: Response
