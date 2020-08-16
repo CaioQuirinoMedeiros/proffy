@@ -1,6 +1,19 @@
 .button-primary {
   position: relative;
   padding: 0 4.6rem;
+  outline: none;
+  text-decoration: none;
+  border: 0;
+  cursor: pointer;
+  background: var(--color-secondary);
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  color: var(--color-title-in-primary);
+  border-radius: 8px;
+  width: 100%;
 }
 
 .button-primary-disabled {

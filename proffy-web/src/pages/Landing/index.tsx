@@ -4,6 +4,7 @@ import { FiPower } from 'react-icons/fi'
 
 import logoImage from '../../assets/images/logo.svg'
 import landingImage from '../../assets/images/landing.svg'
+import avatarPlaceholder from '../../assets/images/avatar-placeholder.png'
 
 import studyIcon from '../../assets/images/icons/study.svg'
 import giveClassesIcon from '../../assets/images/icons/give-classes.svg'
@@ -14,7 +15,7 @@ import './styles.css'
 import { useAuth } from '../../hooks/auth'
 
 const Landing: React.FC = () => {
-  const { signOut } = useAuth()
+  const { signOut, user } = useAuth()
 
   const [totalConnections, setTotalConnections] = useState(0)
 
@@ -36,7 +37,15 @@ const Landing: React.FC = () => {
 
   return (
     <div id='page-landing'>
-      <FiPower onClick={handleLogout} />
+      <header className='header container'>
+        <Link to='profile'>
+          <img src={user.avatar_url || avatarPlaceholder} alt={user.fullName} />
+          <span>{user.fullName}</span>
+        </Link>
+        <button className='logout-button' onClick={handleLogout}>
+          <FiPower />
+        </button>
+      </header>
 
       <div id='page-landing-content' className='container'>
         <div className='logo-container'>
