@@ -7,7 +7,8 @@ interface AuthContextData {
   user: AuthState['user']
   signIn(credentials: { email: string; password: string }): Promise<void>
   signUp(credentials: {
-    name: string
+    firstName: string
+    lastName: string
     email: string
     password: string
   }): Promise<void>
@@ -72,8 +73,8 @@ const AuthProvider: React.FC = ({ children }) => {
     setData({ token, user })
   }, [])
 
-  const signUp = useCallback(async ({ name, email, password }) => {
-    await api.post('/users', { name, email, password })
+  const signUp = useCallback(async ({ firstName, lastName, email, password }) => {
+    await api.post('/users', { firstName, lastName, email, password })
   }, [])
 
   const signOut = useCallback(() => {

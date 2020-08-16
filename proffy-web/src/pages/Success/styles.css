@@ -1,0 +1,40 @@
+#page-success {
+  width: 100%;
+  height: 100vh;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  color: var(--color-text-in-primary);
+  background: var(--color-primary);
+  padding: 4rem;
+}
+
+#page-success .success-background {
+  background-size: contain;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+#page-success .success-background svg {
+  height: 11rem;
+  width: 11rem;
+  color: var(--color-secondary);
+}
+
+#page-success .success-background h1 {
+  font-size: 5rem;
+  font-family: Archivo;
+  color: var(--color-title-in-primary);
+  text-align: center;
+  margin: 4rem 0 1.6rem;
+}
+
+#page-success .success-background p {
+  font-size: 1.6rem;
+  color: var(--color-text-in-primary);
+  text-align: center;
+  margin-bottom: 6rem;
+}

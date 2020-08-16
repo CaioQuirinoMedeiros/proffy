@@ -15,7 +15,7 @@
 }
 
 .toast > svg {
-  margin: 4px 12px 0 0;
+  margin: 3px 1.6rem 0 0;
 }
 
 .toast div {
@@ -29,21 +29,24 @@
   line-height: 20px;
 }
 
-.toast button {
+.toast > button {
   position: absolute;
-  right: 16px;
-  top: 19px;
+  right: 15px;
+  top: 15px;
   opacity: 0.6;
   background: transparent;
   border: 0;
   color: inherit;
+  padding: 0;
+  height: auto;
+  width: auto;
 }
 
 .toast-description {
   align-items: center;
 }
 
-.toast-description svg {
+.toast-description > svg {
   margin-top: 0;
 }
 

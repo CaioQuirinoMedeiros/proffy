@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback, FormEvent } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState, useCallback, FormEvent } from 'react'
+import { Link, useHistory } from 'react-router-dom'
+import * as yup from 'yup'
 
 import logoImage from '../../assets/images/logo.svg'
 import successBackground from '../../assets/images/success-background.svg'
@@ -9,35 +10,62 @@ import './styles.css'
 import InputMajor from '../../components/InputMajor'
 import { useToast } from '../../hooks/toast'
 import { useAuth } from '../../hooks/auth'
+import getToastErrors from '../../utils/getToastErrors'
+
+const signupSchema = yup.object().shape({
+  firstName: yup.string().required('Preencha o seu nome'),
+  lastName: yup.string().required('Preencha o seu sobrenome'),
+  email: yup
+    .string()
+    .email('Digite um e-mail válido')
+    .required('Preencha seu email'),
+  password: yup.string().required('Preencha uma senha')
+})
 
 const Login: React.FC = () => {
   const { addToast } = useToast()
-  const { signIn } = useAuth()
+  const { signUp } = useAuth()
 
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [remember, setRemember] = useState(false)
 
-  useEffect(() => {
-    console.log({ remember })
-  }, [remember])
-
+  const history = useHistory()
   const handleLoginSubmit = useCallback(
     async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault()
 
       try {
-        await signIn({ email, password })
-      } catch {
-        addToast({
-          title: 'Erro ao fazer login',
-          description: 'Verifique suas credenciais e tente novamente'
+        await signupSchema.validate(
+          { firstName, lastName, email, password },
+          { abortEarly: false }
+        )
+
+        await signUp({ firstName, lastName, email, password })
+
+        history.push('/signup/success', {
+          title: 'Cadastro concluído',
+          message:
+            'Agora você faz parte da plataforma do Proffy.\nTenha uma ótima experiência',
+          button: {
+            text: 'Fazer login',
+            path: '/login'
+          }
+        })
+      } catch (err) {
+        const toastErrors = getToastErrors(err)
+
+        toastErrors.forEach((toastError) => {
+          addToast({
+            type: toastError.type,
+            title: toastError.title,
+            description: toastError.description
+          })
         })
       }
     },
-    [email, password, addToast, signIn]
+    [addToast, email, firstName, history, lastName, password, signUp]
   )
 
   return (

@@ -1,16 +1,25 @@
 import React, { useState, useEffect, useCallback, FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { FiHeart } from 'react-icons/fi'
+import * as yup from 'yup'
 
 import logoImage from '../../assets/images/logo.svg'
 import successBackground from '../../assets/images/success-background.svg'
-import api from '../../services/api'
 
 import './styles.css'
 import InputMajor from '../../components/InputMajor'
 import Checkbox from '../../components/Checkbox'
 import { useToast } from '../../hooks/toast'
 import { useAuth } from '../../hooks/auth'
+import getToastErrors from '../../utils/getToastErrors'
+
+const loginSchema = yup.object().shape({
+  email: yup
+    .string()
+    .email('O email não é válido')
+    .required('Digite seu email cadastrado'),
+  password: yup.string().required('Digite sua senha')
+})
 
 const Login: React.FC = () => {
   const { addToast } = useToast()
@@ -29,11 +38,16 @@ const Login: React.FC = () => {
       e.preventDefault()
 
       try {
+        await loginSchema.validate({ email, password }, { abortEarly: false })
         await signIn({ email, password })
-      } catch {
-        addToast({
-          title: 'Erro ao fazer login',
-          description: 'Verifique suas credenciais e tente novamente'
+      } catch (err) {
+        const toastErrors = getToastErrors(err)
+        toastErrors.forEach((toastError) => {
+          addToast({
+            type: toastError.type,
+            title: toastError.title,
+            description: toastError.description
+          })
         })
       }
     },
