@@ -24,11 +24,11 @@ const loginSchema = yup.object().shape({
 
 const Login: React.FC = () => {
   const { addToast } = useToast()
-  const { signIn } = useAuth()
+  const { signIn, login } = useAuth()
 
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState(login)
   const [password, setPassword] = useState('')
-  const [remember, setRemember] = useState(false)
+  const [remember, setRemember] = useState(!!login)
   const [fetching, setFetching] = useState(false)
 
   const handleLoginSubmit = useCallback(

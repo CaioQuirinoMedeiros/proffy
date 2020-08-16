@@ -7,7 +7,7 @@ import React, {
 } from 'react'
 
 import api from '../services/api'
-import { TOKEN_KEY, USER_KEY } from '../constants/auth'
+import { TOKEN_KEY, USER_KEY, LOGIN_KEY } from '../constants/auth'
 
 interface AuthContextData {
   user: AuthState['user']
@@ -24,6 +24,7 @@ interface AuthContextData {
   }): Promise<void>
   signOut(): void
   updateUser(user: AuthState['user']): void
+  login: string
 }
 
 interface LoginResponse {
@@ -65,7 +66,12 @@ const AuthProvider: React.FC = ({ children }) => {
     return {} as AuthState
   }, [])
 
+  const getInitialLogin = useCallback(() => {
+    return localStorage.getItem(LOGIN_KEY) || ''
+  }, [])
+
   const [data, setData] = useState<AuthState>(getInitialState())
+  const [login, setLogin] = useState(getInitialLogin())
 
   const signIn = useCallback(async ({ email, password, remember }) => {
     const response = await api.post<LoginResponse>('/sessions', {
@@ -80,6 +86,8 @@ const AuthProvider: React.FC = ({ children }) => {
     if (remember) {
       localStorage.setItem(TOKEN_KEY, token)
       localStorage.setItem(USER_KEY, JSON.stringify(user))
+      localStorage.setItem(LOGIN_KEY, email)
+      setLogin(email)
     }
 
     setData({ token, user })
@@ -121,7 +129,7 @@ const AuthProvider: React.FC = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user: data.user, signIn, signUp, signOut, updateUser }}
+      value={{ user: data.user, signIn, signUp, signOut, updateUser, login }}
     >
       {children}
     </AuthContext.Provider>

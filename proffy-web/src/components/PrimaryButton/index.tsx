@@ -12,11 +12,13 @@ const PrimaryButton: React.FC<InputProps> = (props) => {
   const { children, className, disabled, loading, ...rest } = props
 
   const buttonClassName = useMemo(() => {
-    return clsx({
-      'button-primary': true,
-      'button-primary-disabled': !!disabled,
-      className: !!className
-    })
+    return clsx(
+      {
+        'button-primary': true,
+        'button-primary-disabled': !!disabled
+      },
+      className
+    )
   }, [disabled, className])
 
   const loadingColor = useMemo(() => {

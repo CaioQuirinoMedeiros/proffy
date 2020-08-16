@@ -4,6 +4,10 @@ import { Toast } from '../hooks/toast'
 import { AxiosError } from 'axios'
 
 export default (error: any): Array<Omit<Toast, 'id'>> => {
+  if (process.env.NODE_ENV === 'development') {
+    console.log({ error })
+  }
+
   if (error instanceof ValidationError) {
     const yupError = error
     return yupError.inner.map((error) => ({
