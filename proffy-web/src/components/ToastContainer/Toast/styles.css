@@ -1,0 +1,61 @@
+.toast {
+  width: 360px;
+  position: relative;
+  padding: 13px 30px 16px 16px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+
+  background: #ebf8ff;
+  color: #3172b7;
+}
+
+.toast + div {
+  margin-top: 8px;
+}
+
+.toast > svg {
+  margin: 4px 12px 0 0;
+}
+
+.toast div {
+  flex: 1;
+}
+
+.toast div p {
+  margin-top: 4px;
+  font-size: 14px;
+  opacity: 0.8;
+  line-height: 20px;
+}
+
+.toast button {
+  position: absolute;
+  right: 16px;
+  top: 19px;
+  opacity: 0.6;
+  background: transparent;
+  border: 0;
+  color: inherit;
+}
+
+.toast-description {
+  align-items: center;
+}
+
+.toast-description svg {
+  margin-top: 0;
+}
+
+.toast-info {
+  background: #ebf8ff;
+  color: #3172b7;
+}
+.toast-success {
+  background: #e6fffa;
+  color: #2e656a;
+}
+.toast-error {
+  background: #fddede;
+  color: #c53030;
+}

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
-import { FiPower } from 'react-icons/fi'
 
 import logoImage from '../../assets/images/logo.svg'
 import landingImage from '../../assets/images/landing.svg'
@@ -11,11 +10,8 @@ import purpleHeartIcon from '../../assets/images/icons/purple-heart.svg'
 import api from '../../services/api'
 
 import './styles.css'
-import { useAuth } from '../../hooks/auth'
 
-const Landing: React.FC = () => {
-  const { signOut } = useAuth()
-
+const Profile: React.FC = () => {
   const [totalConnections, setTotalConnections] = useState(0)
 
   const getConnections = useCallback(async () => {
@@ -26,18 +22,12 @@ const Landing: React.FC = () => {
     } catch {}
   }, [])
 
-  const handleLogout = useCallback(() => {
-    signOut()
-  }, [signOut])
-
   useEffect(() => {
     getConnections()
   }, [getConnections])
 
   return (
     <div id='page-landing'>
-      <FiPower onClick={handleLogout} />
-
       <div id='page-landing-content' className='container'>
         <div className='logo-container'>
           <img src={logoImage} alt='Proffy logo' />
@@ -70,4 +60,4 @@ const Landing: React.FC = () => {
   )
 }
 
-export default Landing
+export default Profile

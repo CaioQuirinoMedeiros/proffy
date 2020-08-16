@@ -1,0 +1,111 @@
+#page-signup {
+  width: 100%;
+  height: 100vh;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  color: var(--color-text-in-primary);
+}
+
+.back-button {
+  position: fixed;
+  left: 4rem;
+  top: 2rem;
+}
+
+.back-button img {
+  color: var(--color-primary);
+}
+
+.hero {
+  background: var(--color-primary);
+  padding: 5rem;
+  flex: 1;
+  display: flex;
+}
+
+.hero .hero-background {
+  background-size: contain;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero h2 {
+  font-weight: 500;
+  font-size: 2.6rem;
+  line-height: 3.4rem;
+  margin-top: 1.6rem;
+  display: block;
+}
+
+.signup {
+  flex: 1;
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.signup form {
+  width: 95%;
+  max-width: 35rem;
+}
+
+.signup legend {
+  color: var(--color-text-title);
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 1.4rem;
+}
+
+.signup p {
+  color: var(--color-text-base);
+  font-size: 16px;
+  line-height: 2.6rem;
+  margin-bottom: 4rem;
+}
+
+.signup input[name='firstName'] {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.signup input[name='lastName'] {
+  border-radius: 0;
+}
+.signup input[name='email'] {
+  border-radius: 0;
+}
+.signup input[name='password'] {
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.signup #input-firstName-container {
+  margin-bottom: 0;
+}
+.signup #input-lastName-container {
+  margin-bottom: 0;
+  margin-top: -1px;
+}
+.signup #input-email-container {
+  margin-bottom: 0;
+  margin-top: -1px;
+}
+.signup #input-password-container {
+  margin-top: -1px;
+  margin-bottom: 4.5rem;
+}
+
+@media (max-width: 1100px) {
+  .hero {
+    display: none;
+  }
+}

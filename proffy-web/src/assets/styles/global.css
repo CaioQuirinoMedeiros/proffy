@@ -11,6 +11,7 @@
   --color-text-in-primary: #d4c2ff;
   --color-text-title: #32264d;
   --color-text-complement: #9c98a6;
+  --color-text-complement-dark: #8b8795;
   --color-text-base: #6a6180;
   --color-line-in-white: #e6e6f0;
   --color-input-background: #f8f8fc;
@@ -56,8 +57,39 @@ textarea {
   max-width: 700px;
 }
 
+button {
+  outline: none;
+  text-decoration: none;
+  border: 0;
+  cursor: pointer;
+  background: var(--color-secondary);
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+  color: var(--color-title-in-primary);
+  padding: 0 3rem;
+  border-radius: 8px;
+  width: 100%;
+}
+
+button:hover {
+  background: var(--color-secondary-dark);
+}
+
+a {
+  text-decoration: none;
+  color: var(--color-text-complement);
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--color-text-complement-dark);
+}
+
 @media (min-width: 700px) {
   :root {
-    font-size: 62.5%
+    font-size: 62.5%;
   }
 }
