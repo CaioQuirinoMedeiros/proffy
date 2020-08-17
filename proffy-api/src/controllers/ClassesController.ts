@@ -71,7 +71,10 @@ export default class ClassesController {
 
     const classesRepository = getRepository(Class)
 
-    const my_class = await classesRepository.findOne({ where: { user_id } })
+    const my_class = await classesRepository.findOne({
+      where: { user_id },
+      relations: ['schedules']
+    })
 
     return response.status(200).send(my_class)
   }
