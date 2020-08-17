@@ -17,6 +17,9 @@ import api from '../../services/api'
 import { useAuth } from '../../hooks/auth'
 import { useToast } from '../../hooks/toast'
 import getToastErrors from '../../utils/getToastErrors'
+import { phoneMask } from '../../utils/masks'
+import CurrencyInput from '../../components/CurrencyInput'
+import PhoneInput from '../../components/PhoneInput'
 
 const TeacherForm: React.FC = () => {
   const history = useHistory()
@@ -27,7 +30,7 @@ const TeacherForm: React.FC = () => {
   const [bio, setBio] = useState('')
 
   const [subject, setSubject] = useState('')
-  const [cost, setCost] = useState('')
+  const [cost, setCost] = useState(0)
 
   const [schedule, setSchedule] = useState([{ week_day: '', from: '', to: '' }])
 
@@ -40,6 +43,7 @@ const TeacherForm: React.FC = () => {
           setBio(data.bio)
           setCost(data.cost)
           setWhatsapp(data.whatsapp)
+          setSchedule(data.schedules)
         }
       } catch {}
     }
@@ -164,11 +168,11 @@ const TeacherForm: React.FC = () => {
                 <span>{user.fullName}</span>
               </div>
 
-              <Input
+              <PhoneInput
                 name='whatsapp'
                 label='Whatsapp'
                 value={whatsapp}
-                placeholder='(00) 00000-0000'
+                mask={phoneMask}
                 onChangeText={setWhatsapp}
               />
             </div>
@@ -192,11 +196,11 @@ const TeacherForm: React.FC = () => {
               value={subject}
               onChangeValue={setSubject}
             />
-            <Input
+            <CurrencyInput
               name='cost'
               label='Custo da sua hora/aula'
               value={cost}
-              onChangeText={setCost}
+              onChangeValue={setCost}
             />
           </fieldset>
 

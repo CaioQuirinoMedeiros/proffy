@@ -3,15 +3,24 @@ import clsx from 'clsx'
 
 import './styles.css'
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
-  name: string
+  name?: string
   onChangeText?(text: string): void
   containerProps?: HTMLAttributes<HTMLDivElement>
+  innerRef?: any
 }
 
 const Input: React.FC<InputProps> = (props) => {
-  const { label, name, onChangeText, onChange, containerProps, ...rest } = props
+  const {
+    label,
+    name,
+    onChangeText,
+    onChange,
+    containerProps,
+    innerRef,
+    ...rest
+  } = props
 
   const inputContainerClassName = useMemo(() => {
     return clsx({ 'input-block': true }, containerProps?.className)
@@ -29,6 +38,7 @@ const Input: React.FC<InputProps> = (props) => {
         }}
         name={name}
         {...rest}
+        ref={innerRef}
       />
     </div>
   )
