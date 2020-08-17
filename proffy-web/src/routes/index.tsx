@@ -15,9 +15,9 @@ import MyRoute from './Route'
 const Routes: React.FC = () => {
   return (
     <Switch>
-      <MyRoute path='/login' component={Login} exact />
-      <MyRoute path='/signup' component={SignUp} exact />
-      <MyRoute path='/forgot-password' component={ForgotPassword} exact />
+      <MyRoute path='/login' component={Login} exact guest />
+      <MyRoute path='/signup' component={SignUp} exact guest />
+      <MyRoute path='/forgot-password' component={ForgotPassword} exact guest />
       <MyRoute path='/' component={Landing} exact isPrivate />
       <MyRoute path='/profile' component={Profile} exact isPrivate />
       <MyRoute path='/give-classes' component={TeacherForm} exact isPrivate />

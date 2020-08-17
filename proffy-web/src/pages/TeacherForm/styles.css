@@ -132,3 +132,130 @@
     margin-top: 0;
   }
 }
+
+.page-header .header-content {
+  width: 90%;
+  margin: 0 auto;
+  position: relative;
+  margin: 3.2rem auto;
+}
+
+.page-header .header-content strong {
+  font: 700 3.6rem Archivo;
+  line-height: 4.2rem;
+  color: var(--color-title-in-primary);
+}
+
+.page-header .header-description-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 2.4rem;
+}
+
+.page-header .header-description-container > div {
+  display: flex;
+  align-items: center;
+}
+
+.page-header .header-description-container > div svg {
+  margin-right: 2rem;
+}
+
+.page-header .header-description-container > div p {
+  font-size: 1.2rem;
+  line-height: 1.8rem;
+}
+
+.page-header .header-content p {
+  max-width: 30rem;
+  font-size: 1.6rem;
+  line-height: 2.6rem;
+  color: var(--color-text-in-primary);
+}
+
+#page-teacher-form main form .avatar {
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+#page-teacher-form main form img {
+  width: 80px;
+  background-size: cover;
+  background-position: center;
+}
+
+#page-teacher-form main form .inputs-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+}
+
+#page-teacher-form main form .user-info {
+  display: flex;
+  align-items: center;
+}
+
+#page-teacher-form main form .user-info span {
+  font-family: Archivo;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-left: 2rem;
+  color: var(--color-text-title);
+}
+
+#page-teacher-form main form .remove-schedule {
+  display: flex;
+  align-items: center;
+  margin-bottom: 3.4rem;
+  background: none;
+  width: 100%;
+}
+#page-teacher-form main form .remove-schedule > div {
+  height: 1px;
+  background: var(--color-line-in-white);
+  flex: 1;
+}
+#page-teacher-form main form .remove-schedule > span {
+  color: var(--color-delete);
+  font-family: Archivo;
+  font-size: 14;
+  font-weight: 600;
+  margin: 0 3rem;
+  transition: color 0.2s;
+}
+#page-teacher-form main form .remove-schedule:hover > span {
+  color: var(--color-delete-dark);
+}
+
+@media (min-width: 700px) {
+  .page-header {
+    height: 340px;
+  }
+
+  .page-header .top-bar-container {
+    max-width: 1100px;
+  }
+
+  .page-header .header-content {
+    flex: 1;
+    max-width: 740px;
+    margin: 0 auto;
+    padding-bottom: 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .page-header .header-content strong {
+    max-width: 350px;
+  }
+}

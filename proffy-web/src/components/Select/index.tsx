@@ -22,7 +22,7 @@ const Select: React.FC<SelectProps> = (props) => {
 
   return (
     <div className='select-block'>
-      <label htmlFor={name}>{label}</label>
+      {!!label && <label htmlFor={name}>{label}</label>}
       <select
         id={name}
         placeholder={placeholder}

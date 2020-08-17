@@ -6,6 +6,7 @@ import { useParams, useLocation } from 'react-router-dom'
 import successBackground from '../../assets/images/success-background.svg'
 
 import './styles.css'
+import PrimaryButton from '../../components/PrimaryButton'
 
 interface SuccessState {
   title: string
@@ -36,7 +37,9 @@ const Success: React.FC = (props) => {
         </div>
 
         <Link to={location.state?.button.path}>
-          <button type='button'>{location.state?.button.text}</button>
+          <PrimaryButton type='button'>
+            {location.state?.button.text}
+          </PrimaryButton>
         </Link>
       </div>
     </main>

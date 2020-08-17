@@ -39,7 +39,12 @@ const Landing: React.FC = () => {
     <div id='page-landing'>
       <header className='header container'>
         <Link to='profile'>
-          <img src={user.avatar_url || avatarPlaceholder} alt={user.fullName} />
+          <div className='avatar'>
+            <img
+              src={user.avatar_url || avatarPlaceholder}
+              alt={user.fullName}
+            />
+          </div>
           <span>{user.fullName}</span>
         </Link>
         <button className='logout-button' onClick={handleLogout}>

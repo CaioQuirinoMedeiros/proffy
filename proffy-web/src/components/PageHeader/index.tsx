@@ -12,21 +12,23 @@ interface PageHeaderProps {
 }
 
 const PageHeader: React.FC<PageHeaderProps> = (props) => {
-  const { title, description } = props
+  const { title, description, children } = props
 
   return (
     <header className='page-header'>
       <div className='top-bar-container'>
         <Link to='/'>
-          <img src={backIcon} alt='Voltar' color="orange" />
+          <img src={backIcon} alt='Voltar' color='orange' />
         </Link>
         <img src={logoImage} alt='Logo Proffy' />
       </div>
 
-      <div className='header-content'>
+      {children}
+
+      {/* <div className='header-content'>
         <strong>{title}</strong>
         {!!description && <p >{description}</p>}
-      </div>
+      </div> */}
     </header>
   )
 }

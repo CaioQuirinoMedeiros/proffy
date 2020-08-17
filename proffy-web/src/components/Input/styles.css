@@ -1,10 +1,8 @@
 .input-block {
   position: relative;
   margin-bottom: 1.6rem;
-}
-
-.input-block + .input-block {
-  margin-top: 1.4rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .input-block label {
