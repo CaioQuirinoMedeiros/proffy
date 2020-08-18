@@ -101,7 +101,7 @@ export default class ClassesController {
     }
 
     await classesRepository.save(
-      Object.assign(teacher_class, { bio, subjects, whatsapp })
+      Object.assign(teacher_class, { whatsapp, bio, subjects, cost })
     )
 
     await scheduleRepository
