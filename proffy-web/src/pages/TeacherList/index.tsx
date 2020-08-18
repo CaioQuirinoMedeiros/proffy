@@ -57,7 +57,7 @@ const TeacherList: React.FC = () => {
           label='Matéria'
           options={subjects}
           placeholder='Selecione uma matéria'
-          value={subject}
+          // value={subject}
           onChangeValue={setSubject}
         />
         <Select
@@ -65,7 +65,7 @@ const TeacherList: React.FC = () => {
           label='Dia da semana'
           options={week_days}
           placeholder='Selecione um dia'
-          value={week_day}
+          // value={week_day}
           onChangeValue={setWeekDay}
         />
         <Input

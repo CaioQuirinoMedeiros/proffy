@@ -155,7 +155,7 @@
 }
 
 .page-header .header-description-container > div {
-  display: flex;
+  display: none;
   align-items: center;
 }
 
@@ -235,9 +235,23 @@
   color: var(--color-delete-dark);
 }
 
+.loading-container {
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  height: 40rem;
+  margin-right: 16px;
+  justify-content: center;
+}
+
 @media (min-width: 700px) {
   .page-header {
     height: 340px;
+  }
+
+  .page-header .header-description-container > div {
+    display: flex;
   }
 
   .page-header .top-bar-container {
@@ -257,5 +271,17 @@
 
   .page-header .header-content strong {
     max-width: 350px;
+  }
+}
+
+@media (max-width: 600px) {
+  #page-teacher-form main form .inputs-wrapper {
+    align-items: stretch;
+    flex-direction: column;
+    margin-bottom: 0;
+  }
+
+  #page-teacher-form main form .inputs-wrapper .user-info {
+    margin-bottom: 3rem;
   }
 }

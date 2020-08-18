@@ -6,3 +6,9 @@
   overflow: hidden;
   z-index: 99;
 }
+
+@media (max-width: 450px) {
+  .toast-container {
+    padding: 6px;
+  }
+}

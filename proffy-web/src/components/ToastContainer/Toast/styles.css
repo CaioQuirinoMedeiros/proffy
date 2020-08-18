@@ -62,3 +62,9 @@
   background: #fddede;
   color: #c53030;
 }
+
+@media (max-width: 450px) {
+  .toast {
+    width: 100%;
+  }
+}

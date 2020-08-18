@@ -37,7 +37,9 @@ const Toast: React.FC<ToastProps> = (props) => {
 
   return (
     <animated.div
-      className={`toast toast-${type || 'info'} ${!!description && 'toast-description'}`}
+      className={`toast toast-${type || 'info'} ${
+        !!description && 'toast-description'
+      }`}
       style={style}
     >
       {icons[type || 'info']}

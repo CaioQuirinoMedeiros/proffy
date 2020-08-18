@@ -1,18 +1,14 @@
 import React, { useState, useCallback, FormEvent, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { GoRocket } from 'react-icons/go'
-
-import PageHeader from '../../components/PageHeader'
-import Input from '../../components/Input'
-import Textarea from '../../components/Textarea'
+import PacmanLoader from 'react-spinners/PacmanLoader'
+import * as yup from 'yup'
 
 import warningIcon from '../../assets/images/icons/warning.svg'
-import { subjects } from '../../constants/subjects'
 import avatarPlaceholder from '../../assets/images/avatar-placeholder.png'
 
-import './styles.css'
-import Select from '../../components/Select'
-import { week_days } from '../../constants/week_days'
+import { subjects as subjectsOptions } from '../../constants/subjects'
+import { week_days as weekDaysOptions } from '../../constants/week_days'
 import api from '../../services/api'
 import { useAuth } from '../../hooks/auth'
 import { useToast } from '../../hooks/toast'
@@ -20,16 +16,48 @@ import getToastErrors from '../../utils/getToastErrors'
 import { phoneMask } from '../../utils/masks'
 import CurrencyInput from '../../components/CurrencyInput'
 import PhoneInput from '../../components/PhoneInput'
+import PageHeader from '../../components/PageHeader'
+import Input from '../../components/Input'
+import Textarea from '../../components/Textarea'
+import Select from '../../components/Select'
+
+import './styles.css'
+
+interface ClassResponse {
+  bio: string
+  whatsapp: string
+  subjects: string[]
+  cost: string
+  schedules: Array<{
+    week_day: number
+    from: string
+    to: string
+  }>
+}
+
+const classFormSchema = yup.object().shape({
+  whatsapp: yup.string().min(10, 'Número de Whatsapp incompleto'),
+  bio: yup.string().required('Conte um pouco sobre você no campo Biografia'),
+  subjects: yup
+    .array()
+    .of(yup.string())
+    .required('Você precisa ter ao menos uma matéria cadastrada'),
+  cost: yup
+    .number()
+    .required('Informe o custo da sua hora/aula')
+    .min(5, 'Coloque um valor acima de R$5,00 na sua hora/aula!'),
+  schedule: yup.array().required('Preenca ao menos um horário disponível')
+})
 
 const TeacherForm: React.FC = () => {
   const history = useHistory()
   const { user } = useAuth()
   const { addToast } = useToast()
 
+  const [fetching, setFetching] = useState(true)
   const [whatsapp, setWhatsapp] = useState('')
   const [bio, setBio] = useState('')
-
-  const [subject, setSubject] = useState('')
+  const [subjects, setSubjects] = useState<string[] | null>(null)
   const [cost, setCost] = useState(0)
 
   const [schedule, setSchedule] = useState([{ week_day: '', from: '', to: '' }])
@@ -37,15 +65,26 @@ const TeacherForm: React.FC = () => {
   useEffect(() => {
     const getMyClass = async () => {
       try {
-        const { data } = await api.get('classes/me')
+        setFetching(true)
+        const { data } = await api.get<ClassResponse>('classes/me')
         console.log({ data })
         if (data) {
           setBio(data.bio)
-          setCost(data.cost)
+          setSubjects(data.subjects)
+          setCost(Number(data.cost))
           setWhatsapp(data.whatsapp)
-          setSchedule(data.schedules)
+          setSchedule(
+            data.schedules.map((scheduleItem) => ({
+              from: scheduleItem.from,
+              to: scheduleItem.to,
+              week_day: scheduleItem.week_day.toString()
+            }))
+          )
         }
-      } catch {}
+      } catch {
+      } finally {
+        setFetching(false)
+      }
     }
 
     getMyClass()
@@ -59,7 +98,7 @@ const TeacherForm: React.FC = () => {
   }, [])
 
   const setScheduleItemValue = useCallback(
-    (position: number, key: string, value: string) => {
+    (position: number, key: string, value: any) => {
       const newSchedule = schedule.map((scheduleItem, index) =>
         position === index
           ? {
@@ -98,15 +137,12 @@ const TeacherForm: React.FC = () => {
       e.preventDefault()
 
       try {
-        await api.post('/classes', {
-          whatsapp,
-          bio,
-          subjects: [subject],
-          cost: Number(cost),
-          schedule
-        })
+        await classFormSchema.validate(
+          { whatsapp, bio, subjects, cost, schedule },
+          { abortEarly: false }
+        )
+        await api.post('/classes', { whatsapp, bio, subjects, cost, schedule })
 
-        alert('Cadastro realizado com sucesso!')
         history.push('give-classes/success', {
           title: 'Aula cadastrada!',
           message:
@@ -127,7 +163,7 @@ const TeacherForm: React.FC = () => {
         })
       }
     },
-    [whatsapp, bio, subject, cost, schedule, history, addToast]
+    [whatsapp, bio, subjects, cost, schedule, history, addToast]
   )
 
   return (
@@ -153,123 +189,134 @@ const TeacherForm: React.FC = () => {
         </div>
       </PageHeader>
 
-      <main>
-        <form onSubmit={handleCreateClass}>
-          <fieldset>
-            <legend>Seus dados</legend>
-            <div className='inputs-wrapper'>
-              <div className='user-info'>
-                <div className='avatar'>
-                  <img
-                    src={user.avatar_url || avatarPlaceholder}
-                    alt={user.fullName}
-                  />
+      {fetching ? (
+        <div className='loading-container'>
+          <PacmanLoader color='#04d361' size={30} />
+        </div>
+      ) : (
+        <main>
+          <form onSubmit={handleCreateClass}>
+            <fieldset>
+              <legend>Seus dados</legend>
+              <div className='inputs-wrapper'>
+                <div className='user-info'>
+                  <div className='avatar'>
+                    <img
+                      src={user.avatar_url || avatarPlaceholder}
+                      alt={user.fullName}
+                    />
+                  </div>
+                  <span>{user.fullName}</span>
                 </div>
-                <span>{user.fullName}</span>
+
+                <PhoneInput
+                  name='whatsapp'
+                  label='Whatsapp'
+                  value={whatsapp}
+                  mask={phoneMask}
+                  onChangeText={setWhatsapp}
+                />
               </div>
 
-              <PhoneInput
-                name='whatsapp'
-                label='Whatsapp'
-                value={whatsapp}
-                mask={phoneMask}
-                onChangeText={setWhatsapp}
+              <Textarea
+                name='bio'
+                label='Biografia'
+                value={bio}
+                onChangeText={setBio}
               />
-            </div>
+            </fieldset>
 
-            <Textarea
-              name='bio'
-              label='Biografia'
-              value={bio}
-              onChangeText={setBio}
-            />
-          </fieldset>
+            <fieldset>
+              <legend>Sobre a aula</legend>
 
-          <fieldset>
-            <legend>Sobre a aula</legend>
+              <Select
+                name='subject'
+                label='Matéria'
+                options={subjectsOptions}
+                isMulti
+                onChangeValue={setSubjects}
+                selected={subjects}
+                placeholder='Selecione uma matéria'
+              />
+              <CurrencyInput
+                name='cost'
+                label='Custo da sua hora/aula'
+                value={cost}
+                onChangeValue={setCost}
+              />
+            </fieldset>
 
-            <Select
-              name='subject'
-              label='Matéria'
-              options={subjects}
-              placeholder='Selecione uma matéria'
-              value={subject}
-              onChangeValue={setSubject}
-            />
-            <CurrencyInput
-              name='cost'
-              label='Custo da sua hora/aula'
-              value={cost}
-              onChangeValue={setCost}
-            />
-          </fieldset>
-
-          <fieldset>
-            <legend>
-              Horários disponíveis
-              <button type='button' onClick={addNewScheduleItem}>
-                + Novo horário
-              </button>
-            </legend>
-
-            {schedule.map((scheduleItem, index) => (
-              <div key={`${scheduleItem.week_day}-${index}`}>
-                <div className='schedule-item'>
-                  <Select
-                    name='week_day'
-                    label='Dia da semana'
-                    options={week_days}
-                    value={scheduleItem.week_day}
-                    onChangeValue={(value) => {
-                      setScheduleItemValue(index, 'week_day', value)
-                    }}
-                  />
-                  <Input
-                    type='time'
-                    name='from'
-                    label='Das'
-                    value={scheduleItem.from}
-                    onChangeText={(value) => {
-                      setScheduleItemValue(index, 'from', value)
-                    }}
-                  />
-                  <Input
-                    type='time'
-                    name='to'
-                    label='Até'
-                    value={scheduleItem.to}
-                    onChangeText={(value) => {
-                      setScheduleItemValue(index, 'to', value)
-                    }}
-                  />
-                </div>
-
-                <button
-                  type='button'
-                  className='remove-schedule'
-                  onClick={() => {
-                    handleRemoveScheduleItem(index)
-                  }}
-                >
-                  <div />
-                  <span>Excluir horário</span>
-                  <div />
+            <fieldset>
+              <legend>
+                Horários disponíveis
+                <button type='button' onClick={addNewScheduleItem}>
+                  + Novo horário
                 </button>
-              </div>
-            ))}
-          </fieldset>
+              </legend>
 
-          <footer>
-            <p>
-              <img src={warningIcon} alt='Aviso importante' />
-              Importante!
-              <br />
-              Preencha todos os dados
-            </p>
-            <button type='submit'>Salvar cadastro</button>
-          </footer>
-        </form>
-      </main>
+              {schedule.map((scheduleItem, index) => (
+                <div key={`${scheduleItem.week_day}-${index}`}>
+                  <div className='schedule-item'>
+                    <Select
+                      name='week_day'
+                      label='Dia da semana'
+                      options={weekDaysOptions}
+                      selected={scheduleItem.week_day}
+                      onChangeValue={(value) => {
+                        setScheduleItemValue(index, 'week_day', value)
+                      }}
+                      // value={scheduleItem.week_day}
+                      // onChange={(value) => {
+                      //   setScheduleItemValue(index, 'week_day', value)
+                      // }}
+                    />
+                    <Input
+                      type='time'
+                      name='from'
+                      label='Das'
+                      value={scheduleItem.from}
+                      onChangeText={(value) => {
+                        setScheduleItemValue(index, 'from', value)
+                      }}
+                    />
+                    <Input
+                      type='time'
+                      name='to'
+                      label='Até'
+                      value={scheduleItem.to}
+                      onChangeText={(value) => {
+                        setScheduleItemValue(index, 'to', value)
+                      }}
+                    />
+                  </div>
+
+                  <button
+                    type='button'
+                    className='remove-schedule'
+                    onClick={() => {
+                      handleRemoveScheduleItem(index)
+                    }}
+                  >
+                    <div />
+                    <span>Excluir horário</span>
+                    <div />
+                  </button>
+                </div>
+              ))}
+            </fieldset>
+
+            <footer>
+              <p>
+                <img src={warningIcon} alt='Aviso importante' />
+                Importante!
+                <br />
+                Preencha todos os dados
+              </p>
+              <button type='submit'>Salvar cadastro</button>
+            </footer>
+          </form>
+        </main>
+      )}
     </div>
   )
 }

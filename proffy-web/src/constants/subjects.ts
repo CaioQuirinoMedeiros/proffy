@@ -6,16 +6,9 @@ export const subjects = [
   { value: 'geografia', label: 'Geografia' },
   { value: 'matematica', label: 'Matemática' },
   { value: 'quimica', label: 'Química' },
-  { value: 'portugues', label: 'Portugues' }
+  { value: 'portugues', label: 'Português' }
 ]
 
-export const subjectsMapping = {
-  artes: 'Artes',
-  biologia: 'Biologia',
-  fisica: 'Física',
-  historia: 'Historia',
-  geografia: 'Geografia',
-  matematica: 'Matemática',
-  quimica: 'Química',
-  portugues: 'Portugues'
-}
+export const subjectsMapping = subjects.reduce((acc, subject) => {
+  return { ...acc, [subject.value]: subject.label }
+}, {} as { [key: string]: string })
