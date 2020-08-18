@@ -31,6 +31,7 @@ export default class ClassesController {
     const query = classesRepository
       .createQueryBuilder('class')
       .leftJoinAndSelect('class.schedules', 'schedule')
+      .leftJoinAndSelect('class.user', 'user')
 
     const subQuery = query
       .subQuery()
