@@ -20,6 +20,7 @@ interface CreateClassRequestBody {
 export default class ClassesController {
   async index(request: Request, response: Response) {
     const { week_day, subject, time, limit = '10', page = '1' } = request.query
+    const { user_id } = request
 
     const limitNumber = Number(limit)
     const pageNumber = Number(page)
@@ -54,7 +55,8 @@ export default class ClassesController {
     }
 
     const [classes, count] = await query
-      .setParameters({ week_day, time, subject })
+      .where('class.user_id != :user_id')
+      .setParameters({ week_day, time, subject, user_id })
       .printSql()
       .skip(skip)
       .take(limitNumber)
