@@ -57,7 +57,6 @@ export default class ClassesController {
     const [classes, count] = await query
       .where('class.user_id != :user_id')
       .setParameters({ week_day, time, subject, user_id })
-      .printSql()
       .skip(skip)
       .take(limitNumber)
       .getManyAndCount()
