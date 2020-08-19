@@ -41,11 +41,11 @@ const Landing: React.FC = () => {
         <Link to='profile'>
           <div className='avatar'>
             <img
-              src={user.avatar_url || avatarPlaceholder}
-              alt={user.fullName}
+              src={user?.avatar_url || avatarPlaceholder}
+              alt={user?.fullName}
             />
           </div>
-          <span>{user.fullName}</span>
+          <span>{user?.fullName}</span>
         </Link>
         <button className='logout-button' onClick={handleLogout}>
           <FiPower />

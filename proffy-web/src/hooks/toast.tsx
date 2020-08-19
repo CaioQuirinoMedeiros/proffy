@@ -7,6 +7,7 @@ export interface Toast {
   type?: 'success' | 'error' | 'info'
   title: string
   description?: string
+  duration?: number
 }
 
 interface ToastContextData {
@@ -24,10 +25,13 @@ const ToastProvider: React.FC = ({ children }) => {
   }, [])
 
   const addToast = useCallback((toast: Omit<Toast, 'id'>) => {
-    const { title, description, type } = toast
+    const { title, description, type, duration } = toast
     const id = Math.random().toString(36).substr(2, 9)
 
-    setToasts((oldToasts) => [...oldToasts, { id, title, description, type }])
+    setToasts((oldToasts) => [
+      ...oldToasts,
+      { id, title, description, type, duration }
+    ])
   }, [])
 
   return (

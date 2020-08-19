@@ -21,19 +21,19 @@ const Toast: React.FC<ToastProps> = (props) => {
   const { removeToast } = useToast()
 
   const {
-    toast: { id, title, description, type },
+    toast: { id, title, description, type, duration },
     style
   } = props
 
   useEffect(() => {
     const timer = setTimeout(() => {
       removeToast(id)
-    }, 3500)
+    }, duration || 3500)
 
     return () => {
       clearTimeout(timer)
     }
-  }, [id, removeToast])
+  }, [id, removeToast]) // eslint-disable-line
 
   return (
     <animated.div

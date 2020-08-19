@@ -15,17 +15,32 @@ const MyRoute: React.FC<MyRouteProps> = ({
 }) => {
   const { user } = useAuth()
 
+  // return isPrivate ? !!user ? <Route {...rest} /> :(
+  //   <Route {...rest} />
+  // ) : guest ? (
+  //   <Redirect
+  //     to={{
+  //       pathname: isPrivate ? '/login' : '/',
+  //       state: { from: rest.location }
+  //     }}
+  //   />
+  // ) : (
+  //   <Route {...rest} />
+  // )
+
+  if (!isPrivate && !guest) {
+    return <Route {...rest} />
+  }
+
   return isPrivate === !!user ? (
     <Route {...rest} />
-  ) : guest ? (
+  ) : (
     <Redirect
       to={{
         pathname: isPrivate ? '/login' : '/',
         state: { from: rest.location }
       }}
     />
-  ) : (
-    <Route {...rest} />
   )
 }
 

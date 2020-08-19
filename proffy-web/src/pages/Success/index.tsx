@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { FiCheckSquare } from 'react-icons/fi'
-import { useParams, useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 
 import successBackground from '../../assets/images/success-background.svg'
 
@@ -17,11 +17,8 @@ interface SuccessState {
   }
 }
 
-const Success: React.FC = (props) => {
-  const params = useParams()
+const Success: React.FC = () => {
   const location = useLocation<SuccessState>()
-
-  console.log({ props, params, location })
 
   return (
     <main id='page-success'>

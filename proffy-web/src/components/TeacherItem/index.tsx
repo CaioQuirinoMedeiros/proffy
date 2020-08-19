@@ -1,6 +1,7 @@
 import React, { useMemo, useCallback } from 'react'
 
 import whatsappIcon from '../../assets/images/icons/whatsapp.svg'
+import avatarPlaceholder from '../../assets/images/avatar-placeholder.png'
 
 import './styles.css'
 import { formatarMoeda } from '../../utils/currency'
@@ -8,41 +9,59 @@ import { subjectsMapping } from '../../constants/subjects'
 import api from '../../services/api'
 
 interface TeacherItemProps {
-  teacher: {
-    id: number
-    name: string
-    subject: keyof typeof subjectsMapping
+  teacherClass: {
+    id: string
     bio: string
-    cost: number
-    avatar: string
     whatsapp: string
+    subjects: string[]
+    cost: string
+    user_id: string
+    user: {
+      fullName: string
+      avatar_url: string
+    }
+    schedules: Array<{
+      id: string
+      week_day: number
+      from: string
+      to: string
+    }>
   }
 }
 
 const TeacherItem: React.FC<TeacherItemProps> = (props) => {
-  const { teacher } = props
+  const { teacherClass } = props
 
   const preco = useMemo(() => {
-    return formatarMoeda(teacher.cost)
-  }, [teacher])
+    return formatarMoeda(Number(teacherClass.cost))
+  }, [teacherClass])
+
+  const subjects = useMemo(() => {
+    return teacherClass.subjects
+      .map((subject) => subjectsMapping[subject])
+      .join(', ')
+  }, [teacherClass])
 
   const createNewConnection = useCallback(async () => {
     try {
-      await api.post('/connections', { user_id: teacher.id })
+      await api.post('/connections', { user_id: teacherClass.user_id })
     } catch {}
-  }, [teacher])
+  }, [teacherClass])
 
   return (
     <article className='teacher-item'>
       <header>
-        <img src={teacher.avatar} alt={teacher.name} />
+        <img
+          src={teacherClass.user?.avatar_url || avatarPlaceholder}
+          alt={teacherClass.user?.fullName}
+        />
         <div>
-          <strong>{teacher.name}</strong>
-          <span>{subjectsMapping[teacher.subject]}</span>
+          <strong>{teacherClass.user?.fullName}</strong>
+          <span>{subjects}</span>
         </div>
       </header>
 
-      <p>{teacher.bio}</p>
+      <p>{teacherClass.bio}</p>
 
       <footer>
         <p>
@@ -51,7 +70,7 @@ const TeacherItem: React.FC<TeacherItemProps> = (props) => {
         </p>
         <a
           onClick={createNewConnection}
-          href={`https://wa.me/${teacher.whatsapp}? text=sua%20mensagem.`}
+          href={`https://wa.me/${teacherClass.whatsapp}? text=sua%20mensagem.`}
           target='_blank'
           rel='noopener noreferrer'
         >

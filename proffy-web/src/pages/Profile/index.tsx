@@ -143,8 +143,6 @@ const TeacherForm: React.FC = () => {
     ]
   )
 
-  console.log('USER', user)
-
   return (
     <div id='page-profile' className='container'>
       <Header title='Meu perfil' />

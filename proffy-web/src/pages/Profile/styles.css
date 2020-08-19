@@ -103,7 +103,7 @@
 }
 
 #page-profile main fieldset .inputs-wrapper * {
-  flex: 1;
+  flex-grow: 1;
 }
 
 #page-profile .profile-last-name-container {

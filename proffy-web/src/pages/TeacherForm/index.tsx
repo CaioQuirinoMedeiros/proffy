@@ -1,5 +1,4 @@
 import React, { useState, useCallback, FormEvent, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
 import { GoRocket } from 'react-icons/go'
 import PacmanLoader from 'react-spinners/PacmanLoader'
 import * as yup from 'yup'
@@ -22,6 +21,7 @@ import Textarea from '../../components/Textarea'
 import Select from '../../components/Select'
 
 import './styles.css'
+import PrimaryButton from '../../components/PrimaryButton'
 
 interface ClassResponse {
   bio: string
@@ -50,11 +50,11 @@ const classFormSchema = yup.object().shape({
 })
 
 const TeacherForm: React.FC = () => {
-  const history = useHistory()
   const { user } = useAuth()
   const { addToast } = useToast()
 
   const [fetching, setFetching] = useState(true)
+  const [saving, setSaving] = useState(false)
   const [whatsapp, setWhatsapp] = useState('')
   const [bio, setBio] = useState('')
   const [subjects, setSubjects] = useState<string[] | null>(null)
@@ -67,7 +67,7 @@ const TeacherForm: React.FC = () => {
       try {
         setFetching(true)
         const { data } = await api.get<ClassResponse>('classes/me')
-        console.log({ data })
+
         if (data) {
           setBio(data.bio)
           setSubjects(data.subjects)
@@ -137,20 +137,20 @@ const TeacherForm: React.FC = () => {
       e.preventDefault()
 
       try {
+        setSaving(true)
         await classFormSchema.validate(
           { whatsapp, bio, subjects, cost, schedule },
           { abortEarly: false }
         )
         await api.post('/classes', { whatsapp, bio, subjects, cost, schedule })
+        setSaving(false)
 
-        history.push('give-classes/success', {
-          title: 'Aula cadastrada!',
-          message:
+        addToast({
+          type: 'success',
+          title: 'Aula cadastrada',
+          description:
             'Tudo certo, seu cadastro está na nossa lista de professores. Agora é só ficar de olho no seu WhatsaApp',
-          button: {
-            text: 'Entendido!',
-            path: '/'
-          }
+          duration: 6000
         })
       } catch (err) {
         const toastErrors = getToastErrors(err)
@@ -161,9 +161,11 @@ const TeacherForm: React.FC = () => {
             description: toastError.description
           })
         })
+      } finally {
+        setSaving(false)
       }
     },
-    [whatsapp, bio, subjects, cost, schedule, history, addToast]
+    [whatsapp, bio, subjects, cost, schedule, addToast]
   )
 
   return (
@@ -265,10 +267,6 @@ const TeacherForm: React.FC = () => {
                       onChangeValue={(value) => {
                         setScheduleItemValue(index, 'week_day', value)
                       }}
-                      // value={scheduleItem.week_day}
-                      // onChange={(value) => {
-                      //   setScheduleItemValue(index, 'week_day', value)
-                      // }}
                     />
                     <Input
                       type='time'
@@ -312,7 +310,9 @@ const TeacherForm: React.FC = () => {
                 <br />
                 Preencha todos os dados
               </p>
-              <button type='submit'>Salvar cadastro</button>
+              <PrimaryButton type='submit' loading={saving} disabled={saving}>
+                Salvar Cadastro
+              </PrimaryButton>
             </footer>
           </form>
         </main>

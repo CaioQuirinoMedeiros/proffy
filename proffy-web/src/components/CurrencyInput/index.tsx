@@ -10,7 +10,7 @@ interface CurrencyInputProps extends InputProps {
 }
 
 const CurrencyInput = (props: CurrencyInputProps) => {
-  const { value, onChangeValue } = props
+  const { value, onChangeValue, ...rest } = props
 
   const maskedValue = useMemo(() => {
     if (!value) return ''
@@ -19,13 +19,12 @@ const CurrencyInput = (props: CurrencyInputProps) => {
 
   return (
     <Input
-      {...props}
+      {...rest}
       value={maskedValue}
       maxLength={11}
       placeholder='R$ 00,00'
       onChangeText={(text) => {
         const value = Number(text.replace(/[a-zA-Z$ ,.]/g, '')) / 100
-        console.log({ value })
         onChangeValue(Number(value))
       }}
     />

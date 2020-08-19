@@ -26,7 +26,6 @@ const Checkbox: React.FC<InputProps> = (props) => {
       <input
         type='checkbox'
         onChange={(e) => {
-          console.log('Mudou', e.target.checked)
           onChange && onChange(e)
           onChangeValue && onChangeValue(e.target.checked)
         }}
