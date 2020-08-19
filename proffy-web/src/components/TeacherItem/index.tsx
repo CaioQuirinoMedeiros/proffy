@@ -7,6 +7,7 @@ import './styles.css'
 import { formatarMoeda } from '../../utils/currency'
 import { subjectsMapping } from '../../constants/subjects'
 import api from '../../services/api'
+import { weekDaysMapping } from '../../constants/week_days'
 
 interface TeacherItemProps {
   teacherClass: {
@@ -63,6 +64,21 @@ const TeacherItem: React.FC<TeacherItemProps> = (props) => {
 
       <p>{teacherClass.bio}</p>
 
+      <div className='teacher-schedule'>
+        {teacherClass.schedules.map((scheduleItem) => {
+          const horarioInicio = scheduleItem.from.slice(0, 5)
+          const horarioFim = scheduleItem.to.slice(0, 5)
+          return (
+            <article>
+              <span>Dia</span>
+              <strong>{weekDaysMapping[scheduleItem.week_day]}</strong>
+              <span>Horário</span>
+              <strong>{`${horarioInicio} - ${horarioFim}`}</strong>
+            </article>
+          )
+        })}
+      </div>
+
       <footer>
         <p>
           Preço/hora
@@ -75,7 +91,7 @@ const TeacherItem: React.FC<TeacherItemProps> = (props) => {
           rel='noopener noreferrer'
         >
           <img src={whatsappIcon} alt='Whatsapp' />
-          Entrar em contato
+          Contato
         </a>
       </footer>
     </article>

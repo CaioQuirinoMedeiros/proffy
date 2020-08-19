@@ -17,6 +17,14 @@
   width: 90%;
 }
 
+#page-teacher-list main .lista-vazia {
+  text-align: center;
+  line-height: 2.6rem;
+  color: var(--color-text-complement);
+  font-size: 1.6rem;
+  margin-top: 2.4rem;
+}
+
 #page-teacher-list .page-header .header-content {
   display: flex;
   flex-direction: row;
@@ -100,7 +108,7 @@
   }
 
   #page-teacher-list main {
-    padding: 0 auto 3.2rem 0;
+    padding: 0 0 4rem 0;
     max-width: 740px;
     margin: 0 auto;
   }

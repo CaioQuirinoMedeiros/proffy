@@ -43,6 +43,7 @@ const TeacherList: React.FC = () => {
   const [week_day, setWeekDay] = useState(null)
   const [time, setTime] = useState('')
 
+  const [fetching, setFetching] = useState(false)
   const [count, setCount] = useState(0)
   const [page, setPage] = useState(1)
   const [pages, setPages] = useState([])
@@ -53,6 +54,7 @@ const TeacherList: React.FC = () => {
       e && e.preventDefault()
 
       try {
+        setFetching(true)
         const { data } = await api.get<ListClassResponse>(
           `/classes?limit=8&page=${requestPage}`,
           {
@@ -60,11 +62,14 @@ const TeacherList: React.FC = () => {
           }
         )
 
+        setClasses([])
         setClasses(data.classes)
-        setCount(data.count)
         // @ts-ignore
         setPages([...Array(data.pages).keys()])
-      } catch {}
+      } catch {
+      } finally {
+        setFetching(false)
+      }
     },
     [subject, week_day, time]
   )
@@ -181,6 +186,14 @@ const TeacherList: React.FC = () => {
         {classes.map((teacher) => (
           <TeacherItem key={teacher.id} teacherClass={teacher} />
         ))}
+
+        {!classes.length && !fetching && (
+          <p className='lista-vazia'>
+            Nenhum professor encontrado
+            <br />
+            com sua pesquisa
+          </p>
+        )}
       </main>
     </div>
   )

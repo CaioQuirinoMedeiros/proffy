@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom'
-import { FiPower } from 'react-icons/fi'
+import { FiPower, FiHeart } from 'react-icons/fi'
 
 import logoImage from '../../assets/images/logo.svg'
 import landingImage from '../../assets/images/landing.svg'
@@ -8,7 +8,6 @@ import avatarPlaceholder from '../../assets/images/avatar-placeholder.png'
 
 import studyIcon from '../../assets/images/icons/study.svg'
 import giveClassesIcon from '../../assets/images/icons/give-classes.svg'
-import purpleHeartIcon from '../../assets/images/icons/purple-heart.svg'
 import api from '../../services/api'
 
 import './styles.css'
@@ -75,10 +74,10 @@ const Landing: React.FC = () => {
           </Link>
         </div>
 
-        <span className='total-connections'>
-          Total de {totalConnections} conexões já realizadas{' '}
-          <img src={purpleHeartIcon} alt='Coração roxo' />
-        </span>
+        <div className='total-connections'>
+          <span>Total de {totalConnections} conexões já realizadas </span>
+          <FiHeart size={26} />
+        </div>
       </div>
     </div>
   )
