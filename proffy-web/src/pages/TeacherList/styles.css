@@ -35,10 +35,11 @@
 #page-teacher-list .page-header .header-content > div {
   margin-top: 1.6rem;
   display: none;
+  /* align-items: center; */
 }
 
 #page-teacher-list .page-header .header-content > div svg {
-  margin-right: 1rem;
+  margin: 0.4rem 1rem 0 0;
 }
 
 #page-teacher-list .pagination {
@@ -91,9 +92,8 @@
     max-width: 100%;
   }
 
-  .page-header .header-content > div {
+  #page-teacher-list .page-header .header-content > div {
     display: flex;
-    align-items: center;
   }
 
   #search-teachers {

@@ -62,8 +62,8 @@ const TeacherList: React.FC = () => {
           }
         )
 
-        setClasses([])
         setClasses(data.classes)
+        setCount(data.count)
         // @ts-ignore
         setPages([...Array(data.pages).keys()])
       } catch {
@@ -74,6 +74,7 @@ const TeacherList: React.FC = () => {
     [subject, week_day, time]
   )
 
+  console.log({ count })
   useEffect(() => {
     if (page === 1) {
       searchTeachers()
@@ -102,9 +103,9 @@ const TeacherList: React.FC = () => {
             <div>
               <GiTeacher color='#04d361' size={30} />
               <p>
-                {`Nós temos ${count}`}
+                {`${count} professores`}
                 <br />
-                professores.
+                encontrados.
               </p>
             </div>
           )}
