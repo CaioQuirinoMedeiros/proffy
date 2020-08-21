@@ -13,7 +13,7 @@ import {
 } from '@expo-google-fonts/poppins'
 
 import { RootContextProvider } from './src/hooks'
-import AppStack from './src/routes/AppStack'
+import RootNavigator from './src/routes'
 
 if (Platform.OS === 'android') {
   if (UIManager.setLayoutAnimationEnabledExperimental) {
@@ -36,7 +36,7 @@ export default function App() {
   return (
     <RootContextProvider>
       <StatusBar style='light' />
-      <AppStack />
+      <RootNavigator />
     </RootContextProvider>
   )
 }

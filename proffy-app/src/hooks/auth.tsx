@@ -7,7 +7,8 @@ import React, {
 } from 'react'
 
 import api from '../services/api'
-import { TOKEN_KEY, USER_KEY, LOGIN_KEY } from '../constants/auth'
+import { TOKEN_KEY, USER_KEY } from '../constants/auth'
+import { save, load, remove } from '../utils/storage'
 
 interface AuthContextData {
   user: AuthState['user']
@@ -23,8 +24,8 @@ interface AuthContextData {
     password: string
   }): Promise<void>
   signOut(): void
-  updateUser(user: AuthState['user']): void
-  login: string
+  updateUser(user: AuthState['user']): Promise<void>
+  loading: boolean
 }
 
 interface LoginResponse {
@@ -54,40 +55,37 @@ interface AuthState {
 }
 
 const AuthProvider: React.FC = ({ children }) => {
-  const getInitialState = useCallback(() => {
-    const tokenStorage = localStorage.getItem(TOKEN_KEY)
-    const userStorage = localStorage.getItem(USER_KEY)
+  const getInitialState = useCallback(async () => {
+    const tokenStorage = await load(TOKEN_KEY)
+    const userStorage = await load<AuthState['user']>(USER_KEY)
 
-    if (tokenStorage && userStorage) {
+    if (!!tokenStorage && !!userStorage) {
       api.defaults.headers.authorization = `Bearer ${tokenStorage}`
-      return { token: tokenStorage, user: JSON.parse(userStorage) }
+      return { token: tokenStorage, user: userStorage }
     }
 
     return {} as AuthState
   }, [])
 
-  const getInitialLogin = useCallback(() => {
-    return localStorage.getItem(LOGIN_KEY) || ''
-  }, [])
-
-  const [data, setData] = useState<AuthState>(getInitialState())
-  const [login, setLogin] = useState(getInitialLogin())
+  const [loading, setLoading] = useState(true)
+  const [data, setData] = useState<AuthState>({} as AuthState)
 
   const signIn = useCallback(async ({ email, password, remember }) => {
+    console.log('response')
     const response = await api.post<LoginResponse>('/sessions', {
       email,
       password
     })
+
+    console.log(response)
 
     const { token, user } = response.data
 
     api.defaults.headers.authorization = `Bearer ${token}`
 
     if (remember) {
-      localStorage.setItem(TOKEN_KEY, token)
-      localStorage.setItem(USER_KEY, JSON.stringify(user))
-      localStorage.setItem(LOGIN_KEY, email)
-      setLogin(email)
+      await save(TOKEN_KEY, token)
+      await save(USER_KEY, user)
     }
 
     setData({ token, user })
@@ -101,35 +99,28 @@ const AuthProvider: React.FC = ({ children }) => {
   )
 
   const signOut = useCallback(() => {
-    localStorage.removeItem(TOKEN_KEY)
-    localStorage.removeItem(USER_KEY)
+    remove(TOKEN_KEY)
+    remove(USER_KEY)
 
     setData({} as AuthState)
   }, [])
 
-  const updateUser = useCallback((user: AuthState['user']) => {
+  const updateUser = useCallback(async (user: AuthState['user']) => {
     setData((oldData) => ({ token: oldData.token, user }))
 
-    localStorage.setItem(USER_KEY, JSON.stringify(user))
+    await save(USER_KEY, user)
   }, [])
 
   useEffect(() => {
-    const interceptor = api.interceptors.response.use((response) => {
-      if (response.status === 401) {
-        signOut()
-      }
-
-      return response
+    getInitialState().then((initialState) => {
+      setData(initialState)
+      setLoading(false)
     })
-
-    return () => {
-      api.interceptors.response.eject(interceptor)
-    }
-  }, []) // eslint-disable-line
+  }, [])
 
   return (
     <AuthContext.Provider
-      value={{ user: data.user, signIn, signUp, signOut, updateUser, login }}
+      value={{ user: data.user, signIn, signUp, signOut, updateUser, loading }}
     >
       {children}
     </AuthContext.Provider>

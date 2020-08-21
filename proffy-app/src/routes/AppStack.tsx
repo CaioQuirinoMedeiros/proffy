@@ -1,22 +1,53 @@
 import React from 'react'
-import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
+
+import { useAuth } from '../hooks/auth'
+import { useSetup } from '../hooks/setup'
 
 import GiveClasses from '../screens/GiveClasses'
 import Landing from '../screens/Landing'
 import StudyTabs from './StudyTabs'
+import Login from '../screens/Login'
+import Success from '../screens/Success'
+import Onboarding1 from '../screens/Onboarding1'
+import Onboarding2 from '../screens/Onboarding2'
+import Signup1 from '../screens/Signup1'
+import Signup2 from '../screens/Signup2'
+import ForgotPassword from '../screens/ForgotPassword'
+import Profile from '../screens/Profile'
 
 const { Navigator, Screen } = createStackNavigator()
 
 const AppStack: React.FC = () => {
+  const { user } = useAuth()
+  const { finishedIntro } = useSetup()
+
   return (
-    <NavigationContainer>
-      <Navigator screenOptions={{ headerShown: false }}>
-        <Screen name='landing' component={Landing} />
-        <Screen name='give_classes' component={GiveClasses} />
-        <Screen name='study' component={StudyTabs} />
-      </Navigator>
-    </NavigationContainer>
+    <Navigator screenOptions={{ headerShown: false }}>
+      {!!user ? (
+        <>
+          <Screen name='landing' component={Landing} />
+          <Screen name='give_classes' component={GiveClasses} />
+          <Screen name='study' component={StudyTabs} />
+          <Screen name='profile' component={Profile} />
+        </>
+      ) : (
+        <>
+          {!finishedIntro && (
+            <>
+              <Screen name='onboarding_1' component={Onboarding1} />
+              <Screen name='onboarding_2' component={Onboarding2} />
+            </>
+          )}
+          <Screen name='login' component={Login} />
+          <Screen name='signup_1' component={Signup1} />
+          <Screen name='signup_2' component={Signup2} />
+          <Screen name='forgot_password' component={ForgotPassword} />
+        </>
+      )}
+
+      <Screen name='success' component={Success} />
+    </Navigator>
   )
 }
 
