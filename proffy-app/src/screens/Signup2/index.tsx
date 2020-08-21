@@ -1,71 +1,143 @@
-import React, { useState, useCallback, useEffect } from 'react'
-import { View, Text, Image, TouchableOpacity } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
-import { RectButton } from 'react-native-gesture-handler'
+import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react'
+import { View, TouchableOpacity, TextInput, ScrollView } from 'react-native'
+import { FontAwesome5 } from '@expo/vector-icons'
+import {
+  useNavigation,
+  useRoute,
+  RouteProp,
+  NavigationProp
+} from '@react-navigation/native'
 
-import landingImage from '../../assets/images/landing.png'
-import studyIcon from '../../assets/images/icons/study.png'
-import giveClassesIcon from '../../assets/images/icons/give-classes.png'
-import heartIcon from '../../assets/images/icons/heart.png'
+import Text from '../../components/Text'
+
+import logoImage from '../../assets/images/logo.png'
+import giveClassesBackgroundImage from '../../assets/images/give-classes-background.png'
 
 import styles from './styles'
-import api from '../../services/api'
+import Input from '../../components/Input'
+import InputMajor from '../../components/InputMajor'
+import Checkbox from '../../components/checkbox'
+import PrimaryButton from '../../components/PrimaryButton'
+import useKeyboard from '../../hooks/custom/useKeyboard'
+import { useAuth } from '../../hooks/auth'
+import { BorderlessButton } from 'react-native-gesture-handler'
+import IconButton from '../../components/IconButton'
+import { AppStackParams } from '../../routes/AppStack'
 
 const Signup2: React.FC = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation<NavigationProp<AppStackParams>>()
+  const { params } = useRoute<RouteProp<AppStackParams, 'signup_2'>>()
+  const keyboardOpen = useKeyboard({ initialOpen: true })
 
-  const [totalConnections, setTotalConnections] = useState(10)
+  const { signUp } = useAuth()
 
-  const getConnections = useCallback(async () => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const passwordRef = useRef<TextInput>(null)
+
+  const isLoginFormValid = useMemo(() => {
+    return !!email && !!password
+  }, [email, password])
+
+  const handleSignup = useCallback(async () => {
+    if (!isLoginFormValid) return
+
     try {
-      const { data } = await api.get('/connections')
+      // await signUp({
+      //   firstName: params?.firstName,
+      //   lastName: params?.lastName,
+      //   email,
+      //   password
+      // })
 
-      setTotalConnections(data.total)
+      navigation.navigate('success', {
+        title: 'Cadastro concluído!',
+        message: 'Agora você faz parte da plataforma da Proffy',
+        buttonProps: {
+          text: 'Fazer login',
+          onPress: () => {
+            navigation.navigate('login')
+          }
+        }
+      })
     } catch {}
-  }, [])
-
-  useEffect(() => {
-    getConnections()
-  }, [])
-
-  const handleNavigateToGiveClasses = useCallback(() => {
-    navigation.navigate('give_classes')
-  }, [navigation])
-
-  const handleNavigateToStudy = useCallback(() => {
-    navigation.navigate('study')
-  }, [navigation])
+  }, [isLoginFormValid, params, navigation, email, password])
 
   return (
-    <View style={styles.container}>
-      <Image style={styles.banner} source={landingImage} />
-      <Text style={styles.title}>
-        Seja Bem-vindo,{'\n'}
-        <Text style={styles.titleBold}>O que deseja fazer?</Text>
-      </Text>
+    <ScrollView
+      contentContainerStyle={styles.screen}
+      keyboardShouldPersistTaps='handled'
+    >
+      <View style={styles.topContainer}>
+        <View style={styles.header}>
+          <IconButton
+            style={styles.backIconButton}
+            onPress={navigation.goBack}
+          />
 
-      <View style={styles.buttonsContainer}>
-        <RectButton
-          style={[styles.button, styles.buttonPrimary]}
-          onPress={handleNavigateToStudy}
-        >
-          <Image source={studyIcon} />
-          <Text style={styles.buttonText}>Estudar</Text>
-        </RectButton>
-        <RectButton
-          style={[styles.button, styles.buttonSecundary]}
-          onPress={handleNavigateToGiveClasses}
-        >
-          <Image source={giveClassesIcon} />
-          <Text style={styles.buttonText}>Dar aulas</Text>
-        </RectButton>
+          <View style={styles.dotsContainer}>
+            <View style={styles.dot} />
+            <View style={[styles.dot, styles.filledDot]} />
+          </View>
+        </View>
+        {!keyboardOpen && (
+          <View style={styles.titleContainer}>
+            <Text
+              style={styles.title}
+              fontFamily='Poppins_600SemiBold'
+              text={`Crie sua${'\n'}conta gratuita`}
+            />
+            <Text
+              style={styles.intro}
+              text={`Basta preencher esses dados${'\n'}e você estará conosco.`}
+            />
+          </View>
+        )}
       </View>
 
-      <Text style={styles.totalConnections}>
-        Total de {totalConnections} conexões já realizadas{' '}
-        <Image source={heartIcon} />
-      </Text>
-    </View>
+      <View style={styles.content}>
+        <View style={styles.contentInner}>
+          <Text
+            style={styles.label}
+            fontFamily='Poppins_600SemiBold'
+            text='02. Email e Senha?'
+          />
+
+          <InputMajor
+            label='E-mail'
+            style={styles.nameInput}
+            value={email}
+            onChangeText={setEmail}
+            returnKeyType='next'
+            keyboardType='email-address'
+            textContentType='emailAddress'
+            blurOnSubmit={false}
+            autoFocus
+            onSubmitEditing={() => {
+              passwordRef.current?.focus()
+            }}
+          />
+          <InputMajor
+            label='Senha'
+            style={styles.lastNameInput}
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            textContentType='password'
+            autoCapitalize='none'
+            onSubmitEditing={handleSignup}
+            ref={passwordRef}
+          />
+        </View>
+
+        <PrimaryButton
+          text='Concluir cadastro'
+          enabled={isLoginFormValid}
+          onPress={handleSignup}
+        />
+      </View>
+    </ScrollView>
   )
 }
 

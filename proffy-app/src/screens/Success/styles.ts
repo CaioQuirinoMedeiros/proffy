@@ -1,65 +1,62 @@
 import { StyleSheet } from 'react-native'
+import { color } from '../../theme'
 
 const styles = StyleSheet.create({
-  banner: {
-    width: '100%',
-    resizeMode: 'contain'
-  },
-
-  button: {
-    height: 150,
-    width: '48%',
-    borderRadius: 8,
-    padding: 24,
-    justifyContent: 'space-between'
-  },
-
-  buttonPrimary: {
-    backgroundColor: '#9871f5'
-  },
-
-  buttonSecundary: {
-    backgroundColor: '#04d361'
-  },
-
-  buttonText: {
-    color: '#fff',
-    fontSize: 20,
-    fontFamily: 'Archivo_700Bold'
-  },
-
-  buttonsContainer: {
-    marginTop: 40,
-    justifyContent: 'space-between',
-    flexDirection: 'row'
+  backButton: {
+    paddingHorizontal: 40,
+    paddingVertical: 16,
+    marginLeft: -40,
+    alignSelf: 'flex-start'
   },
 
   container: {
     flex: 1,
     justifyContent: 'center',
     padding: 40,
-    backgroundColor: '#8257e5'
+    backgroundColor: color.purple
+  },
+
+  description: {
+    marginTop: 18,
+    color: color.textInPurpleBase,
+    fontSize: 16,
+    lineHeight: 26,
+    maxWidth: 240,
+    textAlign: 'center'
+  },
+
+  iconContainer: {
+    borderWidth: 4,
+    borderRadius: 10,
+    borderColor: color.green,
+    width: 60,
+    height: 60,
+    marginBottom: 36,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+
+  imageBackground: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+
+  okButton: {
+    marginVertical: 40,
+    backgroundColor: '#04d361',
+    height: 58,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 8
   },
 
   title: {
     color: '#fff',
-    fontFamily: 'Poppins_400Regular',
-    fontSize: 20,
-    lineHeight: 30,
-    marginTop: 80
-  },
-
-  titleBold: {
-    fontFamily: 'Poppins_600SemiBold'
-  },
-
-  totalConnections: {
-    fontFamily: 'Poppins_400Regular',
-    color: '#d4c2ff',
-    fontSize: 12,
-    lineHeight: 20,
-    maxWidth: 140,
-    marginTop: 40
+    fontSize: 32,
+    textAlign: 'center',
+    lineHeight: 37,
+    maxWidth: 180
   }
 })
 

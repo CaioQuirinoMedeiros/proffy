@@ -1,65 +1,92 @@
 import { StyleSheet } from 'react-native'
+import Constants from 'expo-constants'
+
+import { color, viewportWidth } from '../../theme'
 
 const styles = StyleSheet.create({
-  banner: {
-    width: '100%',
-    resizeMode: 'contain'
+  backIconButton: {
+    paddingHorizontal: 24,
+    paddingVertical: 12
   },
 
-  button: {
-    height: 150,
-    width: '48%',
-    borderRadius: 8,
-    padding: 24,
+  content: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
+    padding: 26
+  },
+
+  contentInner: {
+    flexGrow: 1,
+    justifyContent: 'center'
+  },
+
+  label: {
+    fontSize: 24,
+    lineHeight: 26,
+    color: color.textTitulo,
+    marginBottom: 24
+  },
+
+  dot: {
+    width: 6,
+    height: 6,
+    borderRadius: 2,
+    backgroundColor: color.textInput,
+    marginRight: 12
+  },
+
+  dotsContainer: {
+    flexDirection: 'row',
+    marginRight: 12
+  },
+
+  nameInput: {
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0
+  },
+
+  filledDot: {
+    backgroundColor: color.purple
+  },
+
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
     justifyContent: 'space-between'
   },
 
-  buttonPrimary: {
-    backgroundColor: '#9871f5'
+  intro: {
+    color: color.textBase,
+    fontSize: 14,
+    lineHeight: 24,
+    marginTop: 12
   },
 
-  buttonSecundary: {
-    backgroundColor: '#04d361'
+  lastNameInput: {
+    borderTopRightRadius: 0,
+    borderTopLeftRadius: 0,
+    marginTop: -1
   },
 
-  buttonText: {
-    color: '#fff',
-    fontSize: 20,
-    fontFamily: 'Archivo_700Bold'
-  },
-
-  buttonsContainer: {
-    marginTop: 40,
-    justifyContent: 'space-between',
-    flexDirection: 'row'
-  },
-
-  container: {
+  screen: {
+    paddingTop: Constants.statusBarHeight,
     flex: 1,
-    justifyContent: 'center',
-    padding: 40,
-    backgroundColor: '#8257e5'
+    backgroundColor: color.background
   },
 
   title: {
-    color: '#fff',
-    fontFamily: 'Poppins_400Regular',
-    fontSize: 20,
-    lineHeight: 30,
-    marginTop: 80
+    fontSize: 32,
+    lineHeight: 42,
+    color: color.textTitulo
   },
 
-  titleBold: {
-    fontFamily: 'Poppins_600SemiBold'
+  titleContainer: {
+    padding: 24
   },
 
-  totalConnections: {
-    fontFamily: 'Poppins_400Regular',
-    color: '#d4c2ff',
-    fontSize: 12,
-    lineHeight: 20,
-    maxWidth: 140,
-    marginTop: 40
+  topContainer: {
+    flexGrow: 1,
+    justifyContent: 'space-between'
   }
 })
 

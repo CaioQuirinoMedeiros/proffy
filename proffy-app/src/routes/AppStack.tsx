@@ -16,14 +16,40 @@ import Signup2 from '../screens/Signup2'
 import ForgotPassword from '../screens/ForgotPassword'
 import Profile from '../screens/Profile'
 
-const { Navigator, Screen } = createStackNavigator()
+import { PrimaryButtonProps } from '../components/PrimaryButton'
+
+export type AppStackParams = {
+  onboarding_1: undefined
+  onboarding_2: undefined
+  login: undefined
+  signup_1: undefined
+  signup_2: {
+    firstName: string
+    lastName: string
+  }
+  forgot_password: undefined
+  landing: undefined
+  give_classes: undefined
+  study: undefined
+  profile: undefined
+  success: {
+    title: string
+    message: string
+    buttonProps: PrimaryButtonProps
+  }
+}
+
+const { Navigator, Screen } = createStackNavigator<AppStackParams>()
 
 const AppStack: React.FC = () => {
   const { user } = useAuth()
   const { finishedIntro } = useSetup()
 
   return (
-    <Navigator screenOptions={{ headerShown: false }}>
+    <Navigator
+      screenOptions={{ headerShown: false }}
+      keyboardHandlingEnabled={false}
+    >
       {!!user ? (
         <>
           <Screen name='landing' component={Landing} />

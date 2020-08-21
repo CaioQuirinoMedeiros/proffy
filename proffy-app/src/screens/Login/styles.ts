@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
   heading: {
     fontSize: 24,
     lineHeight: 34,
-    color: color.textDark
+    color: color.textTitulo
   },
 
   imageBackground: {

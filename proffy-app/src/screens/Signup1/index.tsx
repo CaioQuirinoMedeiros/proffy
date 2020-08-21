@@ -1,71 +1,115 @@
-import React, { useState, useCallback, useEffect } from 'react'
-import { View, Text, Image, TouchableOpacity } from 'react-native'
+import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react'
+import { View, TouchableOpacity, TextInput, ScrollView } from 'react-native'
+import { FontAwesome5 } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
-import { RectButton } from 'react-native-gesture-handler'
 
-import landingImage from '../../assets/images/landing.png'
-import studyIcon from '../../assets/images/icons/study.png'
-import giveClassesIcon from '../../assets/images/icons/give-classes.png'
-import heartIcon from '../../assets/images/icons/heart.png'
+import Text from '../../components/Text'
+
+import logoImage from '../../assets/images/logo.png'
+import giveClassesBackgroundImage from '../../assets/images/give-classes-background.png'
 
 import styles from './styles'
-import api from '../../services/api'
+import Input from '../../components/Input'
+import InputMajor from '../../components/InputMajor'
+import Checkbox from '../../components/checkbox'
+import PrimaryButton from '../../components/PrimaryButton'
+import useKeyboard from '../../hooks/custom/useKeyboard'
+import { useAuth } from '../../hooks/auth'
+import { BorderlessButton } from 'react-native-gesture-handler'
+import IconButton from '../../components/IconButton'
 
 const Signup1: React.FC = () => {
   const navigation = useNavigation()
+  const keyboardOpen = useKeyboard()
+  const { signIn } = useAuth()
 
-  const [totalConnections, setTotalConnections] = useState(10)
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
 
-  const getConnections = useCallback(async () => {
-    try {
-      const { data } = await api.get('/connections')
+  const lastNameRef = useRef<TextInput>(null)
 
-      setTotalConnections(data.total)
-    } catch {}
-  }, [])
+  const isLoginFormValid = useMemo(() => {
+    return !!firstName && !!lastName
+  }, [firstName, lastName])
 
-  useEffect(() => {
-    getConnections()
-  }, [])
+  const handleNext = useCallback(async () => {
+    if (!isLoginFormValid) return
 
-  const handleNavigateToGiveClasses = useCallback(() => {
-    navigation.navigate('give_classes')
-  }, [navigation])
-
-  const handleNavigateToStudy = useCallback(() => {
-    navigation.navigate('study')
-  }, [navigation])
+    navigation.navigate('signup_2', { firstName, lastName })
+  }, [isLoginFormValid, navigation, firstName, lastName])
 
   return (
-    <View style={styles.container}>
-      <Image style={styles.banner} source={landingImage} />
-      <Text style={styles.title}>
-        Seja Bem-vindo,{'\n'}
-        <Text style={styles.titleBold}>O que deseja fazer?</Text>
-      </Text>
+    <ScrollView
+      contentContainerStyle={styles.screen}
+      keyboardShouldPersistTaps='handled'
+    >
+      <View style={styles.topContainer}>
+        <View style={styles.header}>
+          <IconButton
+            style={styles.backIconButton}
+            onPress={navigation.goBack}
+          />
 
-      <View style={styles.buttonsContainer}>
-        <RectButton
-          style={[styles.button, styles.buttonPrimary]}
-          onPress={handleNavigateToStudy}
-        >
-          <Image source={studyIcon} />
-          <Text style={styles.buttonText}>Estudar</Text>
-        </RectButton>
-        <RectButton
-          style={[styles.button, styles.buttonSecundary]}
-          onPress={handleNavigateToGiveClasses}
-        >
-          <Image source={giveClassesIcon} />
-          <Text style={styles.buttonText}>Dar aulas</Text>
-        </RectButton>
+          <View style={styles.dotsContainer}>
+            <View style={[styles.dot, styles.filledDot]} />
+            <View style={styles.dot} />
+          </View>
+        </View>
+        {!keyboardOpen && (
+          <View style={styles.titleContainer}>
+            <Text
+              style={styles.title}
+              fontFamily='Poppins_600SemiBold'
+              text={`Crie sua${'\n'}conta gratuita`}
+            />
+            <Text
+              style={styles.intro}
+              text={`Basta preencher esses dados${'\n'}e você estará conosco.`}
+            />
+          </View>
+        )}
       </View>
 
-      <Text style={styles.totalConnections}>
-        Total de {totalConnections} conexões já realizadas{' '}
-        <Image source={heartIcon} />
-      </Text>
-    </View>
+      <View style={styles.content}>
+        <View style={styles.contentInner}>
+          <Text
+            style={styles.label}
+            fontFamily='Poppins_600SemiBold'
+            text='01. Quem é você?'
+          />
+
+          <InputMajor
+            label='Nome'
+            style={styles.nameInput}
+            value={firstName}
+            onChangeText={setFirstName}
+            returnKeyType='next'
+            blurOnSubmit={false}
+            autoCapitalize='words'
+            onSubmitEditing={() => {
+              lastNameRef.current?.focus()
+            }}
+          />
+          <InputMajor
+            label='Sobrenome'
+            style={styles.lastNameInput}
+            value={lastName}
+            onChangeText={setLastName}
+            blurOnSubmit={false}
+            autoCapitalize='words'
+            onSubmitEditing={handleNext}
+            ref={lastNameRef}
+          />
+        </View>
+
+        <PrimaryButton
+          color='purple'
+          text='Próximo'
+          enabled={isLoginFormValid}
+          onPress={handleNext}
+        />
+      </View>
+    </ScrollView>
   )
 }
 

@@ -39,6 +39,10 @@ const Login: React.FC = () => {
     return !!email && !!password
   }, [email, password])
 
+  const navigateToSignup = useCallback(() => {
+    navigation.navigate('signup_1')
+  }, [])
+
   const handleLogin = useCallback(async () => {
     if (!isLoginFormValid) return
 
@@ -87,7 +91,10 @@ const Login: React.FC = () => {
               text='Fazer login'
             />
 
-            <TouchableOpacity style={styles.newAccountButton}>
+            <TouchableOpacity
+              style={styles.newAccountButton}
+              onPress={navigateToSignup}
+            >
               <Text style={styles.newAccount} text='Criar uma conta' />
             </TouchableOpacity>
           </View>

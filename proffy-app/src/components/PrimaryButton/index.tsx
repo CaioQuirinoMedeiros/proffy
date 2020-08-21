@@ -10,17 +10,29 @@ import styles from './styles'
 import { useNavigation } from '@react-navigation/native'
 import { color } from '../../theme'
 
-interface PrimaryButtonProps extends RectButtonProperties {
+export interface PrimaryButtonProps extends RectButtonProperties {
   text: string
   loading?: boolean
+  color?: keyof typeof color
 }
 
 const PrimaryButton: React.FC<PrimaryButtonProps> = (props) => {
-  const { text, children, enabled, loading, ...rest } = props
+  const {
+    text,
+    children,
+    enabled,
+    loading,
+    color: buttonColor,
+    ...rest
+  } = props
 
   return (
     <RectButton
-      style={[styles.button, !enabled ? styles.buttonDisabled : null]}
+      style={[
+        styles.button,
+        { backgroundColor: color[buttonColor || 'green'] },
+        !enabled ? styles.buttonDisabled : null
+      ]}
       enabled={enabled}
       {...rest}
     >
@@ -39,6 +51,10 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = (props) => {
       )}
     </RectButton>
   )
+}
+
+PrimaryButton.defaultProps = {
+  enabled: true
 }
 
 export default PrimaryButton
