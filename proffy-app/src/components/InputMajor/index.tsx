@@ -13,13 +13,13 @@ import {
 
 import styles from './styles'
 
-interface InputProps extends TextInputProps {
+interface MajorInputProps extends TextInputProps {
   label: string
   containerProps?: ViewProps
   containerStyle?: ViewStyle
 }
 
-const InputMajor = forwardRef<TextInput, InputProps>((props, ref) => {
+const InputMajor = forwardRef<TextInput, MajorInputProps>((props, ref) => {
   const {
     style,
     label,

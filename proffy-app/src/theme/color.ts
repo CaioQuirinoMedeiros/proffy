@@ -12,7 +12,8 @@ import { palette } from './palette'
 export const color = {
   background: '#F0F0F7',
   purple: '#8257E5',
-  purpleDark: '#774DD6',
+  purpleDark: '#6842C2',
+  littlePurple: '#774DD6',
   textBase: '#6A6180',
   textInput: '#C1BCCC',
   textComplement: '#9C98A6',
@@ -20,6 +21,8 @@ export const color = {
   textInPurpleBase: '#D4C2FF',
   green: '#04D361',
   white: '#ffffff',
+  whiteDark: "#FAFAFC",
   lineInWhite: '#E6E6F0',
-  disabled: '#DCDCE5'
+  disabled: '#DCDCE5',
+  red: '#E83F5B'
 }

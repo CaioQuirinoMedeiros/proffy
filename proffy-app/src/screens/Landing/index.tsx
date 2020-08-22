@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { View, Image, TouchableOpacity } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, NavigationProp } from '@react-navigation/native'
 import { RectButton } from 'react-native-gesture-handler'
 import { FontAwesome5 } from '@expo/vector-icons'
 
@@ -15,9 +15,10 @@ import api from '../../services/api'
 import { color } from '../../theme'
 import { useAuth } from '../../hooks/auth'
 import IconButton from '../../components/IconButton'
+import { AppStackParams } from '../../routes/AppStack'
 
 const Landing: React.FC = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation<NavigationProp<AppStackParams>>()
   const { user, signOut } = useAuth()
 
   const [totalConnections, setTotalConnections] = useState(10)
@@ -33,6 +34,10 @@ const Landing: React.FC = () => {
   useEffect(() => {
     getConnections()
   }, [])
+
+  const navigateToProfile = useCallback(async () => {
+    navigation.navigate('profile')
+  }, [navigation])
 
   const handleLogout = useCallback(async () => {
     signOut()
@@ -50,7 +55,10 @@ const Landing: React.FC = () => {
     <View style={styles.screen}>
       <View style={styles.topContainer}>
         <View style={styles.header}>
-          <TouchableOpacity style={styles.profileContainer}>
+          <TouchableOpacity
+            style={styles.profileContainer}
+            onPress={navigateToProfile}
+          >
             <Image style={styles.avatar} source={{ uri: user?.avatar_url }} />
             <Text style={styles.userName} text={user?.fullName} />
           </TouchableOpacity>

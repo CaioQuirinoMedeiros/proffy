@@ -1,65 +1,97 @@
 import { StyleSheet } from 'react-native'
 
+import { color, viewportWidth } from '../../theme'
+
 const styles = StyleSheet.create({
-  banner: {
-    width: '100%',
-    resizeMode: 'contain'
+  avatar: {
+    width: 140,
+    height: 140
   },
 
-  button: {
-    height: 150,
-    width: '48%',
+  avatarContainer: {
+    borderColor: color.green,
+    position: 'relative'
+  },
+
+  avatarWrapper: {
+    overflow: 'hidden',
+    borderRadius: 70,
+    borderWidth: 1,
+    borderColor: color.green
+  },
+
+  cameraIconButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 40,
+    backgroundColor: color.green,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    bottom: 2,
+    right: 2,
+    zIndex: 99
+  },
+
+  content: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
+    paddingHorizontal: 14
+  },
+
+  formContainer: {
+    flexGrow: 1,
+    marginTop: -36,
+    backgroundColor: color.white,
+    elevation: 2,
     borderRadius: 8,
     padding: 24,
-    justifyContent: 'space-between'
+    paddingTop: 0,
+    marginBottom: 24
   },
 
-  buttonPrimary: {
-    backgroundColor: '#9871f5'
+  emailInput: {
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0
   },
 
-  buttonSecundary: {
-    backgroundColor: '#04d361'
+  headerIconButton: {
+    paddingHorizontal: 16
   },
 
-  buttonText: {
-    color: '#fff',
-    fontSize: 20,
-    fontFamily: 'Archivo_700Bold'
+  legend: {
+    fontSize: 24,
+    lineHeight: 34,
+    color: color.textTitulo,
+    marginBottom: 18,
+    borderBottomWidth: 1,
+    paddingBottom: 8,
+    borderBottomColor: color.lineInWhite,
+    marginTop: 24
   },
 
-  buttonsContainer: {
-    marginTop: 40,
-    justifyContent: 'space-between',
-    flexDirection: 'row'
+  saveButton: {
+    marginTop: 24
   },
 
-  container: {
-    flex: 1,
+  screen: {
+    flexGrow: 1,
+    backgroundColor: color.background
+  },
+
+  topContainer: {
+    width: viewportWidth,
+    backgroundColor: color.purple,
+    alignItems: 'center',
     justifyContent: 'center',
-    padding: 40,
-    backgroundColor: '#8257e5'
+    paddingTop: 36,
+    paddingBottom: 72
   },
 
-  title: {
-    color: '#fff',
-    fontFamily: 'Poppins_400Regular',
-    fontSize: 20,
-    lineHeight: 30,
-    marginTop: 80
-  },
-
-  titleBold: {
-    fontFamily: 'Poppins_600SemiBold'
-  },
-
-  totalConnections: {
-    fontFamily: 'Poppins_400Regular',
-    color: '#d4c2ff',
-    fontSize: 12,
-    lineHeight: 20,
-    maxWidth: 140,
-    marginTop: 40
+  userName: {
+    color: color.white,
+    fontSize: 22,
+    marginTop: 16
   }
 })
 

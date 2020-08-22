@@ -1,20 +1,36 @@
 import { StyleSheet } from 'react-native'
+import { color } from '../../theme'
 
 const styles = StyleSheet.create({
   label: {
-    color: '#d4c2ff',
-    fontFamily: 'Poppins_400Regular'
+    color: color.textComplement,
+    fontSize: 12,
+    lineHeight: 22,
+    marginBottom: 2
+  },
+
+  labelFocused: {
+    color: color.textBase
   },
 
   input: {
     height: 54,
-    backgroundColor: '#fff',
+    backgroundColor: color.whiteDark,
     borderRadius: 8,
+    borderWidth: 1,
+    borderColor: color.lineInWhite,
     justifyContent: 'center',
     paddingHorizontal: 16,
-    marginTop: 4,
     marginBottom: 16,
-    color: '#6a6180'
+    color: color.textBase
+  },
+
+  inputError: {
+    borderColor: color.red
+  },
+
+  inputFocused: {
+    borderColor: color.textInput
   }
 })
 

@@ -1,8 +1,11 @@
 import React from 'react'
+import { Image } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'
 
 import { useAuth } from '../hooks/auth'
 import { useSetup } from '../hooks/setup'
+
+import logoImage from '../assets/images/logo.png'
 
 import GiveClasses from '../screens/GiveClasses'
 import Landing from '../screens/Landing'
@@ -17,6 +20,8 @@ import ForgotPassword from '../screens/ForgotPassword'
 import Profile from '../screens/Profile'
 
 import { PrimaryButtonProps } from '../components/PrimaryButton'
+import { color } from '../theme'
+import Text from '../components/Text'
 
 export type AppStackParams = {
   onboarding_1: undefined
@@ -47,7 +52,32 @@ const AppStack: React.FC = () => {
 
   return (
     <Navigator
-      screenOptions={{ headerShown: false }}
+      screenOptions={{
+        headerShown: false,
+        headerTintColor: color.textInPurpleBase,
+        headerTitle: ({ children, ...headerProps }) => (
+          <Text
+            {...headerProps}
+            fontFamily='Archivo_400Regular'
+            text={children}
+          />
+        ),
+        headerTitleStyle: {
+          color: color.textInPurpleBase,
+          fontSize: 15
+        },
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: color.littlePurple,
+          elevation: 0,
+          borderBottomWidth: 2,
+          borderBottomColor: color.purpleDark
+        },
+        headerRightContainerStyle: {
+          paddingRight: 18
+        },
+        headerRight: () => <Image source={logoImage} resizeMode='contain' />
+      }}
       keyboardHandlingEnabled={false}
     >
       {!!user ? (
@@ -55,7 +85,14 @@ const AppStack: React.FC = () => {
           <Screen name='landing' component={Landing} />
           <Screen name='give_classes' component={GiveClasses} />
           <Screen name='study' component={StudyTabs} />
-          <Screen name='profile' component={Profile} />
+          <Screen
+            name='profile'
+            component={Profile}
+            options={({ navigation }) => ({
+              headerShown: true,
+              title: 'Meu perfil'
+            })}
+          />
         </>
       ) : (
         <>

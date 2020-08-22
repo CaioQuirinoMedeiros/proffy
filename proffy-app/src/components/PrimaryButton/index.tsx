@@ -15,6 +15,7 @@ export interface PrimaryButtonProps extends RectButtonProperties {
 
 const PrimaryButton: React.FC<PrimaryButtonProps> = (props) => {
   const {
+    style,
     text,
     children,
     enabled,
@@ -28,7 +29,8 @@ const PrimaryButton: React.FC<PrimaryButtonProps> = (props) => {
       style={[
         styles.button,
         { backgroundColor: color[buttonColor || 'green'] },
-        !enabled ? styles.buttonDisabled : null
+        !enabled ? styles.buttonDisabled : null,
+        style
       ]}
       enabled={enabled}
       {...rest}
