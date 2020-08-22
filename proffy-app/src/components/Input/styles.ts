@@ -1,7 +1,12 @@
 import { StyleSheet } from 'react-native'
-import { color } from '../../theme'
+import { color, spacing } from '../../theme'
 
 const styles = StyleSheet.create({
+  container: {
+    position: 'relative',
+    marginBottom: 16
+  },
+
   label: {
     color: color.textComplement,
     fontSize: 12,
@@ -21,7 +26,6 @@ const styles = StyleSheet.create({
     borderColor: color.lineInWhite,
     justifyContent: 'center',
     paddingHorizontal: 16,
-    marginBottom: 16,
     color: color.textBase
   },
 
@@ -31,6 +35,15 @@ const styles = StyleSheet.create({
 
   inputFocused: {
     borderColor: color.textInput
+  },
+
+  secureIconButton: {
+    height: 54,
+    position: 'absolute',
+    right: 0,
+    justifyContent: 'center',
+    paddingRight: spacing[3],
+    bottom: 0
   }
 })
 
