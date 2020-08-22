@@ -127,7 +127,7 @@
 }
 
 .save-button {
-  margin: 3rem 6rem;
+  margin: 3rem 2.4rem;
   width: auto;
 }
 
@@ -153,5 +153,10 @@
   }
   #page-profile .profile-last-name-container {
     margin-left: 1rem;
+  }
+
+  .save-button {
+    margin: 3rem 6.4rem;
+    width: auto;
   }
 }
