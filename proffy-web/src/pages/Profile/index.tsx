@@ -225,7 +225,7 @@ const TeacherForm: React.FC = () => {
               onChangeText={setPassword}
             />
             <Input
-              name='old_password'
+              name='password_confirmation'
               label='Confirmação da nova senha'
               type='password'
               value={password_confirmation}
