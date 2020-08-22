@@ -5,11 +5,14 @@ import {
   TouchableOpacity,
   ImageBackground,
   TextInput,
-  ScrollView
+  ScrollView,
+  ActivityIndicator
 } from 'react-native'
+import { useActionSheet } from '@expo/react-native-action-sheet'
 import { FontAwesome5 } from '@expo/vector-icons'
 import { useNavigation, NavigationProp } from '@react-navigation/native'
 import * as yup from 'yup'
+import * as ImagePicker from 'expo-image-picker'
 
 import Text from '../../components/Text'
 
@@ -17,17 +20,16 @@ import giveClassesBackgroundImage from '../../assets/images/give-classes-backgro
 
 import styles from './styles'
 import Input from '../../components/Input'
-import InputMajor from '../../components/InputMajor'
-import Checkbox from '../../components/checkbox'
 import PrimaryButton from '../../components/PrimaryButton'
 import { useAuth } from '../../hooks/auth'
 import { AppStackParams } from '../../routes/AppStack'
-import { color } from '../../theme'
+import { color, spacing } from '../../theme'
 import api from '../../services/api'
 import { alert } from '../../utils/alert'
 import { getErrorsObject } from '../../utils/getValidationError'
 import { getAppError } from '../../utils/getAppError'
 import { useToast } from '../../hooks/toast'
+import AvatarImage from '../../components/AvatarImage'
 
 interface UpdateUserData {
   firstName: string
@@ -56,10 +58,16 @@ const profileSchema = yup.object().shape({
     .oneOf([yup.ref('password'), undefined], 'Confirmação de senha incorreta')
 })
 
+interface ImageDTO {
+  uri: string
+  type?: any
+}
+
 const Profile: React.FC = () => {
   const navigation = useNavigation<NavigationProp<AppStackParams, 'login'>>()
   const { user, updateUser } = useAuth()
   const { addToast } = useToast()
+  const { showActionSheetWithOptions } = useActionSheet()
 
   const [firstName, setFirstName] = useState(user.firstName)
   const [lastName, setLastName] = useState(user.lastName)
@@ -108,22 +116,161 @@ const Profile: React.FC = () => {
     password_confirmation
   ])
 
-  const handleUpdateAvatar = useCallback(() => {
-    console.log('Opa')
-    addToast({
-      type: 'success',
-      message: 'Perfil atualizado'
-    })
-    addToast({
-      type: 'error',
-      message: 'Preencha um e-mail válido'
-    })
-    addToast({
-      type: 'info',
-      message:
-        'Parabens, agora o seu perfil está atualizado, atualize novamente quando desejar'
-    })
+  const uploadAvatar = useCallback(
+    async (image: ImageDTO) => {
+      try {
+        setUpdatingAvatar(true)
+        const formData = new FormData()
+
+        const filePaths = image.uri.split('/')
+
+        formData.append('avatar', {
+          type: 'image/jpeg',
+          // @ts-ignore
+          uri: image.uri,
+          name: filePaths[filePaths.length - 1]
+        })
+
+        const response = await api.patch('/users/avatar', formData)
+
+        updateUser(response.data)
+
+        addToast({ type: 'success', message: 'Foto de perfil atualizada!' })
+
+        console.log('response', response)
+      } catch (err) {
+        const appError = getAppError(err)
+        addToast({ type: 'success', message: appError.message })
+      } finally {
+        setUpdatingAvatar(false)
+      }
+    },
+    [addToast, updateUser]
+  )
+
+  const handleOpenGallery = useCallback(async () => {
+    try {
+      const { granted } = await ImagePicker.requestCameraRollPermissionsAsync()
+
+      if (!granted) {
+        return
+      }
+
+      const image = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [1, 1],
+        mediaTypes: ImagePicker.MediaTypeOptions.Images
+      })
+
+      if (image.cancelled) return
+
+      await uploadAvatar(image)
+    } catch {}
+  }, [uploadAvatar])
+
+  const handleCamera = useCallback(async () => {
+    try {
+      const { granted } = await ImagePicker.requestCameraPermissionsAsync()
+
+      if (!granted) {
+        return
+      }
+
+      const image = await ImagePicker.launchCameraAsync({
+        allowsEditing: true,
+        aspect: [1, 1]
+      })
+
+      if (image.cancelled) return
+
+      await uploadAvatar(image)
+    } catch {}
+  }, [uploadAvatar])
+
+  const handleRemoveAvatar = useCallback(async () => {
+    try {
+      setUpdatingAvatar(true)
+      const response = await api.delete('/users/avatar')
+
+      updateUser(response.data)
+
+      addToast({
+        type: 'success',
+        message: 'Foto de perfil removida com sucesso'
+      })
+    } catch (err) {
+      const appError = getAppError(err)
+      addToast({ type: 'success', message: appError.message })
+    } finally {
+      setUpdatingAvatar(false)
+    }
   }, [addToast])
+
+  const handleUpdateAvatar = useCallback(async () => {
+    try {
+      console.log('opa')
+      showActionSheetWithOptions(
+        {
+          options: [
+            'Abrir galeria',
+            'Tirar uma foto',
+            'Remover foto',
+            'Cancelar'
+          ],
+          cancelButtonIndex: 3,
+          destructiveButtonIndex: 2,
+          destructiveColor: color.red,
+          message: 'Escolha uma das opções',
+          title: 'Atualizar foto de perfil',
+          textStyle: {
+            fontFamily: 'Poppins_400Regular',
+            color: color.textTitulo,
+            fontSize: 14
+          },
+          containerStyle: {
+            borderTopLeftRadius: 8,
+            borderTopRightRadius: 8,
+            paddingBottom: spacing[3]
+          },
+          titleTextStyle: {
+            fontFamily: 'Archivo_700Bold',
+            fontSize: 18,
+            color: color.textTitulo
+          },
+          messageTextStyle: {
+            fontFamily: 'Archivo_400Regular',
+            color: color.textComplement
+          },
+          showSeparators: true,
+          separatorStyle: { marginHorizontal: 18 },
+          tintColor: color.textBase,
+          tintIcons: true,
+          icons: [
+            <FontAwesome5 name='images' size={20} color={color.textTitulo} />,
+            <FontAwesome5 name='camera' size={20} color={color.textTitulo} />,
+            <FontAwesome5 name='trash' size={20} color={color.textTitulo} />,
+            <FontAwesome5 name='times' size={20} color={color.textTitulo} />
+          ]
+        },
+        (buttonIndex) => {
+          if (buttonIndex === 0) {
+            handleOpenGallery()
+          } else if (buttonIndex === 1) {
+            handleCamera()
+          } else if (buttonIndex === 2) {
+            handleRemoveAvatar()
+          }
+        }
+      )
+    } catch (err) {
+      console.log(err)
+    }
+  }, [
+    showActionSheetWithOptions,
+    handleOpenGallery,
+    handleCamera,
+    handleRemoveAvatar
+  ])
 
   const handleSaveProfile = useCallback(async () => {
     try {
@@ -189,15 +336,13 @@ const Profile: React.FC = () => {
           activeOpacity={0.7}
           onPress={handleUpdateAvatar}
         >
-          <View style={styles.avatarWrapper}>
-            <Image
-              style={styles.avatar}
-              source={{ uri: user.avatar_url }}
-              resizeMode='contain'
-            />
-          </View>
+          <AvatarImage user={user} />
           <View style={styles.cameraIconButton}>
-            <FontAwesome5 name='camera' size={20} color={color.white} />
+            {updatingAvatar ? (
+              <ActivityIndicator size={20} color={color.white} />
+            ) : (
+              <FontAwesome5 name='camera' size={20} color={color.white} />
+            )}
           </View>
         </TouchableOpacity>
         <Text

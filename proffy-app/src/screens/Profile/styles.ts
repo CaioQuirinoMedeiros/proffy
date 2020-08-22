@@ -3,21 +3,9 @@ import { StyleSheet } from 'react-native'
 import { color, viewportWidth } from '../../theme'
 
 const styles = StyleSheet.create({
-  avatar: {
-    width: 140,
-    height: 140
-  },
-
   avatarContainer: {
     borderColor: color.green,
     position: 'relative'
-  },
-
-  avatarWrapper: {
-    overflow: 'hidden',
-    borderRadius: 70,
-    borderWidth: 1,
-    borderColor: color.green
   },
 
   cameraIconButton: {

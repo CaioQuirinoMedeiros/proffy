@@ -2,6 +2,8 @@ import { StatusBar } from 'expo-status-bar'
 import React from 'react'
 import { AppLoading } from 'expo'
 import { Platform, UIManager } from 'react-native'
+import { connectActionSheet } from '@expo/react-native-action-sheet'
+
 import {
   Archivo_400Regular,
   Archivo_700Bold,
@@ -21,6 +23,8 @@ if (Platform.OS === 'android') {
   }
 }
 
+const ConnectedRootNavigator = connectActionSheet(RootNavigator)
+
 export default function App() {
   let [fontsLoaded] = useFonts({
     Archivo_400Regular,
@@ -36,7 +40,7 @@ export default function App() {
   return (
     <RootContextProvider>
       <StatusBar style='light' />
-      <RootNavigator />
+      <ConnectedRootNavigator />
     </RootContextProvider>
   )
 }

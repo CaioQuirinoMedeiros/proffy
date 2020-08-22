@@ -4,12 +4,6 @@ import Constants from 'expo-constants'
 import { color } from '../../theme'
 
 const styles = StyleSheet.create({
-  avatar: {
-    width: 46,
-    height: 46,
-    borderRadius: 46
-  },
-
   banner: {
     width: '100%',
     resizeMode: 'contain'

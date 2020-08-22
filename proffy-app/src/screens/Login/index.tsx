@@ -18,7 +18,7 @@ import giveClassesBackgroundImage from '../../assets/images/give-classes-backgro
 import styles from './styles'
 import Input from '../../components/Input'
 import InputMajor from '../../components/InputMajor'
-import Checkbox from '../../components/checkbox'
+import Checkbox from '../../components/Checkbox'
 import PrimaryButton from '../../components/PrimaryButton'
 import useKeyboard from '../../hooks/custom/useKeyboard'
 import { useAuth } from '../../hooks/auth'

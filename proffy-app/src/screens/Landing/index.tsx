@@ -16,6 +16,7 @@ import { color } from '../../theme'
 import { useAuth } from '../../hooks/auth'
 import IconButton from '../../components/IconButton'
 import { AppStackParams } from '../../routes/AppStack'
+import AvatarImage from '../../components/AvatarImage'
 
 const Landing: React.FC = () => {
   const navigation = useNavigation<NavigationProp<AppStackParams>>()
@@ -59,7 +60,7 @@ const Landing: React.FC = () => {
             style={styles.profileContainer}
             onPress={navigateToProfile}
           >
-            <Image style={styles.avatar} source={{ uri: user?.avatar_url }} />
+            <AvatarImage size={46} user={user} />
             <Text style={styles.userName} text={user?.fullName} />
           </TouchableOpacity>
 
