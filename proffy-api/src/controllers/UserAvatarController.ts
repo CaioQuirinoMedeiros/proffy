@@ -18,13 +18,36 @@ export default class UsersController {
       throw new AppError('Usuário não encontrado', 404)
     }
 
+    const filename = await Storage.saveFile(file.filename)
+
     if (user.avatar) {
       await Storage.deleteFile(user.avatar)
     }
 
-    const filename = await Storage.saveFile(file.filename)
-
     user.avatar = filename
+
+    await UsersRepository.save(user)
+
+    return response.status(200).send(classToClass(user))
+  }
+
+  async destroy(request: Request, response: Response) {
+    const { user_id } = request
+
+    const UsersRepository = getRepository(User)
+
+    const user = await UsersRepository.findOne(user_id)
+
+    if (!user) {
+      throw new AppError('Usuário não encontrado', 404)
+    }
+
+    if (user.avatar) {
+      await Storage.deleteFile(user.avatar)
+    }
+
+    // @ts-ignore
+    user.avatar = null
 
     await UsersRepository.save(user)
 

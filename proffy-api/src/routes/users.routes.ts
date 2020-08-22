@@ -34,5 +34,6 @@ userRoutes.patch(
   upload.single('avatar'),
   userAvatarController.update
 )
+userRoutes.delete('/avatar', authMiddleware, userAvatarController.destroy)
 
 export default userRoutes
