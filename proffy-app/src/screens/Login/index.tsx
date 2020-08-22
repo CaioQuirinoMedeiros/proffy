@@ -8,7 +8,7 @@ import {
   ScrollView,
   Alert
 } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, NavigationProp } from '@react-navigation/native'
 
 import Text from '../../components/Text'
 
@@ -22,9 +22,10 @@ import Checkbox from '../../components/checkbox'
 import PrimaryButton from '../../components/PrimaryButton'
 import useKeyboard from '../../hooks/custom/useKeyboard'
 import { useAuth } from '../../hooks/auth'
+import { AppStackParams } from '../../routes/AppStack'
 
 const Login: React.FC = () => {
-  const navigation = useNavigation()
+  const navigation = useNavigation<NavigationProp<AppStackParams, 'login'>>()
   const keyboardOpen = useKeyboard()
   const { signIn } = useAuth()
 
@@ -41,6 +42,10 @@ const Login: React.FC = () => {
 
   const navigateToSignup = useCallback(() => {
     navigation.navigate('signup_1')
+  }, [])
+
+  const navigateToForgotPassword = useCallback(() => {
+    navigation.navigate('forgot_password')
   }, [])
 
   const handleLogin = useCallback(async () => {
@@ -136,7 +141,10 @@ const Login: React.FC = () => {
               <Text style={styles.rememberText} text='Lembrar-me' />
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.forgotPasswordButton}>
+            <TouchableOpacity
+              style={styles.forgotPasswordButton}
+              onPress={navigateToForgotPassword}
+            >
               <Text style={styles.forgotPassword} text='Esqueci minha senha' />
             </TouchableOpacity>
           </View>

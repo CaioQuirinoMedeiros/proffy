@@ -1,65 +1,63 @@
 import { StyleSheet } from 'react-native'
 
+import { color, viewportWidth } from '../../theme'
+
 const styles = StyleSheet.create({
-  banner: {
-    width: '100%',
-    resizeMode: 'contain'
-  },
-
-  button: {
-    height: 150,
-    width: '48%',
-    borderRadius: 8,
+  backIconButton: {
     padding: 24,
-    justifyContent: 'space-between'
+    alignSelf: 'flex-start',
+    marginLeft: -24,
+    marginTop: -24
   },
 
-  buttonPrimary: {
-    backgroundColor: '#9871f5'
-  },
-
-  buttonSecundary: {
-    backgroundColor: '#04d361'
-  },
-
-  buttonText: {
-    color: '#fff',
-    fontSize: 20,
-    fontFamily: 'Archivo_700Bold'
-  },
-
-  buttonsContainer: {
-    marginTop: 40,
+  content: {
+    flexGrow: 1,
     justifyContent: 'space-between',
-    flexDirection: 'row'
+    padding: 24
   },
 
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: 40,
-    backgroundColor: '#8257e5'
+  contentInner: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
+    paddingBottom: 24
   },
 
-  title: {
-    color: '#fff',
-    fontFamily: 'Poppins_400Regular',
-    fontSize: 20,
-    lineHeight: 30,
+  heading: {
+    fontSize: 24,
+    lineHeight: 34,
+    color: color.textTitulo,
+    marginBottom: 18
+  },
+
+  imageBackground: {
+    width: viewportWidth,
+    flexGrow: 1,
+    backgroundColor: color.purple,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+
+  intro: {
+    color: color.textInPurpleBase,
+    fontSize: 16,
+    marginTop: 8
+  },
+
+  logoImage: {
+    width: 168,
+    height: 60,
+    borderWidth: 1,
     marginTop: 80
   },
 
-  titleBold: {
-    fontFamily: 'Poppins_600SemiBold'
+  message: {
+    fontSize: 14,
+    lineHeight: 24
   },
 
-  totalConnections: {
-    fontFamily: 'Poppins_400Regular',
-    color: '#d4c2ff',
-    fontSize: 12,
-    lineHeight: 20,
-    maxWidth: 140,
-    marginTop: 40
+  screen: {
+    flex: 1,
+    backgroundColor: color.background
   }
 })
 

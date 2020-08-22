@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
     marginTop: 18,
     color: color.textInPurpleBase,
     fontSize: 16,
-    lineHeight: 26,
-    maxWidth: 240,
+    lineHeight: 24,
+    maxWidth: 280,
     textAlign: 'center'
   },
 
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
     textAlign: 'center',
     lineHeight: 37,
-    maxWidth: 180
+    maxWidth: 240,
   }
 })
 
