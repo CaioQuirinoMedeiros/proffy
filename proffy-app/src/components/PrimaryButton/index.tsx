@@ -1,13 +1,10 @@
-import React, { useCallback } from 'react'
+import React from 'react'
 import { ActivityIndicator } from 'react-native'
 import { RectButton, RectButtonProperties } from 'react-native-gesture-handler'
 
-import backIcon from '../../assets/images/icons/back.png'
-import logoImage from '../../assets/images/logo.png'
 import Text from '../Text'
 
 import styles from './styles'
-import { useNavigation } from '@react-navigation/native'
 import { color } from '../../theme'
 
 export interface PrimaryButtonProps extends RectButtonProperties {

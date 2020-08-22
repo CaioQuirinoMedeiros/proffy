@@ -12,6 +12,7 @@ import { palette } from './palette'
 export const color = {
   background: '#F0F0F7',
   purple: '#8257E5',
+  purpleDark: '#774DD6',
   textBase: '#6A6180',
   textInput: '#C1BCCC',
   textComplement: '#9C98A6',

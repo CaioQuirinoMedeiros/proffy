@@ -8,6 +8,8 @@ import { FontAwesome5 } from '@expo/vector-icons'
 
 import { color } from '../../theme'
 
+import styles from './styles'
+
 interface IconButtonProps extends BorderlessButtonProperties {
   name?: string
   size?: number
@@ -16,10 +18,10 @@ interface IconButtonProps extends BorderlessButtonProperties {
 }
 
 const IconButton: React.FC<IconButtonProps> = (props) => {
-  const { name, size, color, ...rest } = props
+  const { style, name, size, color, ...rest } = props
 
   return (
-    <BorderlessButton {...rest}>
+    <BorderlessButton {...rest} style={[styles.iconButton, style]}>
       <FontAwesome5 name={name} size={size} color={color} />
     </BorderlessButton>
   )

@@ -1,9 +1,24 @@
 import { StyleSheet } from 'react-native'
+import Constants from 'expo-constants'
+
+import { color } from '../../theme'
 
 const styles = StyleSheet.create({
+  avatar: {
+    width: 46,
+    height: 46,
+    borderRadius: 46
+  },
+
   banner: {
     width: '100%',
     resizeMode: 'contain'
+  },
+
+  bottomContainer: {
+    backgroundColor: color.background,
+    flexGrow: 1,
+    padding: 24
   },
 
   button: {
@@ -15,17 +30,16 @@ const styles = StyleSheet.create({
   },
 
   buttonPrimary: {
-    backgroundColor: '#9871f5'
+    backgroundColor: color.purple
   },
 
   buttonSecundary: {
-    backgroundColor: '#04d361'
+    backgroundColor: color.green
   },
 
   buttonText: {
     color: '#fff',
-    fontSize: 20,
-    fontFamily: 'Archivo_700Bold'
+    fontSize: 20
   },
 
   buttonsContainer: {
@@ -34,32 +48,56 @@ const styles = StyleSheet.create({
     flexDirection: 'row'
   },
 
-  container: {
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 24,
+    marginBottom: 12
+  },
+
+  logoutIconButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 8,
+    backgroundColor: color.purpleDark
+  },
+
+  profileContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+
+  screen: {
     flex: 1,
     justifyContent: 'center',
-    padding: 40,
-    backgroundColor: '#8257e5'
+    backgroundColor: color.purple,
+    paddingTop: Constants.statusBarHeight
   },
 
   title: {
-    color: '#fff',
-    fontFamily: 'Poppins_400Regular',
+    color: color.textBase,
     fontSize: 20,
     lineHeight: 30,
-    marginTop: 80
+    marginTop: 12
   },
 
-  titleBold: {
-    fontFamily: 'Poppins_600SemiBold'
+  topContainer: {
+    flexGrow: 1
   },
 
   totalConnections: {
-    fontFamily: 'Poppins_400Regular',
-    color: '#d4c2ff',
+    color: color.textComplement,
     fontSize: 12,
     lineHeight: 20,
     maxWidth: 140,
     marginTop: 40
+  },
+
+  userName: {
+    fontSize: 14,
+    marginLeft: 12,
+    color: color.textInPurpleBase
   }
 })
 

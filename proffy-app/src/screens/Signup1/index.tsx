@@ -1,22 +1,15 @@
-import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react'
-import { View, TouchableOpacity, TextInput, ScrollView } from 'react-native'
-import { FontAwesome5 } from '@expo/vector-icons'
+import React, { useState, useCallback, useRef, useMemo } from 'react'
+import { View, TextInput, ScrollView } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 
 import Text from '../../components/Text'
-
-import logoImage from '../../assets/images/logo.png'
-import giveClassesBackgroundImage from '../../assets/images/give-classes-background.png'
-
-import styles from './styles'
-import Input from '../../components/Input'
 import InputMajor from '../../components/InputMajor'
-import Checkbox from '../../components/checkbox'
 import PrimaryButton from '../../components/PrimaryButton'
 import useKeyboard from '../../hooks/custom/useKeyboard'
 import { useAuth } from '../../hooks/auth'
-import { BorderlessButton } from 'react-native-gesture-handler'
 import IconButton from '../../components/IconButton'
+
+import styles from './styles'
 
 const Signup1: React.FC = () => {
   const navigation = useNavigation()
