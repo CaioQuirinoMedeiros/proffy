@@ -1,9 +1,11 @@
 import { Request, Response } from 'express'
 import { classToClass } from 'class-transformer'
 import { getRepository } from 'typeorm'
+import { parse, isAfter } from 'date-fns'
 
 import Class from '../entities/Class'
 import Schedule from '../entities/Schedule'
+import AppError from '../errors/AppError'
 
 interface CreateClassRequestBody {
   whatsapp: string
@@ -90,6 +92,18 @@ export default class ClassesController {
 
     const classesRepository = getRepository(Class)
     const scheduleRepository = getRepository(Schedule)
+
+    schedule.forEach((scheduleItem) => {
+      const { from, to } = scheduleItem
+      const fromDate = parse(from, 'HH:mm', new Date())
+      const toDate = parse(to, 'HH:mm', new Date())
+
+      if (!isAfter(toDate, fromDate)) {
+        throw new AppError(
+          'O horário final deve ser maior que o horário inicial'
+        )
+      }
+    })
 
     let teacher_class = await classesRepository.findOne({ user_id })
 
