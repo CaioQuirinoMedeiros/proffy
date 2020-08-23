@@ -137,7 +137,6 @@ const Profile: React.FC = () => {
 
         addToast({ type: 'success', message: 'Foto de perfil atualizada!' })
 
-        console.log('response', response)
       } catch (err) {
         const appError = getAppError(err)
         addToast({ type: 'success', message: appError.message })
@@ -208,7 +207,6 @@ const Profile: React.FC = () => {
 
   const handleUpdateAvatar = useCallback(async () => {
     try {
-      console.log('opa')
       showActionSheetWithOptions(
         {
           options: [
@@ -262,8 +260,7 @@ const Profile: React.FC = () => {
           }
         }
       )
-    } catch (err) {
-      console.log(err)
+    } catch {
     }
   }, [
     showActionSheetWithOptions,

@@ -57,8 +57,6 @@ const Input = forwardRef<TextInput, InputProps>((props, ref) => {
     }
   }
 
-  console.log(error, dirty, style)
-
   return (
     <View style={[styles.container, containerStyle]} {...containerProps}>
       <Text

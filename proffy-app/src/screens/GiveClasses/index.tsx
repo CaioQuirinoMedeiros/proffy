@@ -34,6 +34,20 @@ import { formatarTelefone } from '../../utils/formatting'
 import { week_days as weekDaysOptions } from '../../constants/week_days'
 import MultiSelect from '../../components/MultiSelect'
 import CurrencyInput from '../../components/CurrencyInput'
+import HourInput from '../../components/HourInput'
+import IconButton from '../../components/IconButton'
+
+interface ClassResponse {
+  bio: string
+  whatsapp: string
+  subjects: string[]
+  cost: string
+  schedules: Array<{
+    week_day: number
+    from: string
+    to: string
+  }>
+}
 
 interface UpdateUserData {
   firstName: string
@@ -68,15 +82,14 @@ const GiveClasses: React.FC = () => {
   const { user, updateUser } = useAuth()
   const { addToast } = useToast()
 
+  const [fetching, setFetching] = useState(true)
   const [saving, setSaving] = useState(false)
+
   const [whatsappFormatted, setWhatsappFormatted] = useState('')
   const [bio, setBio] = useState('')
   const [subjects, setSubjects] = useState<string[] | null>(null)
   const [cost, setCost] = useState(0)
   const [schedule, setSchedule] = useState([{ week_day: '', from: '', to: '' }])
-
-  const [updatingAvatar, setUpdatingAvatar] = useState(false)
-  const [savingProfile, setSavingProfile] = useState(false)
 
   const bioRef = useRef<TextInput>(null)
   const costRef = useRef<TextInput>(null)
@@ -104,12 +117,50 @@ const GiveClasses: React.FC = () => {
     }
   }, [whatsapp, bio, subjects, cost, schedule])
 
+  useEffect(() => {
+    const getMyClass = async () => {
+      try {
+        setFetching(true)
+        const { data } = await api.get<ClassResponse>('classes/me')
+
+        console.log({ data })
+
+        if (data) {
+          setBio(data.bio)
+          setSubjects(data.subjects)
+          setCost(Number(data.cost))
+          setWhatsappFormatted(formatarTelefone(data.whatsapp))
+          setSchedule(
+            data.schedules.map((scheduleItem) => ({
+              from: scheduleItem.from.slice(0, 5),
+              to: scheduleItem.to.slice(0, 5),
+              week_day: scheduleItem.week_day.toString()
+            }))
+          )
+        }
+      } catch {
+      } finally {
+        setFetching(false)
+      }
+    }
+
+    getMyClass()
+  }, [])
+
   const addNewScheduleItem = useCallback(() => {
+    if (schedule.length > 10) {
+      addToast({
+        type: 'info',
+        message: 'Limite máximo de 10 horários diferentes'
+      })
+      return
+    }
+
     setSchedule((oldSchedule) => [
       ...oldSchedule,
       { week_day: '', from: '', to: '' }
     ])
-  }, [])
+  }, [schedule.length])
 
   const setScheduleItemValue = useCallback(
     (position: number, key: string, value: any) => {
@@ -130,7 +181,10 @@ const GiveClasses: React.FC = () => {
   const handleRemoveScheduleItem = useCallback(
     (scheduleItemIndex: number) => {
       if (schedule.length === 1) {
-        addToast({ type: 'info', message: 'Não permitido' })
+        addToast({
+          type: 'info',
+          message: 'Você deve ter pelo menos um horário disponível'
+        })
 
         return
       }
@@ -171,8 +225,6 @@ const GiveClasses: React.FC = () => {
     }
   }, [whatsapp, bio, subjects, cost, schedule, addToast])
 
-  console.log({ errors })
-
   return (
     <ScrollView
       contentContainerStyle={styles.screen}
@@ -197,118 +249,182 @@ const GiveClasses: React.FC = () => {
 
       <View style={styles.content}>
         <View style={styles.formContainer}>
-          <Text
-            style={styles.legend}
-            fontFamily='Archivo_700Bold'
-            text='Seus dados'
-          />
+          {fetching ? (
+            <ActivityIndicator
+              style={styles.loading}
+              size={40}
+              color={color.green}
+            />
+          ) : (
+            <>
+              <Text
+                style={styles.legend}
+                fontFamily='Archivo_700Bold'
+                text='Seus dados'
+              />
 
-          <Input
-            label='Whatsapp'
-            value={whatsappFormatted}
-            placeholder='Whatsapp'
-            onChangeText={(text) => {
-              setWhatsappFormatted(formatarTelefone(text))
-            }}
-            returnKeyType='next'
-            keyboardType='number-pad'
-            blurOnSubmit={false}
-            error={errors.whatsapp}
-            maxLength={15}
-            onSubmitEditing={() => {
-              bioRef.current?.focus()
-            }}
-          />
-          <Input
-            label='Bio'
-            style={styles.bioInput}
-            textAlignVertical='top'
-            value={bio}
-            placeholder='Bio'
-            onChangeText={setBio}
-            multiline
-            returnKeyType='next'
-            blurOnSubmit={false}
-            error={errors.bio}
-            onSubmitEditing={() => {
-              costRef.current?.focus()
-            }}
-            ref={bioRef}
-          />
+              <Input
+                label='Whatsapp'
+                value={whatsappFormatted}
+                placeholder='Whatsapp'
+                onChangeText={(text) => {
+                  setWhatsappFormatted(formatarTelefone(text))
+                }}
+                returnKeyType='next'
+                keyboardType='number-pad'
+                blurOnSubmit={false}
+                error={errors.whatsapp}
+                maxLength={15}
+                onSubmitEditing={() => {
+                  bioRef.current?.focus()
+                }}
+              />
+              <Input
+                label='Bio'
+                style={styles.bioInput}
+                textAlignVertical='top'
+                value={bio}
+                placeholder='Bio'
+                onChangeText={setBio}
+                multiline
+                returnKeyType='next'
+                blurOnSubmit={false}
+                error={errors.bio}
+                onSubmitEditing={() => {
+                  costRef.current?.focus()
+                }}
+                ref={bioRef}
+              />
 
-          <Text
-            style={styles.legend}
-            fontFamily='Archivo_700Bold'
-            text='Sobre a aula'
-          />
+              <Text
+                style={styles.legend}
+                fontFamily='Archivo_700Bold'
+                text='Sobre a aula'
+              />
 
-          <MultiSelect
-            label='Matérias'
-            value={subjects}
-            options={subjectsOptions}
-            onChangeValue={setSubjects}
-            placeholder='Selecione as matérias'
-            error={errors.subjects}
-          />
-          <CurrencyInput
-            label='Custo da hora/aula'
-            value={cost}
-            placeholder='Custo da hora/aula'
-            onValueChange={setCost}
-            returnKeyType='next'
-            blurOnSubmit={false}
-            error={errors.cost}
-            ref={costRef}
-          />
+              <MultiSelect
+                label='Matérias'
+                value={subjects}
+                options={subjectsOptions}
+                onChangeValue={setSubjects}
+                placeholder='Selecione as matérias'
+                error={errors.subjects}
+              />
+              <CurrencyInput
+                label='Custo da hora/aula'
+                value={cost}
+                placeholder='Custo da hora/aula'
+                onValueChange={setCost}
+                returnKeyType='next'
+                blurOnSubmit={false}
+                error={errors.cost}
+                ref={costRef}
+              />
 
-          <Text
-            style={styles.legend}
-            fontFamily='Archivo_700Bold'
-            text='Horários disponíveis'
-          />
-          {schedule.map((scheduleItem, index) => {
-            return (
-              <View>
-                <Select
-                  label='Dia da semana'
-                  value={scheduleItem.week_day}
-                  options={weekDaysOptions}
-                  onValueChange={(value) => {
-                    setScheduleItemValue(index, 'week_day', value)
-                  }}
-                  placeholder='Escolha um dia'
-                  returnKeyType='next'
-                  blurOnSubmit={false}
-                  // error={errors.old_password}
-                  // ref={oldPasswordRef}
+              <View style={styles.scheduleTitleContainer}>
+                <Text
+                  style={[styles.legend, styles.scheduleLegend]}
+                  fontFamily='Archivo_700Bold'
+                  text='Horários disponíveis'
                 />
-                <Input
-                  label='Das'
-                  placeholder='Das'
-                  value={scheduleItem.from}
-                  onChangeText={(text) => {
-                    setScheduleItemValue(index, 'from', text)
-                  }}
-                />
-                <Input
-                  label='Até'
-                  placeholder='Até'
-                  value={scheduleItem.to}
-                  onChangeText={(text) => {
-                    setScheduleItemValue(index, 'to', text)
-                  }}
+                <IconButton
+                  style={styles.addScheduleButton}
+                  name='plus'
+                  color={color.white}
+                  size={14}
+                  onPress={addNewScheduleItem}
                 />
               </View>
-            )
-          })}
+              {schedule.map((scheduleItem, index) => {
+                return (
+                  <View
+                    key={`${index}-${Math.random().toString(36).substr(2, 9)}`}
+                  >
+                    <Select
+                      label='Dia da semana'
+                      value={scheduleItem.week_day}
+                      options={weekDaysOptions}
+                      onValueChange={(value) => {
+                        setScheduleItemValue(index, 'week_day', value)
+                      }}
+                      placeholder='Escolha um dia'
+                      returnKeyType='next'
+                      blurOnSubmit={false}
+                    />
+                    <View style={styles.hoursContainer}>
+                      <HourInput
+                        value={scheduleItem.from}
+                        containerStyle={[
+                          styles.hourInputContainer,
+                          { marginRight: 8 }
+                        ]}
+                        label='Das'
+                        placeholder='Hora início'
+                        onChangeHour={(hour) => {
+                          setScheduleItemValue(index, 'from', hour)
+                        }}
+                      />
+                      <HourInput
+                        value={scheduleItem.to}
+                        containerStyle={[
+                          styles.hourInputContainer,
+                          { marginLeft: 8 }
+                        ]}
+                        label='Até'
+                        placeholder='Hora fim'
+                        onChangeHour={(hour) => {
+                          setScheduleItemValue(index, 'to', hour)
+                        }}
+                      />
+                    </View>
 
-          <PrimaryButton
-            text='Salvar cadastro'
-            style={styles.saveButton}
-            enabled={!Object.keys(errors).length && !savingProfile}
-            loading={savingProfile}
-            onPress={handleCreateClass}
-          />
+                    {schedule.length > 1 && (
+                      <TouchableOpacity
+                        style={styles.removeHourButton}
+                        onPress={() => {
+                          handleRemoveScheduleItem(index)
+                        }}
+                      >
+                        <View style={styles.line} />
+                        <Text
+                          style={styles.removeHourText}
+                          text='Excluir horário'
+                        />
+                        <View style={styles.line} />
+                      </TouchableOpacity>
+                    )}
+                  </View>
+                )
+              })}
+
+              <View style={styles.footer}>
+                <PrimaryButton
+                  text='Salvar cadastro'
+                  style={styles.saveButton}
+                  enabled={!Object.keys(errors).length && !saving}
+                  loading={saving}
+                  onPress={handleCreateClass}
+                />
+
+                <View style={styles.attentionContainer}>
+                  <View style={styles.attentionIcon}>
+                    <FontAwesome5
+                      name='exclamation'
+                      size={20}
+                      color={color.purple}
+                    />
+                  </View>
+                  <View>
+                    <Text style={styles.attentionTitle} text='Importante!' />
+                    <Text
+                      style={styles.attentionMessage}
+                      text='Preencha todos os dados'
+                    />
+                  </View>
+                </View>
+              </View>
+            </>
+          )}
         </View>
       </View>
     </ScrollView>

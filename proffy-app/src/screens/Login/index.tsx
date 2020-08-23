@@ -55,8 +55,7 @@ const Login: React.FC = () => {
       setFetching(true)
       await signIn({ email, password, remember })
       setFetching(false)
-    } catch (err) {
-      console.log(err, err.toString(), err.response)
+    } catch {
     } finally {
       setFetching(false)
     }

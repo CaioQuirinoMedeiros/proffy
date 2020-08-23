@@ -80,7 +80,6 @@ const CurrencyInput = forwardRef<TextInput, CurrencyInputProps>(
     }, [validade])
 
     function handleBlur(e: NativeSyntheticEvent<TextInputFocusEventData>) {
-      console.log('Setando dirty!!!')
       setFocused(false)
       setDirty(true)
       if (onBlur) {

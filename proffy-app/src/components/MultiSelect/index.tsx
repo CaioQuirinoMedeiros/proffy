@@ -66,8 +66,6 @@ const MultiSelect: React.FC<InputProps> = (props) => {
       const newValue = value || []
       const activeIndex = newValue.findIndex((item) => item === option.value)
 
-      console.log({ value, option, activeIndex })
-
       if (activeIndex !== -1) {
         onChangeValue(newValue.filter((_, index) => index !== activeIndex))
       } else {
@@ -76,8 +74,6 @@ const MultiSelect: React.FC<InputProps> = (props) => {
     },
     [value]
   )
-
-  // console.log({ activeOptions, value })
 
   return (
     <View style={styles.container}>

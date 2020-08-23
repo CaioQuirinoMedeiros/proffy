@@ -26,7 +26,6 @@ const FavoritesProvider: React.FC = ({ children }) => {
       teacher
     ]
     setFavorites(newFavorites)
-    console.log({ newFavorites })
     await AsyncStorage.setItem('favorites', JSON.stringify(newFavorites))
   }, [favorites])
 

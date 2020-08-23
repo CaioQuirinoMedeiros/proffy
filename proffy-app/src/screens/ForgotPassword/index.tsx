@@ -56,8 +56,7 @@ const ForgotPassword: React.FC = () => {
           }
         }
       })
-    } catch (err) {
-      console.log(err, err.toString(), err.response)
+    } catch {
     } finally {
       setSending(false)
     }

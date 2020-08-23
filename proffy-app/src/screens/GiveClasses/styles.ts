@@ -3,6 +3,39 @@ import { StyleSheet } from 'react-native'
 import { color, spacing } from '../../theme'
 
 const styles = StyleSheet.create({
+  addScheduleButton: {
+    backgroundColor: color.green,
+    width: 24,
+    marginTop: 6,
+    height: 24,
+    borderRadius: 8
+  },
+
+  attentionContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+
+  attentionIcon: {
+    marginRight: spacing[3],
+    padding: spacing[2],
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 40,
+    width: 40,
+    height: 40,
+    borderColor: color.purple,
+    borderWidth: 2
+  },
+
+  attentionMessage: {
+    color: color.textComplement
+  },
+
+  attentionTitle: {
+    color: color.purple
+  },
+
   avatarContainer: {
     borderColor: color.green,
     position: 'relative'
@@ -32,6 +65,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14
   },
 
+  footer: {
+    backgroundColor: color.whiteDark,
+    marginHorizontal: -spacing[4],
+    marginBottom: -spacing[4],
+    padding: spacing[4],
+    borderTopColor: color.lineInWhite,
+    borderTopWidth: 1
+  },
+
   formContainer: {
     flexGrow: 1,
     marginTop: -36,
@@ -39,6 +81,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     borderRadius: 8,
     padding: 24,
+    overflow: 'hidden',
     paddingTop: 0,
     marginBottom: 24
   },
@@ -52,6 +95,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16
   },
 
+  hourInputContainer: {
+    flex: 1
+  },
+
+  hoursContainer: {
+    flexDirection: 'row'
+  },
+
   legend: {
     fontSize: 24,
     lineHeight: 34,
@@ -63,8 +114,47 @@ const styles = StyleSheet.create({
     marginTop: 24
   },
 
+  line: {
+    height: 1,
+    backgroundColor: color.red,
+    flex: 1
+  },
+
+  loading: {
+    marginTop: spacing[6]
+  },
+
+  removeHourButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: spacing[4]
+  },
+
+  removeHourText: {
+    color: color.red,
+    marginHorizontal: spacing[3]
+  },
+
   saveButton: {
-    marginTop: 24
+    marginBottom: spacing[4]
+  },
+
+  scheduleLegend: {
+    borderBottomWidth: 0,
+    paddingBottom: 0,
+    marginBottom: 0,
+    marginTop: 0
+  },
+
+  scheduleTitleContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    marginBottom: 18,
+    marginTop: 24,
+    paddingBottom: 8,
+    borderBottomColor: color.lineInWhite
   },
 
   screen: {

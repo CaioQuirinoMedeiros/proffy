@@ -22,8 +22,6 @@ const Success: React.FC = () => {
     navigation.navigate('landing')
   }, [])
 
-  console.log({ params })
-
   return (
     <View style={styles.container}>
       <ImageBackground
