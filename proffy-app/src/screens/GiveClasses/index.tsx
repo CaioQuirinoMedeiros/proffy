@@ -341,12 +341,6 @@ const GiveClasses: React.FC = () => {
                   !!scheduleItem.to &&
                   !isDateToAfterDateFrom
 
-                console.log({
-                  scheduleItem,
-                  dateFrom,
-                  dateTo,
-                  isDateToAfterDateFrom
-                })
                 return (
                   <View
                     key={`${index}-${Math.random().toString(36).substr(2, 9)}`}
