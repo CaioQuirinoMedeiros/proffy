@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
   texto: {
     color: color.textBase,
     fontSize: 16,
+    flex: 1,
     letterSpacing: -0.26,
     lineHeight: 24
   }

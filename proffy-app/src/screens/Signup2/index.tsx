@@ -116,6 +116,7 @@ const Signup2: React.FC = () => {
             returnKeyType='next'
             keyboardType='email-address'
             textContentType='emailAddress'
+            maxLength={38}
             blurOnSubmit={false}
             autoFocus
             onSubmitEditing={() => {

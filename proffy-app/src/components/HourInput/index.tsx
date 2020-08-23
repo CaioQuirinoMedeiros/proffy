@@ -13,6 +13,7 @@ import styles from './styles'
 export interface DateInputProps {
   value: string
   label?: string
+  error?: string
   labelProps?: TextProps
   placeholder?: string
   onChangeHour: (data: string) => void
@@ -24,6 +25,7 @@ const HourInput: React.FC<DateInputProps> = (props) => {
   const {
     label,
     labelProps,
+    error,
     value,
     placeholder,
     onChangeHour,
@@ -54,7 +56,7 @@ const HourInput: React.FC<DateInputProps> = (props) => {
           style={[styles.label, labelProps?.style]}
         />
       )}
-      <View style={styles.inputContainer}>
+      <View style={[styles.inputContainer, !!error ? styles.inputError : null]}>
         <RectButton
           style={styles.input}
           onPress={() => {

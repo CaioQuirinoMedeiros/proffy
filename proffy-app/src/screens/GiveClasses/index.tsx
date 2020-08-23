@@ -10,6 +10,7 @@ import {
 } from 'react-native'
 import { FontAwesome5 } from '@expo/vector-icons'
 import * as yup from 'yup'
+import { isAfter, parse } from 'date-fns'
 
 import giveClassesBackgroundImage from '../../assets/images/give-classes-background.png'
 
@@ -55,7 +56,25 @@ const classSchema = yup.object().shape({
     .number()
     .required('Informe o custo da sua hora/aula')
     .min(5, 'Coloque um valor acima de R$5,00 na sua hora/aula!'),
-  schedule: yup.array().required('Preenca ao menos um horário disponível')
+  schedule: yup
+    .array()
+    .required('Preenca ao menos um horário disponível')
+    .of(
+      yup.object({
+        week_day: yup
+          .string()
+          .oneOf(weekDaysOptions.map((weekDay) => weekDay.value))
+          .required(),
+        from: yup
+          .string()
+          .matches(/\d\d:\d\d/)
+          .required(),
+        to: yup
+          .string()
+          .matches(/\d\d:\d\d/)
+          .required()
+      })
+    )
 })
 
 const GiveClasses: React.FC = () => {
@@ -263,6 +282,7 @@ const GiveClasses: React.FC = () => {
                 value={bio}
                 placeholder='Bio'
                 onChangeText={setBio}
+                maxLength={400}
                 multiline
                 returnKeyType='next'
                 blurOnSubmit={false}
@@ -292,6 +312,7 @@ const GiveClasses: React.FC = () => {
                 value={cost}
                 placeholder='Custo da hora/aula'
                 onValueChange={setCost}
+                maxLength={8}
                 error={errors.cost}
                 ref={costRef}
               />
@@ -311,6 +332,21 @@ const GiveClasses: React.FC = () => {
                 />
               </View>
               {schedule.map((scheduleItem, index) => {
+                const dateFrom = parse(scheduleItem.from, 'HH:mm', new Date())
+                const dateTo = parse(scheduleItem.to, 'HH:mm', new Date())
+                const isDateToAfterDateFrom = isAfter(dateTo, dateFrom)
+
+                const dateToIsInvalid =
+                  !!scheduleItem.from &&
+                  !!scheduleItem.to &&
+                  !isDateToAfterDateFrom
+
+                console.log({
+                  scheduleItem,
+                  dateFrom,
+                  dateTo,
+                  isDateToAfterDateFrom
+                })
                 return (
                   <View
                     key={`${index}-${Math.random().toString(36).substr(2, 9)}`}
@@ -346,6 +382,7 @@ const GiveClasses: React.FC = () => {
                           { marginLeft: 8 }
                         ]}
                         label='Até'
+                        error={dateToIsInvalid ? 'Horário inválido' : undefined}
                         placeholder='00:00'
                         onChangeHour={(hour) => {
                           setScheduleItemValue(index, 'to', hour)

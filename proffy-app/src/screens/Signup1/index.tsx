@@ -73,8 +73,10 @@ const Signup1: React.FC = () => {
             label='Nome'
             style={styles.nameInput}
             value={firstName}
+            maxLength={18}
             onChangeText={setFirstName}
             returnKeyType='next'
+            textContentType='name'
             blurOnSubmit={false}
             autoCapitalize='words'
             onSubmitEditing={() => {
@@ -85,6 +87,8 @@ const Signup1: React.FC = () => {
             label='Sobrenome'
             style={styles.lastNameInput}
             value={lastName}
+            maxLength={18}
+            textContentType='familyName'
             onChangeText={setLastName}
             blurOnSubmit={false}
             autoCapitalize='words'

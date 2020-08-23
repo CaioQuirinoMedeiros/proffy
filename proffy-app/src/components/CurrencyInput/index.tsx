@@ -35,6 +35,7 @@ const CurrencyInput = forwardRef<TextInput, CurrencyInputProps>(
       max = 9999999.99,
       min = 0,
       autoFocus,
+      maxLength,
       returnKeyType,
       onSubmitEditing,
       onChangeValidity,
@@ -133,7 +134,7 @@ const CurrencyInput = forwardRef<TextInput, CurrencyInputProps>(
           onSubmitEditing={onSubmitEditing}
           blurOnSubmit={blurOnSubmit}
           caretHidden
-          maxLength={9}
+          maxLength={maxLength || 9}
           selection={{ start: valueInput.length, end: valueInput.length }}
           style={styles.input}
           onFocus={handleFocus}

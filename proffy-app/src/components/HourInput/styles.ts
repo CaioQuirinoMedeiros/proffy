@@ -22,6 +22,10 @@ const styles = StyleSheet.create({
     overflow: 'hidden'
   },
 
+  inputError: {
+    borderColor: color.red
+  },
+
   inputText: {
     color: color.textBase
   },
