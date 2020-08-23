@@ -42,7 +42,7 @@ export default class ClassesController {
       .from(Schedule, 'class_schedule')
       .where('class_schedule.class_id = class.id')
 
-    if (week_day) {
+    if (week_day || Number(week_day) === 0) {
       subQuery.andWhere('class_schedule.week_day = :week_day')
     }
     if (time) {
