@@ -4,17 +4,15 @@ import { useNavigation } from '@react-navigation/native'
 
 import Text from '../../components/Text'
 import InputMajor from '../../components/InputMajor'
+import IconButton from '../../components/IconButton'
 import PrimaryButton from '../../components/PrimaryButton'
 import useKeyboard from '../../hooks/custom/useKeyboard'
-import { useAuth } from '../../hooks/auth'
-import IconButton from '../../components/IconButton'
 
 import styles from './styles'
 
 const Signup1: React.FC = () => {
   const navigation = useNavigation()
   const keyboardOpen = useKeyboard()
-  const { signIn } = useAuth()
 
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')

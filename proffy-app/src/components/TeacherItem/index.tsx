@@ -98,7 +98,7 @@ const TeacherItem: React.FC<TeacherItemProps> = (props) => {
   }, [subjects])
 
   return (
-    <View style={styles.screen}>
+    <View style={styles.container}>
       <View style={styles.profile}>
         <AvatarImage user={user} size={64} />
 

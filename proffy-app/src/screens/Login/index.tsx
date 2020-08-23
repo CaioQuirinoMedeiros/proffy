@@ -1,22 +1,18 @@
-import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react'
+import React, { useState, useCallback, useRef, useMemo } from 'react'
 import {
   View,
   Image,
   TouchableOpacity,
   ImageBackground,
   TextInput,
-  ScrollView,
-  Alert
+  ScrollView
 } from 'react-native'
 import { useNavigation, NavigationProp } from '@react-navigation/native'
-
-import Text from '../../components/Text'
 
 import logoImage from '../../assets/images/logo.png'
 import giveClassesBackgroundImage from '../../assets/images/give-classes-background.png'
 
-import styles from './styles'
-import Input from '../../components/Input'
+import Text from '../../components/Text'
 import InputMajor from '../../components/InputMajor'
 import Checkbox from '../../components/Checkbox'
 import PrimaryButton from '../../components/PrimaryButton'
@@ -25,6 +21,8 @@ import { useAuth } from '../../hooks/auth'
 import { AppStackParams } from '../../routes/AppStack'
 import { getAppError } from '../../utils/getAppError'
 import { useToast } from '../../hooks/toast'
+
+import styles from './styles'
 
 const Login: React.FC = () => {
   const navigation = useNavigation<NavigationProp<AppStackParams, 'login'>>()

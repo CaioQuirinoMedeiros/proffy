@@ -1,26 +1,19 @@
-import React, { useCallback } from 'react'
-import { View, ImageBackground, Linking, Image } from 'react-native'
-import { useNavigation, RouteProp, useRoute } from '@react-navigation/native'
+import React from 'react'
+import { View, ImageBackground } from 'react-native'
+import { RouteProp, useRoute } from '@react-navigation/native'
 import { FontAwesome5 } from '@expo/vector-icons'
 
 import Text from '../../components/Text'
 import giveClassesBackgroundImage from '../../assets/images/give-classes-background.png'
-import backIcon from '../../assets/images/icons/back.png'
 
-import styles from './styles'
-import { RectButton, BorderlessButton } from 'react-native-gesture-handler'
-import { AppStackParams } from '../../routes/AppStack'
 import PrimaryButton from '../../components/PrimaryButton'
-import IconButton from '../../components/IconButton'
+import { AppStackParams } from '../../routes/AppStack'
 import { color } from '../../theme'
 
-const Success: React.FC = () => {
-  const navigation = useNavigation()
-  const { params } = useRoute<RouteProp<AppStackParams, 'success'>>()
+import styles from './styles'
 
-  const handleGoBack = useCallback(() => {
-    navigation.navigate('landing')
-  }, [])
+const Success: React.FC = () => {
+  const { params } = useRoute<RouteProp<AppStackParams, 'success'>>()
 
   return (
     <View style={styles.container}>

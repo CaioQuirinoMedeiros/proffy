@@ -3,10 +3,12 @@ import React, {
   useState,
   useContext,
   useCallback,
-  useEffect
+  useEffect,
+  useMemo
 } from 'react'
 import { save, load } from '../utils/storage'
 import { FAVORITE_KEY } from '../constants/favorites'
+import { useAuth } from './auth'
 
 interface TeacherFavorited {
   id: string
@@ -41,6 +43,11 @@ const FavoritesContext = createContext<FavoritesContextData>(
 
 const FavoritesProvider: React.FC = ({ children }) => {
   const [favorites, setFavorites] = useState<TeacherFavorited[]>([])
+  const { user } = useAuth()
+
+  const FAVORITE_USER_KEY = useMemo(() => {
+    return `${FAVORITE_KEY}:${user?.id}`
+  }, [user])
 
   const addFavorite = useCallback(
     async (teacher: TeacherFavorited) => {
@@ -49,9 +56,9 @@ const FavoritesProvider: React.FC = ({ children }) => {
         teacher
       ]
       setFavorites(newFavorites)
-      await save(FAVORITE_KEY, newFavorites)
+      await save(FAVORITE_USER_KEY, newFavorites)
     },
-    [favorites]
+    [favorites, FAVORITE_USER_KEY]
   )
 
   const removeFavorite = useCallback(
@@ -61,19 +68,19 @@ const FavoritesProvider: React.FC = ({ children }) => {
       )
 
       setFavorites(newFavorites)
-      await save(FAVORITE_KEY, newFavorites)
+      await save(FAVORITE_USER_KEY, newFavorites)
     },
-    [favorites]
+    [favorites, FAVORITE_USER_KEY]
   )
 
   useEffect(() => {
     ;(async () => {
-      const favoritesStorage = await load<TeacherFavorited[]>(FAVORITE_KEY)
+      const favoritesStorage = await load<TeacherFavorited[]>(FAVORITE_USER_KEY)
       if (favoritesStorage) {
         setFavorites(favoritesStorage)
       }
     })()
-  }, [])
+  }, [FAVORITE_USER_KEY])
 
   return (
     <FavoritesContext.Provider

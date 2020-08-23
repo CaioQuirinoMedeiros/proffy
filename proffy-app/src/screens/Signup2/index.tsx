@@ -8,16 +8,16 @@ import {
 } from '@react-navigation/native'
 
 import Text from '../../components/Text'
+import IconButton from '../../components/IconButton'
 import InputMajor from '../../components/InputMajor'
 import PrimaryButton from '../../components/PrimaryButton'
 import useKeyboard from '../../hooks/custom/useKeyboard'
 import { useAuth } from '../../hooks/auth'
-import IconButton from '../../components/IconButton'
 import { AppStackParams } from '../../routes/AppStack'
-
-import styles from './styles'
 import { getAppError } from '../../utils/getAppError'
 import { useToast } from '../../hooks/toast'
+
+import styles from './styles'
 
 const Signup2: React.FC = () => {
   const navigation = useNavigation<NavigationProp<AppStackParams>>()

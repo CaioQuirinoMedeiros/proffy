@@ -1,22 +1,19 @@
 import { StyleSheet } from 'react-native'
+
 import { color, spacing } from '../../theme'
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f0f0f7'
-  },
-
   emptyList: {
     borderWidth: 1,
     textAlign: 'center',
-    paddingHorizontal: 32,
-    paddingVertical: 16,
-    color: '#6a6180',
-    backgroundColor: '#fff',
+    paddingHorizontal: spacing[5],
+    paddingVertical: spacing[3],
+    color: color.textBase,
+    backgroundColor: color.white,
     borderRadius: 8,
-    borderColor: '#e6e6f0',
-    alignSelf: 'center'
+    borderColor: color.lineInWhite,
+    alignSelf: 'center',
+    marginBottom: spacing[3]
   },
 
   filterButton: {
@@ -38,8 +35,13 @@ const styles = StyleSheet.create({
     color: color.textInPurpleBase
   },
 
+  screen: {
+    flex: 1,
+    backgroundColor: color.background
+  },
+
   searchForm: {
-    marginBottom: 24
+    marginBottom: spacing[4]
   },
 
   submitButton: {
@@ -51,8 +53,8 @@ const styles = StyleSheet.create({
   },
 
   teacherListContainer: {
-    paddingHorizontal: 16,
-    paddingBottom: 16,
+    paddingHorizontal: spacing[3],
+    paddingBottom: spacing[3],
     flexGrow: 1
   },
 

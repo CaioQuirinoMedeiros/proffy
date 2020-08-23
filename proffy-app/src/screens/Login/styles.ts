@@ -1,12 +1,12 @@
 import { StyleSheet } from 'react-native'
 
-import { color, viewportWidth } from '../../theme'
+import { color, viewportWidth, spacing } from '../../theme'
 
 const styles = StyleSheet.create({
   content: {
     flexGrow: 1,
     justifyContent: 'space-between',
-    padding: 26
+    padding: spacing[4]
   },
 
   contentInner: {
@@ -27,8 +27,8 @@ const styles = StyleSheet.create({
 
   forgotPasswordButton: {
     padding: 8,
-    paddingRight: 24,
-    marginRight: -24
+    paddingRight: spacing[4],
+    marginRight: -spacing[4]
   },
 
   headerTitleWrapper: {
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
   intro: {
     color: color.textInPurpleBase,
     fontSize: 16,
-    marginTop: 8
+    marginTop: spacing[2]
   },
 
   logoImage: {
@@ -72,15 +72,15 @@ const styles = StyleSheet.create({
 
   newAccountButton: {
     padding: 12,
-    paddingRight: 24,
-    marginRight: -24
+    paddingRight: spacing[4],
+    marginRight: -spacing[4]
   },
 
   optionsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 18
+    marginTop: spacing[3]
   },
 
   passwordInput: {

@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 
-import { color, viewportWidth } from '../../theme'
+import { color, viewportWidth, spacing } from '../../theme'
 
 const styles = StyleSheet.create({
   imageBackground: {
@@ -27,11 +27,10 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     justifyContent: 'center',
-    padding: 26
+    padding: spacing[3]
   },
 
   number: {
-    fontFamily: 'Archivo_400Regular',
     fontSize: 40,
     marginBottom: 16,
     opacity: 0.2

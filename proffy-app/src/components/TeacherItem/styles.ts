@@ -31,6 +31,15 @@ const styles = StyleSheet.create({
     marginLeft: 16
   },
 
+  container: {
+    backgroundColor: color.white,
+    borderWidth: 1,
+    borderColor: color.lineInWhite,
+    borderRadius: 8,
+    marginBottom: 16,
+    overflow: 'hidden',
+  },
+
   favoriteButton: {
     backgroundColor: color.purple,
     width: 56,
@@ -117,15 +126,6 @@ const styles = StyleSheet.create({
     marginTop: -5,
     marginBottom: 5,
     color: color.textBase
-  },
-
-  screen: {
-    backgroundColor: color.white,
-    borderWidth: 1,
-    borderColor: color.background,
-    borderRadius: 8,
-    marginBottom: 16,
-    overflow: 'hidden'
   },
 
   subject: {

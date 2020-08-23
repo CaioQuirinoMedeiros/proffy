@@ -1,17 +1,17 @@
-import React, { useState, useCallback, useEffect } from 'react'
-import { View, Image, TouchableOpacity, ImageBackground } from 'react-native'
+import React, { useCallback } from 'react'
+import { View, Image, ImageBackground } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { FontAwesome5 } from '@expo/vector-icons/'
-
-import Text from '../../components/Text'
+import { BorderlessButton } from 'react-native-gesture-handler'
 
 import giveClassesIcon from '../../assets/images/icons/give-classes.png'
 import onboardingImage from '../../assets/images/onboarding.png'
 
-import styles from './styles'
+import Text from '../../components/Text'
 import { color } from '../../theme'
-import { BorderlessButton } from 'react-native-gesture-handler'
 import { useSetup } from '../../hooks/setup'
+
+import styles from './styles'
 
 const Onboarding2: React.FC = () => {
   const navigation = useNavigation()

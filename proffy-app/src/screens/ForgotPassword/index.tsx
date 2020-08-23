@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react'
+import React, { useState, useCallback, useRef, useMemo } from 'react'
 import {
   View,
   Image,
@@ -9,20 +9,17 @@ import {
 import { useNavigation } from '@react-navigation/native'
 import * as yup from 'yup'
 
-import Text from '../../components/Text'
-
 import logoImage from '../../assets/images/logo.png'
 import giveClassesBackgroundImage from '../../assets/images/give-classes-background.png'
 
-import styles from './styles'
-import Input from '../../components/Input'
+import Text from '../../components/Text'
+import IconButton from '../../components/IconButton'
 import InputMajor from '../../components/InputMajor'
-import Checkbox from '../../components/checkbox'
 import PrimaryButton from '../../components/PrimaryButton'
 import useKeyboard from '../../hooks/custom/useKeyboard'
-import { useAuth } from '../../hooks/auth'
-import IconButton from '../../components/IconButton'
 import api from '../../services/api'
+
+import styles from './styles'
 
 const ForgotPassword: React.FC = () => {
   const navigation = useNavigation()

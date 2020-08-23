@@ -1,10 +1,11 @@
 import { StyleSheet } from 'react-native'
-import { color } from '../../theme'
+
+import { color, spacing } from '../../theme'
 
 const styles = StyleSheet.create({
   backButton: {
     paddingHorizontal: 40,
-    paddingVertical: 16,
+    paddingVertical: spacing[3],
     marginLeft: -40,
     alignSelf: 'flex-start'
   },
@@ -17,7 +18,7 @@ const styles = StyleSheet.create({
   },
 
   description: {
-    marginTop: 18,
+    marginTop: spacing[3],
     color: color.textInPurpleBase,
     fontSize: 16,
     lineHeight: 24,
@@ -44,7 +45,7 @@ const styles = StyleSheet.create({
 
   okButton: {
     marginVertical: 40,
-    backgroundColor: '#04d361',
+    backgroundColor: color.green,
     height: 58,
     alignItems: 'center',
     justifyContent: 'center',
@@ -52,11 +53,11 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    color: '#fff',
+    color: color.white,
     fontSize: 32,
     textAlign: 'center',
     lineHeight: 37,
-    maxWidth: 240,
+    maxWidth: 240
   }
 })
 

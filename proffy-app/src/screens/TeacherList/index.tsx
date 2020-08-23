@@ -1,29 +1,22 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { View, LayoutAnimation, ActivityIndicator } from 'react-native'
-import {
-  FlatList,
-  BorderlessButton,
-  RectButton
-} from 'react-native-gesture-handler'
+import { FlatList, BorderlessButton } from 'react-native-gesture-handler'
 import { FontAwesome5 } from '@expo/vector-icons'
 
-import PageHeader from '../../components/PageHeader'
 import Text from '../../components/Text'
-
-import styles from './styles'
+import HourInput from '../../components/HourInput'
 import TeacherItem from '../../components/TeacherItem'
-import api from '../../services/api'
-import { subjectsOptions } from '../../constants/subjects'
-import Input from '../../components/Input'
+import PrimaryButton from '../../components/PrimaryButton'
 import Select from '../../components/Select'
+import { subjectsOptions } from '../../constants/subjects'
 import { weekDaysOptions } from '../../constants/week_days'
 import { useFavorites } from '../../hooks/favorites'
-import { formatarHorario } from '../../utils/formatting'
-import PrimaryButton from '../../components/PrimaryButton'
-import HourInput from '../../components/HourInput'
+import api from '../../services/api'
 import { color } from '../../theme'
 
-interface TeacherClass {
+import styles from './styles'
+
+export interface TeacherClass {
   id: string
   bio: string
   whatsapp: string
@@ -51,6 +44,8 @@ interface ListClassResponse {
 }
 
 interface QueryParams {
+  page?: number
+  limit?: number
   subject?: string
   week_day?: string
   time?: string
@@ -58,7 +53,7 @@ interface QueryParams {
 
 const TeacherList: React.FC = () => {
   const [teachers, setTeachers] = useState<TeacherClass[]>([])
-  const [filtersOpen, setFiltersOpen] = useState(true)
+  const [filtersOpen, setFiltersOpen] = useState(false)
   const [fetching, setFetching] = useState(false)
 
   const { favorites } = useFavorites()
@@ -72,10 +67,12 @@ const TeacherList: React.FC = () => {
 
   const getTeachers = useCallback(
     async (requestPage: number = 1) => {
-      console.log('Chamando teachers', { requestPage })
       try {
         setFetching(true)
-        const query: QueryParams = {}
+        const query: QueryParams = {
+          limit: 6,
+          page: requestPage
+        }
         if (subject) {
           query.subject = subject
         }
@@ -86,12 +83,9 @@ const TeacherList: React.FC = () => {
           query.time = time
         }
 
-        const { data } = await api.get<ListClassResponse>(
-          `/classes?limit=2&page=${requestPage}`,
-          {
-            params: query
-          }
-        )
+        const { data } = await api.get<ListClassResponse>('/classes', {
+          params: query
+        })
 
         setPage(requestPage)
         setPages(data.pages)
@@ -104,8 +98,7 @@ const TeacherList: React.FC = () => {
         if (data.count) {
           closeFilters()
         }
-      } catch (err) {
-        console.log({ err, response: err.response })
+      } catch {
       } finally {
         setFetching(false)
       }
@@ -128,7 +121,7 @@ const TeacherList: React.FC = () => {
   }, [])
 
   return (
-    <View style={styles.container}>
+    <View style={styles.screen}>
       <View style={styles.topContainer}>
         <View style={styles.titleContainer}>
           <Text
@@ -206,16 +199,19 @@ const TeacherList: React.FC = () => {
           fetching ? <ActivityIndicator size={46} color={color.green} /> : null
         }
         onEndReached={() => {
-          console.log('EndReached disparado', { page, pages, fetching })
           if (pages && page < pages && !fetching) {
-            console.log('Chamando endReached', { page, pages, fetching })
             getTeachers(page + 1)
           }
         }}
         ListEmptyComponent={() => (
-          <Text style={styles.emptyList}>
-            Nenhum proffy disponível, tente buscar utilizando o filtro
-          </Text>
+          <Text
+            style={styles.emptyList}
+            text={
+              fetching
+                ? 'Buscando proffys disponíveis'
+                : 'Nenhum proffy disponível, tente buscar utilizando o filtro'
+            }
+          />
         )}
         renderItem={({ item: teacher }) => (
           <TeacherItem

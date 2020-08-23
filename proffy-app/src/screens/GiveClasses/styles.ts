@@ -5,9 +5,9 @@ import { color, spacing } from '../../theme'
 const styles = StyleSheet.create({
   addScheduleButton: {
     backgroundColor: color.green,
-    width: 24,
+    width: spacing[4],
     marginTop: 6,
-    height: 24,
+    height: spacing[4],
     borderRadius: 8
   },
 
@@ -36,33 +36,20 @@ const styles = StyleSheet.create({
     color: color.purple
   },
 
-  avatarContainer: {
-    borderColor: color.green,
-    position: 'relative'
-  },
-
   bioInput: {
     height: 160,
     paddingVertical: spacing[3]
-  },
-
-  cameraIconButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 40,
-    backgroundColor: color.green,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute',
-    bottom: 2,
-    right: 2,
-    zIndex: 99
   },
 
   content: {
     flexGrow: 1,
     justifyContent: 'space-between',
     paddingHorizontal: 14
+  },
+
+  emailInput: {
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0
   },
 
   footer: {
@@ -80,19 +67,14 @@ const styles = StyleSheet.create({
     backgroundColor: color.white,
     elevation: 2,
     borderRadius: 8,
-    padding: 24,
+    padding: spacing[4],
     overflow: 'hidden',
     paddingTop: 0,
-    marginBottom: 24
-  },
-
-  emailInput: {
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0
+    marginBottom: spacing[4]
   },
 
   headerIconButton: {
-    paddingHorizontal: 16
+    paddingHorizontal: spacing[3]
   },
 
   hourInputContainer: {
@@ -111,7 +93,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingBottom: 8,
     borderBottomColor: color.lineInWhite,
-    marginTop: 24
+    marginTop: spacing[4]
   },
 
   line: {
@@ -152,8 +134,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomWidth: 1,
     marginBottom: 18,
-    marginTop: 24,
-    paddingBottom: 8,
+    marginTop: spacing[4],
+    paddingBottom: spacing[2],
     borderBottomColor: color.lineInWhite
   },
 
@@ -183,12 +165,6 @@ const styles = StyleSheet.create({
     paddingTop: 36,
     paddingHorizontal: spacing[4],
     paddingBottom: 72
-  },
-
-  userName: {
-    color: color.white,
-    fontSize: 22,
-    marginTop: 16
   }
 })
 

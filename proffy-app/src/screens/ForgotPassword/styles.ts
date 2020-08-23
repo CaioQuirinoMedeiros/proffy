@@ -1,32 +1,32 @@
 import { StyleSheet } from 'react-native'
 
-import { color, viewportWidth } from '../../theme'
+import { color, viewportWidth, spacing } from '../../theme'
 
 const styles = StyleSheet.create({
   backIconButton: {
-    padding: 24,
+    padding: spacing[4],
     alignSelf: 'flex-start',
-    marginLeft: -24,
-    marginTop: -24
+    marginLeft: -spacing[4],
+    marginTop: -spacing[4]
   },
 
   content: {
     flexGrow: 1,
     justifyContent: 'space-between',
-    padding: 24
+    padding: spacing[4]
   },
 
   contentInner: {
     flexGrow: 1,
     justifyContent: 'space-between',
-    paddingBottom: 24
+    paddingBottom: spacing[4]
   },
 
   heading: {
     fontSize: 24,
     lineHeight: 34,
     color: color.textTitulo,
-    marginBottom: 18
+    marginBottom: spacing[3]
   },
 
   imageBackground: {
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   intro: {
     color: color.textInPurpleBase,
     fontSize: 16,
-    marginTop: 8
+    marginTop: spacing[2]
   },
 
   logoImage: {

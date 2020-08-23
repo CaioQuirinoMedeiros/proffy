@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
 
-import { color } from '../../theme'
+import { color, spacing } from '../../theme'
 
 const styles = StyleSheet.create({
   banner: {
@@ -12,14 +12,14 @@ const styles = StyleSheet.create({
   bottomContainer: {
     backgroundColor: color.background,
     flexGrow: 1,
-    padding: 24
+    padding: spacing[4]
   },
 
   button: {
     height: 150,
     width: '48%',
     borderRadius: 8,
-    padding: 24,
+    padding: spacing[4],
     justifyContent: 'space-between'
   },
 
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
 
   buttonText: {
-    color: '#fff',
+    color: color.white,
     fontSize: 20
   },
 
@@ -46,8 +46,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 24,
-    marginBottom: 12
+    padding: spacing[4],
+    marginBottom: spacing[2]
   },
 
   logoutIconButton: {
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     color: color.textBase,
     fontSize: 20,
     lineHeight: 30,
-    marginTop: 12
+    marginTop: spacing[3]
   },
 
   topContainer: {

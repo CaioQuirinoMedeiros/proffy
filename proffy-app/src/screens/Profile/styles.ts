@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native'
 
-import { color, viewportWidth } from '../../theme'
+import { color, viewportWidth, spacing } from '../../theme'
 
 const styles = StyleSheet.create({
   avatarContainer: {
@@ -17,8 +17,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     position: 'absolute',
     bottom: 2,
-    right: 2,
-    zIndex: 99
+    right: 2
   },
 
   content: {
@@ -33,9 +32,9 @@ const styles = StyleSheet.create({
     backgroundColor: color.white,
     elevation: 2,
     borderRadius: 8,
-    padding: 24,
+    padding: spacing[4],
     paddingTop: 0,
-    marginBottom: 24
+    marginBottom: spacing[4]
   },
 
   emailInput: {
@@ -44,22 +43,22 @@ const styles = StyleSheet.create({
   },
 
   headerIconButton: {
-    paddingHorizontal: 16
+    paddingHorizontal: spacing[3]
   },
 
   legend: {
     fontSize: 24,
     lineHeight: 34,
     color: color.textTitulo,
-    marginBottom: 18,
+    marginBottom: spacing[3],
     borderBottomWidth: 1,
-    paddingBottom: 8,
+    paddingBottom: spacing[2],
     borderBottomColor: color.lineInWhite,
-    marginTop: 24
+    marginTop: spacing[4]
   },
 
   saveButton: {
-    marginTop: 24
+    marginTop: spacing[4]
   },
 
   screen: {
@@ -72,14 +71,14 @@ const styles = StyleSheet.create({
     backgroundColor: color.purple,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 36,
+    paddingTop: spacing[5],
     paddingBottom: 72
   },
 
   userName: {
     color: color.white,
     fontSize: 22,
-    marginTop: 16
+    marginTop: spacing[3]
   }
 })
 

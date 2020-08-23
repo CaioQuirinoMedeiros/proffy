@@ -1,56 +1,23 @@
 import { StyleSheet } from 'react-native'
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#f0f0f7'
-  },
+import { color, spacing } from '../../theme'
 
+const styles = StyleSheet.create({
   emptyList: {
     borderWidth: 1,
     textAlign: 'center',
     paddingHorizontal: 32,
     paddingVertical: 16,
-    color: "#6a6180",
-    backgroundColor: '#fff',
+    color: color.textBase,
+    backgroundColor: color.white,
     borderRadius: 8,
-    borderColor: '#e6e6f0',
+    borderColor: color.lineInWhite,
     alignSelf: 'center'
   },
 
-  filterButton: {
-    padding: 8,
-    marginRight: -8
-  },
-
-  inputGroup: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
-  },
-
-  inputBlock: {
-    width: '48%'
-  },
-
-  searchForm: {
-    marginBottom: 24
-  },
-
-  submitButton: {
-    backgroundColor: '#04d361',
-    height: 56,
-    flexDirection: 'row',
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 8
-  },
-
-  submitButtonText: {
-    color: '#fff',
-    fontFamily: 'Archivo_700Bold',
-    fontSize: 16
+  screen: {
+    flex: 1,
+    backgroundColor: color.background
   },
 
   teacherList: {
@@ -64,11 +31,16 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    color: '#fff',
-    fontFamily: 'Archivo_700Bold',
+    color: color.white,
     fontSize: 32,
     lineHeight: 37,
-    maxWidth: 180
+    marginVertical: spacing[3]
+  },
+
+  topContainer: {
+    backgroundColor: color.purple,
+    padding: spacing[4],
+    paddingBottom: 60
   }
 })
 

@@ -9,33 +9,28 @@ import {
   ActivityIndicator
 } from 'react-native'
 import { FontAwesome5 } from '@expo/vector-icons'
-import { useNavigation, NavigationProp } from '@react-navigation/native'
 import * as yup from 'yup'
-
-import Text from '../../components/Text'
 
 import giveClassesBackgroundImage from '../../assets/images/give-classes-background.png'
 
-import styles from './styles'
+import Text from '../../components/Text'
+import HourInput from '../../components/HourInput'
 import Input from '../../components/Input'
+import MultiSelect from '../../components/MultiSelect'
+import CurrencyInput from '../../components/CurrencyInput'
+import IconButton from '../../components/IconButton'
 import PrimaryButton from '../../components/PrimaryButton'
-import { useAuth } from '../../hooks/auth'
-import { AppStackParams } from '../../routes/AppStack'
-import { color, spacing } from '../../theme'
+import Select from '../../components/Select'
+import { color } from '../../theme'
 import api from '../../services/api'
-import { alert } from '../../utils/alert'
 import { getErrorsObject } from '../../utils/getValidationError'
 import { getAppError } from '../../utils/getAppError'
 import { useToast } from '../../hooks/toast'
-import AvatarImage from '../../components/AvatarImage'
-import Select from '../../components/Select'
 import { subjectsOptions } from '../../constants/subjects'
 import { formatarTelefone } from '../../utils/formatting'
 import { weekDaysOptions } from '../../constants/week_days'
-import MultiSelect from '../../components/MultiSelect'
-import CurrencyInput from '../../components/CurrencyInput'
-import HourInput from '../../components/HourInput'
-import IconButton from '../../components/IconButton'
+
+import styles from './styles'
 
 interface ClassResponse {
   bio: string
@@ -47,15 +42,6 @@ interface ClassResponse {
     from: string
     to: string
   }>
-}
-
-interface UpdateUserData {
-  firstName: string
-  lastName: string
-  email: string
-  old_password?: string
-  password?: string
-  password_confirmation?: string
 }
 
 const classSchema = yup.object().shape({
@@ -72,14 +58,7 @@ const classSchema = yup.object().shape({
   schedule: yup.array().required('Preenca ao menos um horário disponível')
 })
 
-interface ImageDTO {
-  uri: string
-  type?: any
-}
-
 const GiveClasses: React.FC = () => {
-  const navigation = useNavigation<NavigationProp<AppStackParams, 'login'>>()
-  const { user, updateUser } = useAuth()
   const { addToast } = useToast()
 
   const [fetching, setFetching] = useState(true)
@@ -122,8 +101,6 @@ const GiveClasses: React.FC = () => {
       try {
         setFetching(true)
         const { data } = await api.get<ClassResponse>('classes/me')
-
-        console.log({ data })
 
         if (data) {
           setBio(data.bio)
@@ -190,7 +167,7 @@ const GiveClasses: React.FC = () => {
       }
 
       setSchedule((oldSchedule) =>
-        oldSchedule.filter((scheduleItem, index) => index !== scheduleItemIndex)
+        oldSchedule.filter((_, index) => index !== scheduleItemIndex)
       )
     },
     [schedule.length, addToast]

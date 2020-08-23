@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react'
+import React, { useState, useCallback, useRef, useMemo } from 'react'
 import {
   View,
   Image,
@@ -10,26 +10,24 @@ import {
 } from 'react-native'
 import { useActionSheet } from '@expo/react-native-action-sheet'
 import { FontAwesome5 } from '@expo/vector-icons'
-import { useNavigation, NavigationProp } from '@react-navigation/native'
 import * as yup from 'yup'
 import * as ImagePicker from 'expo-image-picker'
 
-import Text from '../../components/Text'
-
 import giveClassesBackgroundImage from '../../assets/images/give-classes-background.png'
 
-import styles from './styles'
+import Text from '../../components/Text'
 import Input from '../../components/Input'
 import PrimaryButton from '../../components/PrimaryButton'
+import AvatarImage from '../../components/AvatarImage'
 import { useAuth } from '../../hooks/auth'
-import { AppStackParams } from '../../routes/AppStack'
 import { color, spacing } from '../../theme'
 import api from '../../services/api'
 import { alert } from '../../utils/alert'
 import { getErrorsObject } from '../../utils/getValidationError'
 import { getAppError } from '../../utils/getAppError'
 import { useToast } from '../../hooks/toast'
-import AvatarImage from '../../components/AvatarImage'
+
+import styles from './styles'
 
 interface UpdateUserData {
   firstName: string
@@ -64,7 +62,6 @@ interface ImageDTO {
 }
 
 const Profile: React.FC = () => {
-  const navigation = useNavigation<NavigationProp<AppStackParams, 'login'>>()
   const { user, updateUser } = useAuth()
   const { addToast } = useToast()
   const { showActionSheetWithOptions } = useActionSheet()
@@ -84,10 +81,6 @@ const Profile: React.FC = () => {
   const oldPasswordRef = useRef<TextInput>(null)
   const passwordRef = useRef<TextInput>(null)
   const passwordConfirmationRef = useRef<TextInput>(null)
-
-  const isLoginFormValid = useMemo(() => {
-    return !!email && !!password
-  }, [email, password])
 
   const errors: { [key: string]: string } = useMemo(() => {
     try {
@@ -136,7 +129,6 @@ const Profile: React.FC = () => {
         updateUser(response.data)
 
         addToast({ type: 'success', message: 'Foto de perfil atualizada!' })
-
       } catch (err) {
         const appError = getAppError(err)
         addToast({ type: 'success', message: appError.message })
@@ -260,8 +252,7 @@ const Profile: React.FC = () => {
           }
         }
       )
-    } catch {
-    }
+    } catch {}
   }, [
     showActionSheetWithOptions,
     handleOpenGallery,

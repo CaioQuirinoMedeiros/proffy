@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native'
 import Constants from 'expo-constants'
 
-import { color, viewportWidth } from '../../theme'
+import { color, spacing } from '../../theme'
 
 const styles = StyleSheet.create({
   backIconButton: {
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   content: {
     flexGrow: 1,
     justifyContent: 'space-between',
-    padding: 26
+    padding: spacing[4]
   },
 
   contentInner: {
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   },
 
   titleContainer: {
-    padding: 24
+    padding: spacing[4]
   },
 
   topContainer: {

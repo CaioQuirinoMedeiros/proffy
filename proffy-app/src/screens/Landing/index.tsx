@@ -4,19 +4,19 @@ import { useNavigation, NavigationProp } from '@react-navigation/native'
 import { RectButton } from 'react-native-gesture-handler'
 import { FontAwesome5 } from '@expo/vector-icons'
 
-import Text from '../../components/Text'
-import landingImage from '../../assets/images/landing.png'
 import studyIcon from '../../assets/images/icons/study.png'
 import giveClassesIcon from '../../assets/images/icons/give-classes.png'
-import heartIcon from '../../assets/images/icons/heart.png'
+import landingImage from '../../assets/images/landing.png'
 
-import styles from './styles'
+import Text from '../../components/Text'
+import IconButton from '../../components/IconButton'
+import AvatarImage from '../../components/AvatarImage'
 import api from '../../services/api'
 import { color } from '../../theme'
 import { useAuth } from '../../hooks/auth'
-import IconButton from '../../components/IconButton'
 import { AppStackParams } from '../../routes/AppStack'
-import AvatarImage from '../../components/AvatarImage'
+
+import styles from './styles'
 
 const Landing: React.FC = () => {
   const navigation = useNavigation<NavigationProp<AppStackParams>>()
