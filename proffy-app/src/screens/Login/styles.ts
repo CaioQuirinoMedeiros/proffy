@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
   },
 
   logoImage: {
-    width: 168,
+    width: 204,
     height: 60,
     borderWidth: 1,
     marginTop: 80

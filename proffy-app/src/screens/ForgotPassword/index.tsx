@@ -9,7 +9,7 @@ import {
 import { useNavigation } from '@react-navigation/native'
 import * as yup from 'yup'
 
-import logoImage from '../../assets/images/logo.png'
+import logoImage from '../../assets/images/proffy-logo.png'
 import giveClassesBackgroundImage from '../../assets/images/give-classes-background.png'
 
 import Text from '../../components/Text'

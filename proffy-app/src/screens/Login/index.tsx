@@ -9,7 +9,7 @@ import {
 } from 'react-native'
 import { useNavigation, NavigationProp } from '@react-navigation/native'
 
-import logoImage from '../../assets/images/logo.png'
+import logoImage from '../../assets/images/proffy-logo.png'
 import giveClassesBackgroundImage from '../../assets/images/give-classes-background.png'
 
 import Text from '../../components/Text'
@@ -79,7 +79,7 @@ const Login: React.FC = () => {
             <Image
               style={styles.logoImage}
               source={logoImage}
-              resizeMode='contain'
+              resizeMode='center'
             />
             <Text
               style={styles.intro}
