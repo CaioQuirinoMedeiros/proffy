@@ -74,7 +74,6 @@ const TeacherList: React.FC = () => {
     [subject, week_day, time]
   )
 
-  console.log({ count })
   useEffect(() => {
     if (page === 1) {
       searchTeachers()
