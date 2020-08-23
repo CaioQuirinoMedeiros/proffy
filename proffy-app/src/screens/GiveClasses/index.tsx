@@ -29,9 +29,9 @@ import { getAppError } from '../../utils/getAppError'
 import { useToast } from '../../hooks/toast'
 import AvatarImage from '../../components/AvatarImage'
 import Select from '../../components/Select'
-import { subjects as subjectsOptions } from '../../constants/subjects'
+import { subjectsOptions } from '../../constants/subjects'
 import { formatarTelefone } from '../../utils/formatting'
-import { week_days as weekDaysOptions } from '../../constants/week_days'
+import { weekDaysOptions } from '../../constants/week_days'
 import MultiSelect from '../../components/MultiSelect'
 import CurrencyInput from '../../components/CurrencyInput'
 import HourInput from '../../components/HourInput'
@@ -315,8 +315,6 @@ const GiveClasses: React.FC = () => {
                 value={cost}
                 placeholder='Custo da hora/aula'
                 onValueChange={setCost}
-                returnKeyType='next'
-                blurOnSubmit={false}
                 error={errors.cost}
                 ref={costRef}
               />
@@ -359,7 +357,7 @@ const GiveClasses: React.FC = () => {
                           { marginRight: 8 }
                         ]}
                         label='Das'
-                        placeholder='Hora início'
+                        placeholder='00:00'
                         onChangeHour={(hour) => {
                           setScheduleItemValue(index, 'from', hour)
                         }}
@@ -371,7 +369,7 @@ const GiveClasses: React.FC = () => {
                           { marginLeft: 8 }
                         ]}
                         label='Até'
-                        placeholder='Hora fim'
+                        placeholder='00:00'
                         onChangeHour={(hour) => {
                           setScheduleItemValue(index, 'to', hour)
                         }}

@@ -1,4 +1,4 @@
-export const week_days = [
+export const weekDaysOptions = [
   { value: '0', label: 'Domingo' },
   { value: '1', label: 'Segunda-feira' },
   { value: '2', label: 'Terça-feira' },
@@ -7,3 +7,7 @@ export const week_days = [
   { value: '5', label: 'Sexta-feira' },
   { value: '6', label: 'Sábado' }
 ]
+
+export const weekDaysMapping = weekDaysOptions.reduce((acc, week_day) => {
+  return { ...acc, [week_day.value]: week_day.label.replace('-feira', '') }
+}, {} as { [key: string]: string })

@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native'
+import { color, spacing } from '../../theme'
 
 const styles = StyleSheet.create({
   container: {
@@ -11,7 +12,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingHorizontal: 32,
     paddingVertical: 16,
-    color: "#6a6180",
+    color: '#6a6180',
     backgroundColor: '#fff',
     borderRadius: 8,
     borderColor: '#e6e6f0',
@@ -33,24 +34,16 @@ const styles = StyleSheet.create({
     width: '48%'
   },
 
+  inputLabel: {
+    color: color.textInPurpleBase
+  },
+
   searchForm: {
     marginBottom: 24
   },
 
   submitButton: {
-    backgroundColor: '#04d361',
-    height: 56,
-    flexDirection: 'row',
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 8
-  },
-
-  submitButtonText: {
-    color: '#fff',
-    fontFamily: 'Archivo_700Bold',
-    fontSize: 16
+    marginTop: spacing[2]
   },
 
   teacherList: {
@@ -64,11 +57,23 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    color: '#fff',
-    fontFamily: 'Archivo_700Bold',
+    color: color.white,
     fontSize: 32,
     lineHeight: 37,
     maxWidth: 180
+  },
+
+  titleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginVertical: spacing[3]
+  },
+
+  topContainer: {
+    backgroundColor: color.purple,
+    padding: spacing[4],
+    paddingBottom: 60
   }
 })
 

@@ -1,19 +1,44 @@
-import React, { useCallback } from 'react'
-import { View, Text, Image, Linking } from 'react-native'
+import React, { useCallback, useMemo } from 'react'
+import { View, Image, Linking, FlatList } from 'react-native'
 import { RectButton } from 'react-native-gesture-handler'
+import { FontAwesome5 } from '@expo/vector-icons'
 
 import heartOutlineIcon from '../../assets/images/icons/heart-outline.png'
 import unfavoriteIcon from '../../assets/images/icons/unfavorite.png'
-import whatsappIcon from '../../assets/images/icons/whatsapp.png'
 
+import Text from '../../components/Text'
 import styles from './styles'
-import { formatarMoeda } from '../../utils/currency'
+import { formatarMoeda } from '../../utils/formatting'
 import { subjectsMapping } from '../../constants/subjects'
 import api from '../../services/api'
 import { useFavorites } from '../../hooks/favorites'
+import AvatarImage from '../AvatarImage'
+import { weekDaysMapping } from '../../constants/week_days'
+import { color } from '../../theme'
 
-interface TeacherItemProps extends Teacher {}
-
+interface TeacherItemProps {
+  favorited?: boolean
+  teacherClass: {
+    id: string
+    bio: string
+    whatsapp: string
+    subjects: string[]
+    cost: string
+    user_id: string
+    user: {
+      fullName: string
+      firstName: string
+      lastName: string
+      avatar_url: string
+    }
+    schedules: Array<{
+      id: string
+      week_day: number
+      from: string
+      to: string
+    }>
+  }
+}
 interface WhatsappMessageProps {
   name: string
   whatsapp: string
@@ -33,22 +58,22 @@ const getWhatsappMessage = ({ name, whatsapp }: WhatsappMessageProps) => {
 }
 
 const TeacherItem: React.FC<TeacherItemProps> = (props) => {
+  const { favorited, teacherClass } = props
   const {
     id,
-    name,
-    subject,
+    user,
+    subjects,
     bio,
     whatsapp,
     cost,
-    avatar,
-    favorited,
-    user_id
-  } = props
+    user_id,
+    schedules
+  } = teacherClass
 
   const { addFavorite, removeFavorite } = useFavorites()
 
   const handleContactWhatsapp = useCallback(async () => {
-    const whatsappUrl = getWhatsappMessage({ name, whatsapp })
+    const whatsappUrl = getWhatsappMessage({ name: user.fullName, whatsapp })
 
     const canOpenWhatsapp = await Linking.canOpenURL(whatsappUrl)
 
@@ -58,34 +83,68 @@ const TeacherItem: React.FC<TeacherItemProps> = (props) => {
         api.post('/connections', { user_id })
       } catch {}
     }
-  }, [name, whatsapp, user_id])
+  }, [user, whatsapp, user_id])
 
   const handleFavorite = useCallback(() => {
     if (favorited) {
       removeFavorite(id)
     } else {
-      addFavorite(props)
+      addFavorite(teacherClass)
     }
   }, [props])
 
+  const subjectsString = useMemo(() => {
+    return subjects.map((subject) => subjectsMapping[subject]).join(', ')
+  }, [subjects])
+
   return (
-    <View style={styles.container}>
+    <View style={styles.screen}>
       <View style={styles.profile}>
-        <Image style={styles.avatar} source={{ uri: avatar }} />
+        <AvatarImage user={user} size={64} />
 
         <View style={styles.profileInfo}>
-          <Text style={styles.name}>{name}</Text>
-          <Text style={styles.subject}>{subjectsMapping[subject]}</Text>
+          <Text style={styles.name} fontFamily="Archivo_700Bold" text={user.fullName} />
+          <Text style={styles.subject} text={subjectsString} />
         </View>
       </View>
 
-      <Text style={styles.bio}>{bio}</Text>
+      <Text style={styles.bio} text={bio} />
+
+      <FlatList
+        data={schedules}
+        horizontal
+        style={styles.schedulesList}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.schedulesContainer}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item: scheduleItem }) => {
+          const horarioInicio = scheduleItem.from.slice(0, 5)
+          const horarioFim = scheduleItem.to.slice(0, 5)
+
+          return (
+            <View style={styles.scheduleCard}>
+              <Text style={styles.scheduleLabel} text='Dia' />
+              <Text
+                style={styles.scheduleValue}
+                fontFamily='Archivo_700Bold'
+                text={weekDaysMapping[scheduleItem.week_day]}
+              />
+              <Text style={styles.scheduleLabel} text='Horário' />
+              <Text
+                style={styles.scheduleValue}
+                fontFamily='Archivo_700Bold'
+                text={`${horarioInicio} - ${horarioFim}`}
+              />
+            </View>
+          )
+        }}
+      />
 
       <View style={styles.footer}>
-        <Text style={styles.price}>
-          Preço/hora{'   '}
-          <Text style={styles.priceValue}>{formatarMoeda(cost)}</Text>
-        </Text>
+        <View style={styles.priceContainer}>
+          <Text style={styles.price} text='Preço da minha hora:' />
+          <Text style={styles.priceValue} fontFamily="Archivo_700Bold" text={formatarMoeda(Number(cost))} />
+        </View>
 
         <View style={styles.buttonsContainer}>
           <RectButton
@@ -101,8 +160,8 @@ const TeacherItem: React.FC<TeacherItemProps> = (props) => {
             style={styles.contactButton}
             onPress={handleContactWhatsapp}
           >
-            <Image source={whatsappIcon} />
-            <Text style={styles.contactButtonText}>Entrar em contato</Text>
+            <FontAwesome5 name='whatsapp' color={color.white} size={22} />
+            <Text style={styles.contactButtonText} fontFamily="Archivo_700Bold" text='Entrar em contato' />
           </RectButton>
         </View>
       </View>

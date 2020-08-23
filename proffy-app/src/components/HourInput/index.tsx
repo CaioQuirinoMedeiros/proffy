@@ -6,13 +6,14 @@ import { format, parse } from 'date-fns'
 import DateTimePicker, { Event } from '@react-native-community/datetimepicker'
 
 import { color } from '../../theme'
-import Text from '../Text'
+import Text, { TextProps } from '../Text'
 
 import styles from './styles'
 
 export interface DateInputProps {
   value: string
   label?: string
+  labelProps?: TextProps
   placeholder?: string
   onChangeHour: (data: string) => void
   containerProps?: ViewProps
@@ -22,6 +23,7 @@ export interface DateInputProps {
 const HourInput: React.FC<DateInputProps> = (props) => {
   const {
     label,
+    labelProps,
     value,
     placeholder,
     onChangeHour,
@@ -45,7 +47,13 @@ const HourInput: React.FC<DateInputProps> = (props) => {
 
   return (
     <View {...containerProps} style={[styles.container, containerStyle]}>
-      {!!label && <Text style={styles.label} text={label} />}
+      {!!label && (
+        <Text
+          text={label}
+          {...labelProps}
+          style={[styles.label, labelProps?.style]}
+        />
+      )}
       <View style={styles.inputContainer}>
         <RectButton
           style={styles.input}

@@ -3,7 +3,7 @@ import { Text as RNText, TextProps as RNTextProps } from 'react-native'
 
 import styles from './styles'
 
-interface TextProps extends RNTextProps {
+export interface TextProps extends RNTextProps {
   text?: ReactNode
   fontFamily?:
     | 'Archivo_400Regular'

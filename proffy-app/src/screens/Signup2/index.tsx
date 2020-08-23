@@ -16,6 +16,8 @@ import IconButton from '../../components/IconButton'
 import { AppStackParams } from '../../routes/AppStack'
 
 import styles from './styles'
+import { getAppError } from '../../utils/getAppError'
+import { useToast } from '../../hooks/toast'
 
 const Signup2: React.FC = () => {
   const navigation = useNavigation<NavigationProp<AppStackParams>>()
@@ -23,9 +25,11 @@ const Signup2: React.FC = () => {
   const keyboardOpen = useKeyboard({ initialOpen: true })
 
   const { signUp } = useAuth()
+  const { addToast } = useToast()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [registering, setRegistering] = useState(false)
 
   const passwordRef = useRef<TextInput>(null)
 
@@ -37,12 +41,14 @@ const Signup2: React.FC = () => {
     if (!isLoginFormValid) return
 
     try {
-      // await signUp({
-      //   firstName: params?.firstName,
-      //   lastName: params?.lastName,
-      //   email,
-      //   password
-      // })
+      setRegistering(true)
+      await signUp({
+        firstName: params?.firstName,
+        lastName: params?.lastName,
+        email,
+        password
+      })
+      setRegistering(false)
 
       navigation.navigate('success', {
         title: 'Cadastro concluído!',
@@ -54,7 +60,12 @@ const Signup2: React.FC = () => {
           }
         }
       })
-    } catch {}
+    } catch (err) {
+      const appError = getAppError(err)
+      addToast({ type: 'error', message: appError.message })
+    } finally {
+      setRegistering(false)
+    }
   }, [isLoginFormValid, params, navigation, email, password])
 
   return (
@@ -126,7 +137,8 @@ const Signup2: React.FC = () => {
 
         <PrimaryButton
           text='Concluir cadastro'
-          enabled={isLoginFormValid}
+          enabled={isLoginFormValid && !registering}
+          loading={registering}
           onPress={handleSignup}
         />
       </View>

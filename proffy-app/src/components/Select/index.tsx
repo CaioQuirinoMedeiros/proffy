@@ -9,13 +9,14 @@ import Modal from 'react-native-modal'
 import { RectButton } from 'react-native-gesture-handler'
 import { FontAwesome5 } from '@expo/vector-icons'
 
-import Text from '../Text'
+import Text, { TextProps } from '../Text'
 
 import styles from './styles'
 import { color } from '../../theme'
 
 interface InputProps extends TextInputProps {
   label: string
+  labelProps?: TextProps
   value: any
   onValueChange(value: any): void
   options: Array<{
@@ -29,7 +30,16 @@ export const { width: viewportWidth, height: viewportHeight } = Dimensions.get(
 )
 
 const Select: React.FC<InputProps> = (props) => {
-  const { label, value, onValueChange, options, placeholder, ...rest } = props
+  const {
+    style,
+    label,
+    labelProps,
+    value,
+    onValueChange,
+    options,
+    placeholder,
+    ...rest
+  } = props
 
   const [optionsOpen, setOptionsOpen] = useState(false)
 
@@ -43,18 +53,21 @@ const Select: React.FC<InputProps> = (props) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label} text={label} />
-      <View style={styles.inputContainer}>
+      {!!label && (
+        <Text
+          text={label}
+          {...labelProps}
+          style={[styles.label, labelProps?.style]}
+        />
+      )}
+      <View style={[styles.inputContainer, style]}>
         <RectButton
           style={styles.input}
           onPress={() => {
             setOptionsOpen(true)
           }}
         >
-          <Text
-            style={[styles.inputText, !value ? styles.placeholder : null]}
-            {...rest}
-          >
+          <Text style={[styles.inputText, !value ? styles.placeholder : null]}>
             {activeOption?.label || placeholder}
           </Text>
           <FontAwesome5 name='chevron-down' color={color.textComplement} />

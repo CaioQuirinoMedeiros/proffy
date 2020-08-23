@@ -1,6 +1,5 @@
 import React, { forwardRef, useState, useMemo } from 'react'
 import {
-  Text,
   View,
   TextInputProps,
   TextInput,
@@ -8,10 +7,15 @@ import {
   ViewStyle,
   NativeSyntheticEvent,
   TextInputFocusEventData,
+  TouchableOpacity,
   LayoutAnimation
 } from 'react-native'
+import { FontAwesome5 } from '@expo/vector-icons'
+
+import Text from '../../components/Text'
 
 import styles from './styles'
+import { color } from '../../theme'
 
 interface MajorInputProps extends TextInputProps {
   label: string
@@ -27,11 +31,13 @@ const InputMajor = forwardRef<TextInput, MajorInputProps>((props, ref) => {
     containerStyle,
     onFocus,
     onBlur,
+    secureTextEntry,
     value,
     ...rest
   } = props
 
   const [focused, setFocused] = useState(false)
+  const [secure, setSecure] = useState(secureTextEntry)
 
   const labelUp = useMemo(() => {
     return focused || value?.length
@@ -60,17 +66,34 @@ const InputMajor = forwardRef<TextInput, MajorInputProps>((props, ref) => {
     >
       <TextInput
         style={[styles.input, style]}
-        placeholderTextColor='#c1bccc'
+        placeholderTextColor={color.textInput}
         onFocus={handleFocus}
         onBlur={handleBlur}
         value={value}
+        secureTextEntry={secure}
         {...rest}
         ref={ref}
         placeholder={undefined}
       />
-      <Text style={[styles.label, labelUp ? styles.labelFocused : undefined]}>
-        {label}
-      </Text>
+      <Text
+        style={[styles.label, labelUp ? styles.labelFocused : undefined]}
+        text={label}
+      />
+
+      {!!secureTextEntry && (
+        <TouchableOpacity
+          style={styles.secureIconButton}
+          onPress={() => {
+            setSecure(!secure)
+          }}
+        >
+          <FontAwesome5
+            name={secure ? 'eye' : 'eye-slash'}
+            size={18}
+            color={color.textComplement}
+          />
+        </TouchableOpacity>
+      )}
     </View>
   )
 })

@@ -35,7 +35,7 @@ const AvatarImage: React.FC<AvatarImageProps> = (props) => {
       ) : (
         <View style={[styles.avatarPlaceholder, { width: size, height: size }]}>
           <Text
-            style={styles.avatarPlaceholderText}
+            style={[styles.avatarPlaceholderText, { fontSize: size / 4 }]}
             text={`${user?.firstName[0]?.toUpperCase()}${user?.lastName[0]?.toUpperCase()}`}
           />
         </View>

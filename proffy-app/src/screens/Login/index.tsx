@@ -23,11 +23,14 @@ import PrimaryButton from '../../components/PrimaryButton'
 import useKeyboard from '../../hooks/custom/useKeyboard'
 import { useAuth } from '../../hooks/auth'
 import { AppStackParams } from '../../routes/AppStack'
+import { getAppError } from '../../utils/getAppError'
+import { useToast } from '../../hooks/toast'
 
 const Login: React.FC = () => {
   const navigation = useNavigation<NavigationProp<AppStackParams, 'login'>>()
   const keyboardOpen = useKeyboard()
   const { signIn } = useAuth()
+  const { addToast } = useToast()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -55,7 +58,9 @@ const Login: React.FC = () => {
       setFetching(true)
       await signIn({ email, password, remember })
       setFetching(false)
-    } catch {
+    } catch (err) {
+      const appError = getAppError(err)
+      addToast({ type: 'error', message: appError.message })
     } finally {
       setFetching(false)
     }
@@ -124,6 +129,7 @@ const Login: React.FC = () => {
             onChangeText={setPassword}
             secureTextEntry
             textContentType='password'
+            returnKeyType='send'
             autoCapitalize='none'
             onSubmitEditing={handleLogin}
             ref={passwordRef}

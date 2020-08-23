@@ -1,15 +1,14 @@
 import { StyleSheet } from 'react-native'
-import { color } from '../../theme'
+import { color, spacing } from '../../theme'
 
 const styles = StyleSheet.create({
   container: {
-    position: 'relative',
+    position: 'relative'
   },
 
   label: {
     color: color.textComplement,
     opacity: 0.75,
-    fontFamily: 'Poppins_400Regular',
     fontSize: 14,
     position: 'absolute',
     top: 22,
@@ -33,7 +32,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 18,
     paddingTop: 16,
-    color: '#6a6180'
+    color: color.textBase
+  },
+
+  secureIconButton: {
+    height: 64,
+    width: 40,
+    position: 'absolute',
+    right: 0,
+    justifyContent: 'center',
+    paddingRight: spacing[3],
+    bottom: 0
   }
 })
 

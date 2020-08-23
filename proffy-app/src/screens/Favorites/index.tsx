@@ -1,16 +1,28 @@
-import React from 'react'
-import { View, Text } from 'react-native'
+import React, { useEffect } from 'react'
+import { View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import { FontAwesome5 } from '@expo/vector-icons'
 
 import PageHeader from '../../components/PageHeader'
+import Text from '../../components/Text'
 
 import styles from './styles'
 import TeacherItem from '../../components/TeacherItem'
 import { useFavorites } from '../../hooks/favorites'
+import { remove } from '../../utils/storage'
+import { FAVORITE_KEY } from '../../constants/favorites'
 
 const Favorites: React.FC = () => {
   const { favorites } = useFavorites()
+
+  console.log('favorites', favorites)
+
+  useEffect(() => {
+    const clear = async () => {
+      await remove(FAVORITE_KEY)
+    }
+    clear()
+  }, [])
 
   return (
     <View style={styles.container}>
@@ -29,12 +41,13 @@ const Favorites: React.FC = () => {
           </Text>
         )}
         renderItem={({ item: teacher }) => (
-          <TeacherItem
-            {...teacher}
-            favorited={favorites
-              .map((favorite) => favorite.id)
-              .includes(teacher.id)}
-          />
+          <Text text='Opa' />
+          // <TeacherItem
+          //   teacherClass={teacher}
+          //   favorited={favorites
+          //     .map((favorite) => favorite.id)
+          //     .includes(teacher.id)}
+          // />
         )}
       />
     </View>

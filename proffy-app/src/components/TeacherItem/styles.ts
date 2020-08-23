@@ -1,19 +1,13 @@
 import { StyleSheet } from 'react-native'
+import { color, spacing } from '../../theme'
 
 const styles = StyleSheet.create({
-  avatar: {
-    width: 64,
-    height: 64,
-    borderRadius: 64,
-    backgroundColor: '#fff'
-  },
-
   bio: {
     marginHorizontal: 24,
-    fontFamily: 'Poppins_400Regular',
     fontSize: 15,
     lineHeight: 26,
-    color: '#6a6180'
+    textAlign: 'justify',
+    color: color.textBase
   },
 
   buttonsContainer: {
@@ -22,34 +16,23 @@ const styles = StyleSheet.create({
   },
 
   contactButton: {
-    backgroundColor: '#04d361',
+    backgroundColor: color.green,
     height: 56,
     flex: 1,
     flexDirection: 'row',
     borderRadius: 8,
     justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 8
+    alignItems: 'center'
   },
 
   contactButtonText: {
-    color: '#fff',
-    fontFamily: 'Archivo_700Bold',
+    color: color.white,
     fontSize: 16,
     marginLeft: 16
   },
 
-  container: {
-    backgroundColor: '#fff',
-    borderWidth: 1,
-    borderColor: '#e6e6f0',
-    borderRadius: 8,
-    marginBottom: 16,
-    overflow: 'hidden'
-  },
-
   favoriteButton: {
-    backgroundColor: '#8257e5',
+    backgroundColor: color.purple,
     width: 56,
     height: 56,
     borderRadius: 8,
@@ -59,31 +42,35 @@ const styles = StyleSheet.create({
   },
 
   favorited: {
-    backgroundColor: '#e33d3d'
+    backgroundColor: color.red
   },
 
   footer: {
-    backgroundColor: '#fafafc',
-    padding: 24,
-    alignItems: 'center',
-    marginTop: 24
+    backgroundColor: color.whiteDark,
+    borderTopWidth: 1,
+    borderColor: color.lineInWhite,
+    padding: spacing[4],
+    marginTop: spacing[3]
   },
 
   name: {
-    fontFamily: 'Archivo_700Bold',
     color: '#32264d',
     fontSize: 20
   },
 
   price: {
-    fontFamily: 'Poppins_400Regular',
-    color: '#6a6180',
+    color: color.textBase,
     fontSize: 14
   },
 
+  priceContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+
   priceValue: {
-    fontFamily: 'Archivo_700Bold',
-    color: '#8257e5',
+    color: color.purple,
     fontSize: 16
   },
 
@@ -94,11 +81,54 @@ const styles = StyleSheet.create({
   },
 
   profileInfo: {
-    marginLeft: 16
+    marginLeft: 16,
+    flex: 1
+  },
+
+  schedulesList: {
+    borderTopWidth: 1,
+    marginTop: spacing[3],
+    borderTopColor: color.lineInWhite
+  },
+
+  schedulesContainer: {
+    paddingHorizontal: spacing[4] - spacing[2] / 2,
+    paddingTop: spacing[3],
+    flexGrow: 1
+  },
+
+  scheduleCard: {
+    borderWidth: 1,
+    borderColor: color.lineInWhite,
+    borderRadius: 8,
+    marginHorizontal: spacing[2] / 2,
+    padding: spacing[3],
+    width: 130,
+    backgroundColor: color.whiteDark
+  },
+
+  scheduleLabel: {
+    fontSize: 12,
+    color: color.textComplement
+  },
+
+  scheduleValue: {
+    fontSize: 16,
+    marginTop: -5,
+    marginBottom: 5,
+    color: color.textBase
+  },
+
+  screen: {
+    backgroundColor: color.white,
+    borderWidth: 1,
+    borderColor: color.background,
+    borderRadius: 8,
+    marginBottom: 16,
+    overflow: 'hidden'
   },
 
   subject: {
-    fontFamily: 'Poppins_400Regular',
     fontSize: 12,
     marginTop: 4,
     color: '#6a6180'

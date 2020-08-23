@@ -11,7 +11,7 @@ import {
   TouchableOpacity
 } from 'react-native'
 
-import Text from '../Text'
+import Text, { TextProps } from '../Text'
 
 import styles from './styles'
 import IconButton from '../IconButton'
@@ -19,6 +19,7 @@ import { color } from '../../theme'
 
 export interface InputProps extends TextInputProps {
   label: string
+  labelProps?: TextProps
   error?: string
   containerProps?: ViewProps
   containerStyle?: ViewStyle
@@ -27,6 +28,7 @@ export interface InputProps extends TextInputProps {
 const Input = forwardRef<TextInput, InputProps>((props, ref) => {
   const {
     label,
+    labelProps,
     style,
     onBlur,
     secureTextEntry,
@@ -59,10 +61,17 @@ const Input = forwardRef<TextInput, InputProps>((props, ref) => {
 
   return (
     <View style={[styles.container, containerStyle]} {...containerProps}>
-      <Text
-        style={[styles.label, focused ? styles.labelFocused : null]}
-        text={label}
-      />
+      {!!label && (
+        <Text
+          text={label}
+          {...labelProps}
+          style={[
+            styles.label,
+            focused ? styles.labelFocused : null,
+            labelProps?.style
+          ]}
+        />
+      )}
       <TextInput
         placeholderTextColor={color.textInput}
         {...rest}

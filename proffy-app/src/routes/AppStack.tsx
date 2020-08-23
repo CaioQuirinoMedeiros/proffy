@@ -91,14 +91,21 @@ const AppStack: React.FC = () => {
               title: 'Dar aulas'
             }}
           />
-          <Screen name='study' component={StudyTabs} />
+          <Screen
+            name='study'
+            component={StudyTabs}
+            options={{
+              headerShown: true,
+              title: 'Estudar'
+            }}
+          />
           <Screen
             name='profile'
             component={Profile}
-            options={({ navigation }) => ({
+            options={{
               headerShown: true,
               title: 'Meu perfil'
-            })}
+            }}
           />
         </>
       ) : (
