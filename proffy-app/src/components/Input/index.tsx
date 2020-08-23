@@ -17,7 +17,7 @@ import styles from './styles'
 import IconButton from '../IconButton'
 import { color } from '../../theme'
 
-interface InputProps extends TextInputProps {
+export interface InputProps extends TextInputProps {
   label: string
   error?: string
   containerProps?: ViewProps
@@ -57,6 +57,8 @@ const Input = forwardRef<TextInput, InputProps>((props, ref) => {
     }
   }
 
+  console.log(error, dirty, style)
+
   return (
     <View style={[styles.container, containerStyle]} {...containerProps}>
       <Text
@@ -64,7 +66,7 @@ const Input = forwardRef<TextInput, InputProps>((props, ref) => {
         text={label}
       />
       <TextInput
-        placeholderTextColor='#c1bccc'
+        placeholderTextColor={color.textInput}
         {...rest}
         onFocus={handleFocus}
         secureTextEntry={secure}

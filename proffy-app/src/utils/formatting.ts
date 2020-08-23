@@ -1,3 +1,5 @@
+import i18n from 'i18n-js'
+
 interface Options {
   mask: string
   prefix?: string
@@ -47,7 +49,11 @@ export const formatarHorario = (value: number | string) => {
     if (maskChar === '#') {
       if (valueIndex === 0 && Number(stringValue[valueIndex]) > 2) {
       } else if (valueIndex === 2 && Number(stringValue[valueIndex]) >= 6) {
-      } else if (valueIndex === 1 && Number(stringValue[0]) > 1 && Number(stringValue[valueIndex]) >= 4) {
+      } else if (
+        valueIndex === 1 &&
+        Number(stringValue[0]) > 1 &&
+        Number(stringValue[valueIndex]) >= 4
+      ) {
       } else {
         masked = masked + stringValue[valueIndex]
       }
@@ -61,11 +67,20 @@ export const formatarHorario = (value: number | string) => {
 }
 
 export const formatarTelefone = (text: string | number) => {
-  if (!text) return ""
+  if (!text) return ''
 
-  let rawValue = `${text}`.replace(/\D+/g, "")
+  let rawValue = `${text}`.replace(/\D+/g, '')
 
-  const mask = rawValue.length === 10 ? "(##) ####-####" : "(##) #####-####"
+  const mask = rawValue.length === 10 ? '(##) ####-####' : '(##) #####-####'
 
   return formatar(rawValue, { mask })
+}
+
+export const formatarMoeda = (number: number) => {
+  return i18n.toCurrency(number, {
+    unit: 'R$ ',
+    precision: 2,
+    delimiter: '.',
+    separator: ','
+  })
 }

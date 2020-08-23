@@ -33,6 +33,7 @@ import { subjects as subjectsOptions } from '../../constants/subjects'
 import { formatarTelefone } from '../../utils/formatting'
 import { week_days as weekDaysOptions } from '../../constants/week_days'
 import MultiSelect from '../../components/MultiSelect'
+import CurrencyInput from '../../components/CurrencyInput'
 
 interface UpdateUserData {
   firstName: string
@@ -68,10 +69,10 @@ const GiveClasses: React.FC = () => {
   const { addToast } = useToast()
 
   const [saving, setSaving] = useState(false)
-  const [whatsapp, setWhatsapp] = useState('')
+  const [whatsappFormatted, setWhatsappFormatted] = useState('')
   const [bio, setBio] = useState('')
   const [subjects, setSubjects] = useState<string[] | null>(null)
-  const [cost, setCost] = useState('')
+  const [cost, setCost] = useState(0)
   const [schedule, setSchedule] = useState([{ week_day: '', from: '', to: '' }])
 
   const [updatingAvatar, setUpdatingAvatar] = useState(false)
@@ -79,6 +80,10 @@ const GiveClasses: React.FC = () => {
 
   const bioRef = useRef<TextInput>(null)
   const costRef = useRef<TextInput>(null)
+
+  const whatsapp = useMemo(() => {
+    return whatsappFormatted.replace(/\D+/g, '')
+  }, [whatsappFormatted])
 
   const errors: { [key: string]: string } = useMemo(() => {
     try {
@@ -144,7 +149,13 @@ const GiveClasses: React.FC = () => {
         { whatsapp, bio, subjects, cost, schedule },
         { abortEarly: false }
       )
-      await api.post('/classes', { whatsapp, bio, subjects, cost, schedule })
+      await api.post('/classes', {
+        whatsapp,
+        bio,
+        subjects,
+        cost,
+        schedule
+      })
       setSaving(false)
 
       addToast({
@@ -194,10 +205,10 @@ const GiveClasses: React.FC = () => {
 
           <Input
             label='Whatsapp'
-            value={whatsapp}
+            value={whatsappFormatted}
             placeholder='Whatsapp'
             onChangeText={(text) => {
-              setWhatsapp(formatarTelefone(text))
+              setWhatsappFormatted(formatarTelefone(text))
             }}
             returnKeyType='next'
             keyboardType='number-pad'
@@ -239,14 +250,14 @@ const GiveClasses: React.FC = () => {
             placeholder='Selecione as matérias'
             error={errors.subjects}
           />
-          <Input
+          <CurrencyInput
             label='Custo da hora/aula'
-            value={'cost'}
+            value={cost}
             placeholder='Custo da hora/aula'
-            onChangeText={setCost}
+            onValueChange={setCost}
             returnKeyType='next'
             blurOnSubmit={false}
-            error={errors.password}
+            error={errors.cost}
             ref={costRef}
           />
 
