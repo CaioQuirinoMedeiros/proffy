@@ -64,15 +64,15 @@ const classSchema = yup.object().shape({
         week_day: yup
           .string()
           .oneOf(weekDaysOptions.map((weekDay) => weekDay.value))
-          .required(),
+          .required('Preencha os horários corretamente'),
         from: yup
           .string()
-          .matches(/\d\d:\d\d/)
-          .required(),
+          .matches(/\d\d:\d\d/, 'O horário deve ser no formato 00:00')
+          .required('Preencha os horários corretamente'),
         to: yup
           .string()
-          .matches(/\d\d:\d\d/)
-          .required()
+          .matches(/\d\d:\d\d/, 'O horário deve ser no formato 00:00')
+          .required('Preencha os horários corretamente')
       })
     )
 })

@@ -46,7 +46,25 @@ const classFormSchema = yup.object().shape({
     .number()
     .required('Informe o custo da sua hora/aula')
     .min(5, 'Coloque um valor acima de R$5,00 na sua hora/aula!'),
-  schedule: yup.array().required('Preenca ao menos um horário disponível')
+  schedule: yup
+    .array()
+    .required('Preenca ao menos um horário disponível')
+    .of(
+      yup.object({
+        week_day: yup
+          .string()
+          .oneOf(weekDaysOptions.map((weekDay) => weekDay.value))
+          .required('Preencha os horários corretamente'),
+        from: yup
+          .string()
+          .matches(/\d\d:\d\d/, 'O horário deve ser no formato 00:00')
+          .required('Preencha os horários corretamente'),
+        to: yup
+          .string()
+          .matches(/\d\d:\d\d/, 'O horário deve ser no formato 00:00')
+          .required('Preencha os horários corretamente')
+      })
+    )
 })
 
 const TeacherForm: React.FC = () => {
