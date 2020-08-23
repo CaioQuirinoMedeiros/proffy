@@ -22,6 +22,7 @@ export const color = {
   green: '#04D361',
   white: '#ffffff',
   whiteDark: "#FAFAFC",
+  grey: "#cdcdcd",
   lineInWhite: '#E6E6F0',
   disabled: '#DCDCE5',
   red: '#E83F5B'

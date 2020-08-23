@@ -6,6 +6,10 @@ const styles = StyleSheet.create({
     marginBottom: spacing[3]
   },
 
+  error: {
+    borderColor: color.red
+  },
+
   gripIndicator: {
     height: 6,
     borderRadius: 8,
@@ -19,7 +23,7 @@ const styles = StyleSheet.create({
   input: {
     height: 54,
     backgroundColor: color.whiteDark,
-    paddingHorizontal: 16,
+    paddingHorizontal: spacing[3],
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center'
@@ -33,7 +37,9 @@ const styles = StyleSheet.create({
   },
 
   inputText: {
-    color: color.textBase
+    color: color.textBase,
+    flex: 1,
+    marginRight: spacing[2]
   },
 
   label: {
@@ -57,7 +63,12 @@ const styles = StyleSheet.create({
 
   option: {
     paddingVertical: 16,
-    alignItems: 'center'
+    alignItems: 'center',
+    flexDirection: 'row',
+    paddingHorizontal: spacing[3],
+    height: 54,
+    paddingRight: spacing[4],
+    justifyContent: 'space-between'
   },
 
   optionActive: {
@@ -81,6 +92,13 @@ const styles = StyleSheet.create({
 
   placeholder: {
     color: color.textComplement
+  },
+
+  title: {
+    textAlign: 'center',
+    marginBottom: spacing[3],
+    fontSize: 18,
+    marginTop: spacing[2]
   }
 })
 

@@ -83,7 +83,14 @@ const AppStack: React.FC = () => {
       {!!user ? (
         <>
           <Screen name='landing' component={Landing} />
-          <Screen name='give_classes' component={GiveClasses} />
+          <Screen
+            name='give_classes'
+            component={GiveClasses}
+            options={{
+              headerShown: true,
+              title: 'Dar aulas'
+            }}
+          />
           <Screen name='study' component={StudyTabs} />
           <Screen
             name='profile'

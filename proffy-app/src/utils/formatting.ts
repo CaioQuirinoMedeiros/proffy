@@ -59,3 +59,13 @@ export const formatarHorario = (value: number | string) => {
 
   return masked
 }
+
+export const formatarTelefone = (text: string | number) => {
+  if (!text) return ""
+
+  let rawValue = `${text}`.replace(/\D+/g, "")
+
+  const mask = rawValue.length === 10 ? "(##) ####-####" : "(##) #####-####"
+
+  return formatar(rawValue, { mask })
+}

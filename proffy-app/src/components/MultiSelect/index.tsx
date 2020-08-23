@@ -10,14 +10,18 @@ import { RectButton } from 'react-native-gesture-handler'
 import { FontAwesome5 } from '@expo/vector-icons'
 
 import Text from '../Text'
-
-import styles from './styles'
 import { color } from '../../theme'
 
-interface InputProps extends TextInputProps {
-  label: string
-  value: any
-  onValueChange(value: any): void
+import styles from './styles'
+import Checkbox from '../Checkbox'
+import PrimaryButton from '../PrimaryButton'
+
+interface InputProps {
+  label?: string
+  placeholder?: string
+  value: any[] | null
+  onChangeValue(value: any): void
+  error?: string
   options: Array<{
     label: string
     value: any
@@ -28,23 +32,59 @@ export const { width: viewportWidth, height: viewportHeight } = Dimensions.get(
   'window'
 )
 
-const Select: React.FC<InputProps> = (props) => {
-  const { label, value, onValueChange, options, placeholder, ...rest } = props
+const MultiSelect: React.FC<InputProps> = (props) => {
+  const {
+    label,
+    value,
+    onChangeValue,
+    error,
+    options,
+    placeholder,
+    ...rest
+  } = props
 
   const [optionsOpen, setOptionsOpen] = useState(false)
+  const [dirty, setDirty] = useState(false)
 
-  const activeOption = useMemo(() => {
-    return options.find((option) => option.value === value)
+  const activeOptions = useMemo(() => {
+    if (!value) return []
+
+    return options.filter((option) => value.includes(option.value))
   }, [options, value])
+
+  const activeOptionsString = useMemo(() => {
+    return activeOptions.map((activeOption) => activeOption.label).join(', ')
+  }, [activeOptions])
 
   const closeOptions = useCallback(() => {
     setOptionsOpen(false)
+    setDirty(true)
   }, [])
+
+  const handleSelectOption = useCallback(
+    (option: InputProps['options'][0]) => {
+      const newValue = value || []
+      const activeIndex = newValue.findIndex((item) => item === option.value)
+
+      console.log({ value, option, activeIndex })
+
+      if (activeIndex !== -1) {
+        onChangeValue(newValue.filter((_, index) => index !== activeIndex))
+      } else {
+        onChangeValue([...newValue, option.value])
+      }
+    },
+    [value]
+  )
+
+  // console.log({ activeOptions, value })
 
   return (
     <View style={styles.container}>
       <Text style={styles.label} text={label} />
-      <View style={styles.inputContainer}>
+      <View
+        style={[styles.inputContainer, !!error && dirty ? styles.error : null]}
+      >
         <RectButton
           style={styles.input}
           onPress={() => {
@@ -52,11 +92,15 @@ const Select: React.FC<InputProps> = (props) => {
           }}
         >
           <Text
-            style={[styles.inputText, !value ? styles.placeholder : null]}
+            style={[
+              styles.inputText,
+              !value?.length ? styles.placeholder : null
+            ]}
             {...rest}
-          >
-            {activeOption?.label || placeholder}
-          </Text>
+            numberOfLines={1}
+            text={activeOptionsString || placeholder || label}
+          />
+
           <FontAwesome5 name='chevron-down' color={color.textComplement} />
         </RectButton>
       </View>
@@ -75,8 +119,15 @@ const Select: React.FC<InputProps> = (props) => {
       >
         <View style={styles.modalContent}>
           <View style={styles.gripIndicator} />
+
+          <Text
+            style={styles.title}
+            fontFamily='Archivo_700Bold'
+            text={placeholder || label}
+          />
+
           {options.map((option, index) => {
-            const active = option === activeOption
+            const active = activeOptionsString.includes(option.label)
             return (
               <View key={`${option.label}-${index}`}>
                 <TouchableOpacity
@@ -85,8 +136,7 @@ const Select: React.FC<InputProps> = (props) => {
                     active ? styles.optionActive : undefined
                   ]}
                   onPress={() => {
-                    onValueChange(option.value)
-                    closeOptions()
+                    handleSelectOption(option)
                   }}
                 >
                   <Text
@@ -94,9 +144,10 @@ const Select: React.FC<InputProps> = (props) => {
                       styles.optionText,
                       active ? styles.optionActiveText : undefined
                     ]}
-                  >
-                    {option.label}
-                  </Text>
+                    text={option.label}
+                  />
+
+                  <Checkbox value={active} />
                 </TouchableOpacity>
                 {index + 1 < options.length && (
                   <View style={styles.optionsSeparator} />
@@ -110,4 +161,4 @@ const Select: React.FC<InputProps> = (props) => {
   )
 }
 
-export default Select
+export default MultiSelect
