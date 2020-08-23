@@ -2,22 +2,36 @@
   "expo": {
     "name": "proffy-app",
     "slug": "proffy-app",
+    "description": "A awesome app that helps teachers and students to get in touch",
     "version": "1.0.0",
+    "owner": "Caio Medeiros",
+    "privacy": "public",
+    "githubUrl": "https://github.com/CaioQuirinoMedeiros/proffy/tree/master/proffy-app",
     "orientation": "portrait",
+    "primaryColor": "#8257E5",
+    "backgroundColor": "#8257E5",
     "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#8257E5"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
+    "androidStatusBar": {
+      "barStyle": "light-content",
+      "backgroundColor": "#8257E5"
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.caio.proffy",
+      "buildNumber": "1.0.0"
+    },
+    "android": {
+      "package": "com.caio.proffy",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
