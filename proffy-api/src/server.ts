@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express'
 import cors from 'cors'
 import { errors } from 'celebrate'
+import path from 'path'
 import 'express-async-errors'
 import 'dotenv/config'
 
@@ -14,6 +15,11 @@ app.use(express.json())
 app.use(cors())
 
 app.use(routes)
+
+app.use(
+  '/docs',
+  express.static(path.resolve(__dirname, '..', 'proffy_documentation'))
+)
 
 app.use(errors())
 
