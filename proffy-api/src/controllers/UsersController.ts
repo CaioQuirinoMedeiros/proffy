@@ -37,6 +37,6 @@ export default class UsersController {
 
     await UsersRepository.save(user)
 
-    return response.status(201).send(user)
+    return response.status(201).send(classToClass(user))
   }
 }
