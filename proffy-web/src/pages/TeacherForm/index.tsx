@@ -93,8 +93,8 @@ const TeacherForm: React.FC = () => {
           setWhatsapp(data.whatsapp)
           setSchedule(
             data.schedules.map((scheduleItem) => ({
-              from: scheduleItem.from,
-              to: scheduleItem.to,
+              from: scheduleItem.from.slice(0, 5),
+              to: scheduleItem.to.slice(0, 5),
               week_day: scheduleItem.week_day.toString()
             }))
           )
