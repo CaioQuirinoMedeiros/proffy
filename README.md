@@ -1,4 +1,4 @@
-# Proffy
+# Proffy :books:
 
 > Uma aplicação que facilita o encontro entre alunos e professores particulares
 
@@ -43,7 +43,7 @@ Trata-se de uma plataforma para professores particulares se cadastrarem e alunos
 
 ---
 
-## API (NodeJS)
+## API (NodeJS) :satellite:
 
 ### Em produção
 
@@ -66,7 +66,7 @@ Fiz a documentação no [Insomnia](https://insomnia.rest/) e usei o [insomnia-do
 - pg
 - typeorm
 
-### Instalação, configuração e execução :runner:
+### Instalação, configuração e execução :wrench:
 
 1. ```shell
    cd proffy-api
@@ -96,7 +96,7 @@ Fiz a documentação no [Insomnia](https://insomnia.rest/) e usei o [insomnia-do
   yarn dev:server
 ```
 
-## WEB (ReactJS)
+## WEB (ReactJS) :computer:
 
 ### Em produção
 
@@ -114,7 +114,7 @@ Realizei o deploy no [Netlify](https://www.netlify.com/), você pode acessar [ne
 - typescript
 - yup
 
-### Instalação, configuração e execução :runner:
+### Instalação, configuração e execução :wrench:
 
 1. ```shell
    cd proffy-web
@@ -134,7 +134,7 @@ Realizei o deploy no [Netlify](https://www.netlify.com/), você pode acessar [ne
   yarn dev:server
 ```
 
-## APP (ReactNative)
+## APP (ReactNative) :iphone:
 
 ### Em produção
 
@@ -154,7 +154,7 @@ Realizei o build do aplicativo no expo e você pode baixar o .apk [neste link](h
 - react-native-modal
 - yup
 
-### Instalação, configuração e execução :runner:
+### Instalação, configuração e execução :wrench:
 
 1. ```shell
    cd proffy-app
