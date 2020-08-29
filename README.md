@@ -10,9 +10,9 @@
 
 ## Frentes
 
-- [API](#api-nodejs)
-- [WEB](#web-reactjs)
-- [APP](#app-reactnative)
+- [API](#api-nodejs-satellite)
+- [WEB](#web-reactjs-computer)
+- [APP](#app-reactnative-iphone)
 
 ---
 
