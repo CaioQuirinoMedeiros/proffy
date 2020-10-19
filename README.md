@@ -131,7 +131,7 @@ Realizei o deploy no [Netlify](https://www.netlify.com/), você pode acessar [ne
 4. Execute o projeto:
 
 ```shell
-  yarn dev:server
+  yarn start
 ```
 
 ## APP (ReactNative) :iphone:
