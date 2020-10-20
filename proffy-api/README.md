@@ -52,10 +52,7 @@ Fiz a documentação no [Insomnia](https://insomnia.rest/) e usei o [insomnia-do
 ```
 
 > Rocketseat ? [Me adicione](https://app.rocketseat.com.br/me/caio-medeiros-1562947679) na sua rede
-<br />
-<br />
+> <br></br>
 > Visite meu [portifólio](https://www.gitshowcase.com/caioquirinomedeiros)
-<br />
-<br />
+> <br></br>
 > Sinta-se a vontade para dar um fork nesse projeto (não esqueça de deixar uma estrela!)
-
