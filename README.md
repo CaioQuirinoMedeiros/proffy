@@ -177,6 +177,11 @@ Realizei o build do aplicativo no expo e você pode baixar o .apk [neste link](h
 ```
 
 <br></br>
-<br></br>
 
 > Rocketseat ? [Me adicione](https://app.rocketseat.com.br/me/caio-medeiros-1562947679) na sua rede
+<br />
+<br />
+> Visite meu [portifólio](https://www.gitshowcase.com/caioquirinomedeiros)
+<br />
+<br />
+> Sinta-se a vontade para dar um fork nesse projeto (não esqueça de deixar uma estrela!)
