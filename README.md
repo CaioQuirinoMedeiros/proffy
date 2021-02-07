@@ -29,7 +29,7 @@ Trata-se de uma plataforma para professores particulares se cadastrarem e alunos
 ## Projeto em produção
 
 - [WEB](https://webproffy.netlify.app/)
-- [APP](https://exp-shell-app-assets.s3.us-west-1.amazonaws.com/android/%40caioquirino/proffy-app-75ad43469b0b48d8b7fa1f2254dcc6d3-signed.apk) (.apk)
+- [APP](https://exp-shell-app-assets.s3.us-west-1.amazonaws.com/android/%40caioquirino/proffy-app-9024a124021a41b3908347974ffcd784-signed.apk) (.apk)
 
 ### Funcionalidades
 
@@ -138,7 +138,7 @@ Realizei o deploy no [Netlify](https://www.netlify.com/), você pode acessar [ne
 
 ### Em produção
 
-Realizei o build do aplicativo no expo e você pode baixar o .apk [neste link](https://exp-shell-app-assets.s3.us-west-1.amazonaws.com/android/%40caioquirino/proffy-app-75ad43469b0b48d8b7fa1f2254dcc6d3-signed.apk)
+Realizei o build do aplicativo no expo e você pode baixar o .apk [neste link](https://exp-shell-app-assets.s3.us-west-1.amazonaws.com/android/%40caioquirino/proffy-app-9024a124021a41b3908347974ffcd784-signed.apk)
 
 ### Principais bibliotecas utilizadas
 

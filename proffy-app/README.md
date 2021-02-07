@@ -1,8 +1,8 @@
-## Proffy APP :iphone:
+## Proffy APP :iphone
 
 ### Em produção
 
-Realizei o build do aplicativo no expo e você pode baixar o .apk [neste link](https://exp-shell-app-assets.s3.us-west-1.amazonaws.com/android/%40caioquirino/proffy-app-75ad43469b0b48d8b7fa1f2254dcc6d3-signed.apk)
+Realizei o build do aplicativo no expo e você pode baixar o .apk [neste link](https://exp-shell-app-assets.s3.us-west-1.amazonaws.com/android/%40caioquirino/proffy-app-9024a124021a41b3908347974ffcd784-signed.apk)
 
 ### Principais bibliotecas utilizadas
 
@@ -18,7 +18,7 @@ Realizei o build do aplicativo no expo e você pode baixar o .apk [neste link](h
 - react-native-modal
 - yup
 
-### Instalação, configuração e execução :wrench:
+### Instalação, configuração e execução :wrench
 
 1. ```shell
    cd proffy-app
