@@ -23,7 +23,7 @@ class Class {
   @Column('varchar', { length: '13' })
   whatsapp: string
 
-  @Column()
+  @Column("varchar")
   bio: string
 
   @Column('decimal', { precision: 10, scale: 2 })

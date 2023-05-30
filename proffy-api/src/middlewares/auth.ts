@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import { verify } from 'jsonwebtoken'
 
 import authConfig from '../config/auth'
+import AppError from '../errors/AppError'
 
 interface ITokenPayload {
   iat: number
@@ -17,7 +18,7 @@ export default function ensureAuthenticated(
   const authHeader = request.headers.authorization
 
   if (!authHeader) {
-    throw new Error('JWT token is missing')
+    throw new AppError('JWT token is missing')
   }
 
   const [, token] = authHeader.split(' ')
@@ -28,7 +29,7 @@ export default function ensureAuthenticated(
 
     request.user_id = sub
   } catch {
-    throw new Error('Token inválido')
+    throw new AppError('Token inválido')
   }
 
   return next()
