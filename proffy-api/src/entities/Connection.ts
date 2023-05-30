@@ -10,7 +10,7 @@ import {
 import User from './User'
 
 @Entity('connections')
-class UserToken {
+class Connection {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
@@ -32,4 +32,4 @@ class UserToken {
   created_at: Date
 }
 
-export default UserToken
+export default Connection
