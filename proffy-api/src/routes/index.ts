@@ -15,5 +15,8 @@ routes.use('/sessions', sessionsRoutes)
 routes.use('/password', passwordRoutes)
 routes.use('/classes', classesRoutes)
 routes.use('/connections', connectionsRoutes)
+routes.get('/health', (_, response) => {
+  return response.send()
+})
 
 export default routes
