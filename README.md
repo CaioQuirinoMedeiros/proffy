@@ -178,7 +178,9 @@ Realizei o build do aplicativo no expo e você pode baixar o .apk [neste link](h
 
 ---
 
-<img src="https://avatars.githubusercontent.com/u/48543208?s=400&u=f056bca652dc7e1619b6e275ac220a4b91a0cf88&v=4" width="60px" height="60px">
+<span>
+  <img src="https://avatars.githubusercontent.com/u/48543208?s=400&u=f056bca652dc7e1619b6e275ac220a4b91a0cf88&v=4" width="60px" height="60px">
+</span>
 <a href="https://github.com/CaioQuirinoMedeiros" target="_blank">
   <img src="https://github.com/CaioQuirinoMedeiros/Firebase-Authentication/assets/48543208/857b0dcd-fff0-4656-94ae-a0bbbec04959" width="40px" height="40px">
 </a>
